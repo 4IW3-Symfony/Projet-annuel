@@ -1,0 +1,20 @@
+controllers_front:
+    resource: ../../src/Controller/Front
+    type: annotation
+    name_prefix: 'front_'
+
+controllers_back:
+    resource: ../../src/Controller/Back
+    type: annotation
+    prefix: '/admin'
+    name_prefix: 'back_'
+
+controllers_dashboard:
+    resource: ../../src/Controller/Dashborad
+    type: annotation
+    prefix: '/dashboard'
+    name_prefix: 'dashborad_'
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation
