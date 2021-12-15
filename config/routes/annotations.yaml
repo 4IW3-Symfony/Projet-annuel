@@ -1,13 +1,13 @@
-# controllers_front:
-#     resource: ../../src/Controller/Front
-#     type: annotation
-#     name_prefix: 'front_'
+controllers_front:
+    resource: ../../src/Controller/Front
+    type: annotation
+    name_prefix: 'front_'
 
-# controllers_back:
-#     resource: ../../src/Controller/Back
-#     type: annotation
-#     prefix: '/admin'
-#     name_prefix: 'admin_'
+controllers_admin:
+    resource: ../../src/Controller/Admin
+    type: annotation
+    prefix: '/admin'
+    name_prefix: 'admin_'
 
 # controllers_dashboard:
 #     resource: ../../src/Controller/Dashborad
