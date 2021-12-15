@@ -51,9 +51,15 @@ services:
       - ./docker/logs:/var/log
     depends_on:
       - php
+      - mailcatcher
     ports:
       - "80:80"
       - "443:443"
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"
 
   adminer:
     image: adminer
