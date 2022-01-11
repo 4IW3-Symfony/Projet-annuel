@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,6 +44,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ContactMessage::class, mappedBy="id_user", orphanRemoval=true)
+     */
+    private $contactMessages;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Contact::class, inversedBy="users")
+     */
+    private $contact;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=LicenceType::class, inversedBy="users")
+     */
+    private $licenceType;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Motoclycle::class, mappedBy="users")
+     */
+    private $motoclycles;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="users")
+     */
+    private $rentals;
+
+    public function __construct()
+    {
+        $this->contactMessages = new ArrayCollection();
+        $this->contact = new ArrayCollection();
+        $this->motoclycles = new ArrayCollection();
+        $this->rentals = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,6 +175,132 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ContactMessage[]
+     */
+    public function getContactMessages(): Collection
+    {
+        return $this->contactMessages;
+    }
+
+    public function addContactMessage(ContactMessage $contactMessage): self
+    {
+        if (!$this->contactMessages->contains($contactMessage)) {
+            $this->contactMessages[] = $contactMessage;
+            $contactMessage->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactMessage(ContactMessage $contactMessage): self
+    {
+        if ($this->contactMessages->removeElement($contactMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($contactMessage->getIdUser() === $this) {
+                $contactMessage->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contact[]
+     */
+    public function getContact(): Collection
+    {
+        return $this->contact;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contact->contains($contact)) {
+            $this->contact[] = $contact;
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        $this->contact->removeElement($contact);
+
+        return $this;
+    }
+
+    public function getLicenceType(): ?LicenceType
+    {
+        return $this->licenceType;
+    }
+
+    public function setLicenceType(?LicenceType $licenceType): self
+    {
+        $this->licenceType = $licenceType;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Motoclycle[]
+     */
+    public function getMotoclycles(): Collection
+    {
+        return $this->motoclycles;
+    }
+
+    public function addMotoclycle(Motoclycle $motoclycle): self
+    {
+        if (!$this->motoclycles->contains($motoclycle)) {
+            $this->motoclycles[] = $motoclycle;
+            $motoclycle->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMotoclycle(Motoclycle $motoclycle): self
+    {
+        if ($this->motoclycles->removeElement($motoclycle)) {
+            // set the owning side to null (unless already changed)
+            if ($motoclycle->getUsers() === $this) {
+                $motoclycle->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rental[]
+     */
+    public function getRentals(): Collection
+    {
+        return $this->rentals;
+    }
+
+    public function addRental(Rental $rental): self
+    {
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRental(Rental $rental): self
+    {
+        if ($this->rentals->removeElement($rental)) {
+            // set the owning side to null (unless already changed)
+            if ($rental->getUsers() === $this) {
+                $rental->setUsers(null);
+            }
+        }
 
         return $this;
     }

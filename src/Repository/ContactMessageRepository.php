@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ChatMessage;
+use App\Entity\ContactMessage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ChatMessage|null find($id, $lockMode = null, $lockVersion = null)
- * @method ChatMessage|null findOneBy(array $criteria, array $orderBy = null)
- * @method ChatMessage[]    findAll()
- * @method ChatMessage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ContactMessage|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ContactMessage|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ContactMessage[]    findAll()
+ * @method ContactMessage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ChatMessageRepository extends ServiceEntityRepository
+class ContactMessageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ChatMessage::class);
+        parent::__construct($registry, ContactMessage::class);
     }
 
     // /**
-    //  * @return ChatMessage[] Returns an array of ChatMessage objects
+    //  * @return ContactMessage[] Returns an array of ContactMessage objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ChatMessageRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ChatMessage
+    public function findOneBySomeField($value): ?ContactMessage
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
