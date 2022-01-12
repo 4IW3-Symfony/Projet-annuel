@@ -57,6 +57,12 @@ class Rental
      */
     private $review;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Ads::class, inversedBy="rentals")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ads;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +160,18 @@ class Rental
     public function setReview(?Review $review): self
     {
         $this->review = $review;
+
+        return $this;
+    }
+
+    public function getAds(): ?Ads
+    {
+        return $this->ads;
+    }
+
+    public function setAds(?Ads $ads): self
+    {
+        $this->ads = $ads;
 
         return $this;
     }

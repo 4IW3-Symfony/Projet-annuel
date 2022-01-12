@@ -39,9 +39,15 @@ class Ads
      */
     private $motorcycleImages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="ads")
+     */
+    private $rentals;
+
     public function __construct()
     {
         $this->motorcycleImages = new ArrayCollection();
+        $this->rentals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,36 @@ class Ads
             // set the owning side to null (unless already changed)
             if ($motorcycleImage->getAds() === $this) {
                 $motorcycleImage->setAds(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rental[]
+     */
+    public function getRentals(): Collection
+    {
+        return $this->rentals;
+    }
+
+    public function addRental(Rental $rental): self
+    {
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setAds($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRental(Rental $rental): self
+    {
+        if ($this->rentals->removeElement($rental)) {
+            // set the owning side to null (unless already changed)
+            if ($rental->getAds() === $this) {
+                $rental->setAds(null);
             }
         }
 
