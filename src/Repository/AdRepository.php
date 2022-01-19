@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Ads;
+use App\Entity\Ad;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Ads|null find($id, $lockMode = null, $lockVersion = null)
- * @method Ads|null findOneBy(array $criteria, array $orderBy = null)
- * @method Ads[]    findAll()
- * @method Ads[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Ad|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Ad|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Ad[]    findAll()
+ * @method Ad[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AdsRepository extends ServiceEntityRepository
+class AdRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Ads::class);
+        parent::__construct($registry, Ad::class);
     }
 
     // /**
-    //  * @return Ads[] Returns an array of Ads objects
+    //  * @return Ad[] Returns an array of Ad objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class AdsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Ads
+    public function findOneBySomeField($value): ?Ad
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

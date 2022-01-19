@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\AdsRepository;
+use App\Repository\AdRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AdsRepository::class)
+ * @ORM\Entity(repositoryClass=AdRepository::class)
  */
-class Ads
+class Ad
 {
     /**
      * @ORM\Id
@@ -30,17 +30,17 @@ class Ads
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Motoclycle::class, inversedBy="ads")
+     * @ORM\ManyToOne(targetEntity=Motorcycle::class, inversedBy="ads")
      */
     private $motorcycle;
 
     /**
-     * @ORM\OneToMany(targetEntity=MotorcycleImage::class, mappedBy="ads")
+     * @ORM\OneToMany(targetEntity=MotorcycleImage::class, mappedBy="ad")
      */
     private $motorcycleImages;
 
     /**
-     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="ads")
+     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="ad")
      */
     private $rentals;
 
@@ -79,12 +79,12 @@ class Ads
         return $this;
     }
 
-    public function getMotorcycle(): ?Motoclycle
+    public function getMotorcycle(): ?Motorcycle
     {
         return $this->motorcycle;
     }
 
-    public function setMotorcycle(?Motoclycle $motorcycle): self
+    public function setMotorcycle(?Motorcycle $motorcycle): self
     {
         $this->motorcycle = $motorcycle;
 
@@ -103,7 +103,7 @@ class Ads
     {
         if (!$this->motorcycleImages->contains($motorcycleImage)) {
             $this->motorcycleImages[] = $motorcycleImage;
-            $motorcycleImage->setAds($this);
+            $motorcycleImage->setAd($this);
         }
 
         return $this;
@@ -113,8 +113,8 @@ class Ads
     {
         if ($this->motorcycleImages->removeElement($motorcycleImage)) {
             // set the owning side to null (unless already changed)
-            if ($motorcycleImage->getAds() === $this) {
-                $motorcycleImage->setAds(null);
+            if ($motorcycleImage->getAd() === $this) {
+                $motorcycleImage->setAd(null);
             }
         }
 
@@ -133,7 +133,7 @@ class Ads
     {
         if (!$this->rentals->contains($rental)) {
             $this->rentals[] = $rental;
-            $rental->setAds($this);
+            $rental->setAd($this);
         }
 
         return $this;
@@ -143,8 +143,8 @@ class Ads
     {
         if ($this->rentals->removeElement($rental)) {
             // set the owning side to null (unless already changed)
-            if ($rental->getAds() === $this) {
-                $rental->setAds(null);
+            if ($rental->getAd() === $this) {
+                $rental->setAd(null);
             }
         }
 

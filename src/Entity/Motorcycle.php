@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\MotoclycleRepository;
+use App\Repository\MotorcycleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MotoclycleRepository::class)
+ * @ORM\Entity(repositoryClass=MotorcycleRepository::class)
  */
-class Motoclycle
+class Motorcycle
 {
     /**
      * @ORM\Id
@@ -50,22 +50,22 @@ class Motoclycle
     private $year;
 
     /**
-     * @ORM\ManyToOne(targetEntity=LicenceType::class, inversedBy="motoclycles")
+     * @ORM\ManyToOne(targetEntity=LicenceType::class, inversedBy="motorcycles")
      */
     private $LicenceType;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="motoclycles")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="motorcycles")
      */
-    private $users;
+    private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Model::class, inversedBy="motoclycles")
+     * @ORM\ManyToOne(targetEntity=Model::class, inversedBy="motorcycles")
      */
     private $model;
 
     /**
-     * @ORM\OneToMany(targetEntity=Ads::class, mappedBy="motorcycle")
+     * @ORM\OneToMany(targetEntity=Ad::class, mappedBy="motorcycle")
      */
     private $ads;
 
@@ -163,14 +163,14 @@ class Motoclycle
         return $this;
     }
 
-    public function getUsers(): ?User
+    public function getUser(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?User $users): self
+    public function setUser(?User $user): self
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }
@@ -188,14 +188,14 @@ class Motoclycle
     }
 
     /**
-     * @return Collection|Ads[]
+     * @return Collection|Ad[]
      */
-    public function getAds(): Collection
+    public function getAd(): Collection
     {
         return $this->ads;
     }
 
-    public function addAd(Ads $ad): self
+    public function addAd(Ad $ad): self
     {
         if (!$this->ads->contains($ad)) {
             $this->ads[] = $ad;
@@ -205,7 +205,7 @@ class Motoclycle
         return $this;
     }
 
-    public function removeAd(Ads $ad): self
+    public function removeAd(Ad $ad): self
     {
         if ($this->ads->removeElement($ad)) {
             // set the owning side to null (unless already changed)

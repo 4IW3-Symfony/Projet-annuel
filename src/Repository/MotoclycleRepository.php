@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Motoclycle;
+use App\Entity\Motorcycle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Motoclycle|null find($id, $lockMode = null, $lockVersion = null)
- * @method Motoclycle|null findOneBy(array $criteria, array $orderBy = null)
- * @method Motoclycle[]    findAll()
- * @method Motoclycle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Motorcycle|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Motorcycle|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Motorcycle[]    findAll()
+ * @method Motorcycle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MotoclycleRepository extends ServiceEntityRepository
+class MotorcycleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Motoclycle::class);
+        parent::__construct($registry, Motorcycle::class);
     }
 
     // /**
-    //  * @return Motoclycle[] Returns an array of Motoclycle objects
+    //  * @return Motorcycle[] Returns an array of Motorcycle objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class MotoclycleRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Motoclycle
+    public function findOneBySomeField($value): ?Motorcycle
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')

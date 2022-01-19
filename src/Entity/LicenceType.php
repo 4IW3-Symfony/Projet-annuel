@@ -30,14 +30,14 @@ class LicenceType
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity=Motoclycle::class, mappedBy="LicenceType")
+     * @ORM\OneToMany(targetEntity=Motorcycle::class, mappedBy="LicenceType")
      */
-    private $motoclycles;
+    private $motorcycles;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->motoclycles = new ArrayCollection();
+        $this->motorcycles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,29 +88,29 @@ class LicenceType
     }
 
     /**
-     * @return Collection|Motoclycle[]
+     * @return Collection|Motorcycle[]
      */
-    public function getMotoclycles(): Collection
+    public function getMotorcycles(): Collection
     {
-        return $this->motoclycles;
+        return $this->motorcycles;
     }
 
-    public function addMotoclycle(Motoclycle $motoclycle): self
+    public function addMotorcycle(Motorcycle $motorcycle): self
     {
-        if (!$this->motoclycles->contains($motoclycle)) {
-            $this->motoclycles[] = $motoclycle;
-            $motoclycle->setLicenceType($this);
+        if (!$this->motorcycles->contains($motorcycle)) {
+            $this->motorcycles[] = $motorcycle;
+            $motorcycle->setLicenceType($this);
         }
 
         return $this;
     }
 
-    public function removeMotoclycle(Motoclycle $motoclycle): self
+    public function removeMotorcycle(Motorcycle $motorcycle): self
     {
-        if ($this->motoclycles->removeElement($motoclycle)) {
+        if ($this->motorcycles->removeElement($motorcycle)) {
             // set the owning side to null (unless already changed)
-            if ($motoclycle->getLicenceType() === $this) {
-                $motoclycle->setLicenceType(null);
+            if ($motorcycle->getLicenceType() === $this) {
+                $motorcycle->setLicenceType(null);
             }
         }
 

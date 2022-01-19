@@ -30,13 +30,13 @@ class Model
     private $brand;
 
     /**
-     * @ORM\OneToMany(targetEntity=Motoclycle::class, mappedBy="model")
+     * @ORM\OneToMany(targetEntity=Motorcycle::class, mappedBy="model")
      */
-    private $motoclycles;
+    private $motorcycles;
 
     public function __construct()
     {
-        $this->motoclycles = new ArrayCollection();
+        $this->motorcycles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,29 +69,29 @@ class Model
     }
 
     /**
-     * @return Collection|Motoclycle[]
+     * @return Collection|Motorcycle[]
      */
-    public function getMotoclycles(): Collection
+    public function getMotorcycles(): Collection
     {
-        return $this->motoclycles;
+        return $this->motorcycles;
     }
 
-    public function addMotoclycle(Motoclycle $motoclycle): self
+    public function addMotorcycle(Motorcycle $motorcycle): self
     {
-        if (!$this->motoclycles->contains($motoclycle)) {
-            $this->motoclycles[] = $motoclycle;
-            $motoclycle->setModel($this);
+        if (!$this->motorcycles->contains($motorcycle)) {
+            $this->motorcycles[] = $motorcycle;
+            $motorcycle->setModel($this);
         }
 
         return $this;
     }
 
-    public function removeMotoclycle(Motoclycle $motoclycle): self
+    public function removeMotorcycle(Motorcycle $motorcycle): self
     {
-        if ($this->motoclycles->removeElement($motoclycle)) {
+        if ($this->motorcycles->removeElement($motorcycle)) {
             // set the owning side to null (unless already changed)
-            if ($motoclycle->getModel() === $this) {
-                $motoclycle->setModel(null);
+            if ($motorcycle->getModel() === $this) {
+                $motorcycle->setModel(null);
             }
         }
 
