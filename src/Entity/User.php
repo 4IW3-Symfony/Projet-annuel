@@ -111,12 +111,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $rentals;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="customer")
+     */
+    private $reviews;
+
     public function __construct()
     {
         $this->contactMessages = new ArrayCollection();
         $this->contact = new ArrayCollection();
         $this->motorcycles = new ArrayCollection();
         $this->rentals = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -298,7 +304,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->motorcycles->contains($motorcycle)) {
             $this->motorcycles[] = $motorcycle;
-            $motorcycle->setUsers($this);
+            $motorcycle->setUser($this);
         }
 
         return $this;
@@ -308,8 +314,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->motorcycles->removeElement($motorcycle)) {
             // set the owning side to null (unless already changed)
-            if ($motorcycle->getUsers() === $this) {
-                $motorcycle->setUsers(null);
+            if ($motorcycle->getUser() === $this) {
+                $motorcycle->setUser(null);
             }
         }
 
@@ -328,7 +334,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->rentals->contains($rental)) {
             $this->rentals[] = $rental;
-            $rental->setUsers($this);
+            $rental->setUser($this);
         }
 
         return $this;
@@ -338,8 +344,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->rentals->removeElement($rental)) {
             // set the owning side to null (unless already changed)
-            if ($rental->getUsers() === $this) {
-                $rental->setUsers(null);
+            if ($rental->getUser() === $this) {
+                $rental->setUser(null);
             }
         }
 
@@ -438,6 +444,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setZip(string $zip): self
     {
         $this->zip = $zip;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Review[]
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getCustomer() === $this) {
+                $review->setCustomer(null);
+            }
+        }
 
         return $this;
     }

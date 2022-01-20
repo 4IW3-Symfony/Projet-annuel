@@ -35,9 +35,15 @@ class Review
     private $review;
 
     /**
-     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="review")
+     * @ORM\ManyToOne(targetEntity=Rental::class, inversedBy="reviews")
      */
-    private $rentals;
+    private $rental;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reviews")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $customer;
 
     public function __construct()
     {
@@ -85,32 +91,26 @@ class Review
         return $this;
     }
 
-    /**
-     * @return Collection|Rental[]
-     */
-    public function getRentals(): Collection
+    public function getRental(): ?Rental
     {
-        return $this->rentals;
+        return $this->rental;
     }
 
-    public function addRental(Rental $rental): self
+    public function setRental(?Rental $rental): self
     {
-        if (!$this->rentals->contains($rental)) {
-            $this->rentals[] = $rental;
-            $rental->setReview($this);
-        }
+        $this->rental = $rental;
 
         return $this;
     }
 
-    public function removeRental(Rental $rental): self
+    public function getCustomer(): ?User
     {
-        if ($this->rentals->removeElement($rental)) {
-            // set the owning side to null (unless already changed)
-            if ($rental->getReview() === $this) {
-                $rental->setReview(null);
-            }
-        }
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

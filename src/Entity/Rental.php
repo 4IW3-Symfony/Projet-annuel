@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RentalRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,12 +25,12 @@ class Rental
     private $date;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $date_start;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $date_end;
 
@@ -50,18 +52,24 @@ class Rental
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="rentals")
      */
-    private $users;
+    private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Review::class, inversedBy="rentals")
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="rentals")
      */
-    private $review;
+    private $reviews;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=Ad::class, inversedBy="rentals")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ad;
+
+    public function __construct()
+    {
+        $this->reviews = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -80,24 +88,24 @@ class Rental
         return $this;
     }
 
-    public function getDateStart(): ?int
+    public function getDateStart(): ?\DateTimeInterface
     {
         return $this->date_start;
     }
 
-    public function setDateStart(?int $date_start): self
+    public function setDateStart(?\DateTimeInterface $date_start): self
     {
         $this->date_start = $date_start;
 
         return $this;
     }
 
-    public function getDateEnd(): ?int
+    public function getDateEnd(): ?\DateTimeInterface
     {
         return $this->date_end;
     }
 
-    public function setDateEnd(?int $date_end): self
+    public function setDateEnd(?\DateTimeInterface $date_end): self
     {
         $this->date_end = $date_end;
 
@@ -140,26 +148,44 @@ class Rental
         return $this;
     }
 
-    public function getUsers(): ?User
+    public function getUser(): ?User
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?User $users): self
+    public function setUser(?User $user): self
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getReview(): ?Review
+    /**
+     * @return Collection|Review[]
+     */
+    public function getReviews(): Collection
     {
-        return $this->review;
+        return $this->reviews;
     }
 
-    public function setReview(?Review $review): self
+    public function addReview(Review $review): self
     {
-        $this->review = $review;
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setRental($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getRental() === $this) {
+                $review->setRental(null);
+            }
+        }
 
         return $this;
     }
