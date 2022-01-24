@@ -13,7 +13,7 @@ controllers_dashboard:
     resource: ../../src/Controller/Dashboard
     type: annotation
     prefix: '/dashboard'
-    name_prefix: 'dashborad_'
+    name_prefix: 'dashboard_'
 
 
 controllers:

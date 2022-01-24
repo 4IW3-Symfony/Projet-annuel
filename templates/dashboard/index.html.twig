@@ -1,6 +1,6 @@
 {% extends 'base_dashboard.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block body %}
 <style>
@@ -10,7 +10,8 @@
 
 <div class="example-wrapper">
     <h1>Dashboard</h1>
+    <h3>Welcome {{app.user.email}} </h3>
 
-   
+   <a href="{{ path('app_logout') }}">Logout</a>
 </div>
 {% endblock %}
