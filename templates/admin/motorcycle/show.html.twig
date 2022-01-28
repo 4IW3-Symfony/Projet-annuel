@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Motorcycle
+{% endblock %}
+
+{% block body %}
+	<h1>Motorcycle</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ motorcycle.id }}</td>
+			</tr>
+			<tr>
+				<th>Name</th>
+				<td>{{ motorcycle.name }}</td>
+			</tr>
+			<tr>
+				<th>Power</th>
+				<td>{{ motorcycle.power }}</td>
+			</tr>
+			<tr>
+				<th>Numberplate</th>
+				<td>{{ motorcycle.numberplate }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ motorcycle.description }}</td>
+			</tr>
+			<tr>
+				<th>Km</th>
+				<td>{{ motorcycle.km }}</td>
+			</tr>
+			<tr>
+				<th>Year</th>
+				<td>{{ motorcycle.year }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('motorcycle_index') }}">back to list</a>
+
+	<a href="{{ path('motorcycle_edit', {'id': motorcycle.id}) }}">edit</a>
+
+	{{ include('admin/motorcycle/_delete_form.html.twig') }}
+{% endblock %}

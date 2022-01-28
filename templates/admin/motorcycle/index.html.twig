@@ -1,0 +1,46 @@
+{% extends 'base_dashboard.twig' %}
+
+{% block title %}Motorcycle List
+{% endblock %}
+
+{% block content %}
+	<h1>Motorcycle List</h1>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Power</th>
+				<th>Numberplate</th>
+				<th>Description</th>
+				<th>Km</th>
+				<th>Year</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for motorcycle in motorcycles %}
+				<tr>
+					<td>{{ motorcycle.id }}</td>
+					<td>{{ motorcycle.name }}</td>
+					<td>{{ motorcycle.power }}</td>
+					<td>{{ motorcycle.numberplate }}</td>
+					<td>{{ motorcycle.description }}</td>
+					<td>{{ motorcycle.km }}</td>
+					<td>{{ motorcycle.year }}</td>
+					<td>
+						<a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}">show</a>
+						<a href="{{ path('motorcycle_edit', {'id': motorcycle.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('motorcycle_new') }}">Create new</a>
+{% endblock %}
