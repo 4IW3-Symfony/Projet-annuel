@@ -23,16 +23,16 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = \Faker\Factory::create('fr_FR');
         // Admin
-        // $admin = (new User())
-        //     ->setEmail('admin@admin')
-        //     ->setRoles(['ROLE_ADMIN']);
-        // $adminPassword = $this->passwordEncoder->encodePassword("admin", $admin->getSalt());
-        // $admin->setPassword($adminPassword);
-        // $manager->persist($admin);
+        $admin = (new User())
+            ->setEmail('admin@admin.com')
+            ->setRoles(['ROLE_ADMIN']);
+        $adminPassword = $this->passwordHasher->hashPassword($admin, "admin");
+        $admin->setPassword($adminPassword);
+        $manager->persist($admin);
 
         $licenceTypes = $manager->getRepository(LicenceType::class)->findAll();
         // user
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $dt = $faker->dateTimeBetween($startDate = '-60 years', $endDate = '-18 years');
             $date = $dt->format("Y-m-d");
             $user = (new User())
