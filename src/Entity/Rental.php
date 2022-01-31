@@ -6,6 +6,7 @@ use App\Repository\RentalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=RentalRepository::class)
@@ -26,26 +27,33 @@ class Rental
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\Date
      */
     private $date_start;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\Date
+     * @Assert\GreaterThanOrEqual(propertyPath="date_start")
      */
     private $date_end;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Choice({"visible", "hidden"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $km_start;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\GreaterThanOrEqual(propertyPath="km_start")
+     * 
      */
     private $km_end;
 
