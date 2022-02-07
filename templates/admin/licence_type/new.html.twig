@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LicenceType{% endblock %}
+
+{% block body %}
+    <h1>Create new LicenceType</h1>
+
+    {{ include('admin/licence_type/_form.html.twig') }}
+
+    <a href="{{ path('admin_licence_type_index') }}">back to list</a>
+{% endblock %}

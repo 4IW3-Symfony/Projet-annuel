@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LicenceType index{% endblock %}
+
+{% block body %}
+    <h1>LicenceType index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for licence_type in licence_types %}
+            <tr>
+                <td>{{ licence_type.id }}</td>
+                <td>{{ licence_type.type }}</td>
+                <td>
+                    <a href="{{ path('admin_licence_type_show', {'id': licence_type.id}) }}">show</a>
+                    <a href="{{ path('admin_licence_type_edit', {'id': licence_type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_licence_type_new') }}">Create new</a>
+{% endblock %}
