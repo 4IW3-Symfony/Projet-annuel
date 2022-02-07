@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ad{% endblock %}
+
+{% block body %}
+    <h1>Ad</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ad.id }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ ad.status }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ ad.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_ad_index') }}">back to list</a>
+
+    <a href="{{ path('admin_ad_edit', {'id': ad.id}) }}">edit</a>
+
+    {{ include('admin/ad/_delete_form.html.twig') }}
+{% endblock %}

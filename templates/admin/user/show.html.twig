@@ -1,40 +1,70 @@
-{% extends 'base_dashboard.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}User List
-{% endblock %}
+{% block title %}User{% endblock %}
 
-{% block content %}
-	<h1>Motorcycle List</h1>
+{% block body %}
+    <h1>User</h1>
 
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Lastname</th>
-				<th>Firstname</th>
-				<th>Role</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for user in users %}
-				<tr>
-					<td>{{ user.id }}</td>
-					<td>{{ user.Lastname }}</td>
-					<td>{{ user.fistname }}</td>
-					<td>{{ user.roles }}</td>
-					<td>
-						<a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}">show</a>
-						<a href="{{ path('motorcycle_edit', {'id': motorcycle.id}) }}">edit</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="8">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ user.password }}</td>
+            </tr>
+            <tr>
+                <th>IsVerified</th>
+                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ user.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ user.lastname }}</td>
+            </tr>
+            <tr>
+                <th>DateOfBirth</th>
+                <td>{{ user.dateOfBirth ? user.dateOfBirth|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Driving_licence</th>
+                <td>{{ user.drivingLicence }}</td>
+            </tr>
+            <tr>
+                <th>Id_card</th>
+                <td>{{ user.idCard }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ user.address }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ user.city }}</td>
+            </tr>
+            <tr>
+                <th>Zip</th>
+                <td>{{ user.zip }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-	<a href="{{ path('motorcycle_new') }}">Create new</a>
+    <a href="{{ path('admin_user_index') }}">back to list</a>
+
+    <a href="{{ path('admin_user_edit', {'id': user.id}) }}">edit</a>
+
+    {{ include('admin/user/_delete_form.html.twig') }}
 {% endblock %}
