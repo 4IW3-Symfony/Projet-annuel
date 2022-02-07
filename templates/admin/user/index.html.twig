@@ -1,0 +1,37 @@
+{% extends 'base_dashboard.twig' %}
+
+{% block title %}User List
+{% endblock %}
+
+{% block content %}
+	<h1>Motorcycle List</h1>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Lastname</th>
+				<th>Firstname</th>
+				<th>Role</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users %}
+				<tr>
+					<td>{{ user.id }}</td>
+					<td>{{ user.lastname }}</td>
+					<td>{{ user.firstname }}</td>
+					<td>{{ user.roles }}</td>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('motorcycle_new') }}">Create new</a>
+{% endblock %}
