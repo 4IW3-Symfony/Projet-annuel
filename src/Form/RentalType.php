@@ -19,7 +19,7 @@ class RentalType extends AbstractType
             ->add('km_start')
             ->add('km_end')
             ->add('user')
-            ->add('ad')
+            ->add('motorcycle')
         ;
     }
 

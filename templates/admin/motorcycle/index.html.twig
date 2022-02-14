@@ -16,6 +16,7 @@
 				<th>Description</th>
 				<th>Km</th>
 				<th>Year</th>
+				<th>Visibility</th>
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -29,6 +30,7 @@
 					<td>{{ motorcycle.description }}</td>
 					<td>{{ motorcycle.km }}</td>
 					<td>{{ motorcycle.year }}</td>
+					<td>{{ motorcycle.Visibility }}</td>
 					<td>
 						<a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}">show</a>
 						<a href="{{ path('motorcycle_edit', {'id': motorcycle.id}) }}">edit</a>
