@@ -1,0 +1,19 @@
+.icon-show,
+.icon-edit {
+  font-size: 1.5rem;
+  margin: 0 3px;
+}
+
+.icon-show {
+  color: #20c997;
+}
+.icon-edit {
+  color: #0d6efd;
+}
+
+td.action a {
+  text-decoration: none;
+}
+td.action {
+  white-space: nowrap;
+}

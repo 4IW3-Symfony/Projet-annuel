@@ -1,35 +1,45 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block title %}LicenceType index{% endblock %}
+{% block title %}LicenceType index
+{% endblock %}
 
 {% block body %}
-    <h1>LicenceType index</h1>
+	<h1>LicenceType index</h1>
+	<a class="btn btn-primary" href="{{ path('motorcycle_new') }}">Create new</a>
+	<a href="{{ path('admin_licence_type_new') }}">Create new</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for licence_type in licence_types %}
-            <tr>
-                <td>{{ licence_type.id }}</td>
-                <td>{{ licence_type.type }}</td>
-                <td>
-                    <a href="{{ path('admin_licence_type_show', {'id': licence_type.id}) }}">show</a>
-                    <a href="{{ path('admin_licence_type_edit', {'id': licence_type.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<div class="table-responsive">
 
-    <a href="{{ path('admin_licence_type_new') }}">Create new</a>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Type</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for licence_type in licence_types %}
+					<tr>
+						<td>{{ licence_type.id }}</td>
+						<td>{{ licence_type.type }}</td>
+						<td class="action">
+							<a href="{{ path('admin_licence_type_show', {'id': licence_type.id}) }}">
+								<i class="bi bi-eye-fill icon-show"></i>
+							</a>
+							<a href="{{ path('admin_licence_type_edit', {'id': licence_type.id}) }}">
+								<i class="bi bi-pencil-square icon-edit"></i>
+							</a>
+							{{ include('admin/licence_type/_delete_form.html.twig') }}
+
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="3">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}
