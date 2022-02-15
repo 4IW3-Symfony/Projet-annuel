@@ -5,7 +5,7 @@
 
 {% block body %}
 	<h1>Motorcycle List</h1>
-	<a class="btn btn-primary" href="{{ path('motorcycle_new') }}">Create new</a>
+	<a class="btn btn-primary" href="{{ path('admin_motorcycle_new') }}">Create new</a>
 
 	<table class="table">
 		<thead>
@@ -33,10 +33,10 @@
 					<td>{{ motorcycle.year }}</td>
 					<td>{{ motorcycle.Visibility }}</td>
 					<td class="action">
-						<a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}">
+						<a href="{{ path('admin_motorcycle_show', {'id': motorcycle.id}) }}">
 							<i class="bi bi-eye-fill icon-show"></i>
 						</a>
-						<a href="{{ path('motorcycle_edit', {'id': motorcycle.id}) }}">
+						<a href="{{ path('admin_motorcycle_edit', {'id': motorcycle.id}) }}">
 							<i class="bi bi-pencil-square icon-edit"></i>
 						</a>
 						{{ include('admin/motorcycle/_delete_form.html.twig') }}
