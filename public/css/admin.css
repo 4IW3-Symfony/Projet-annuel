@@ -1,0 +1,23 @@
+.icon-show,
+.icon-edit,
+.icon-delete {
+  font-size: 1.5rem;
+  margin: 0 3px;
+}
+
+.icon-show {
+  color: #20c997;
+}
+.icon-edit {
+  color: #0d6efd;
+}
+.icon-delete {
+  color: #dc3545;
+}
+
+td.action a {
+  text-decoration: none;
+}
+td.action {
+  white-space: nowrap;
+}

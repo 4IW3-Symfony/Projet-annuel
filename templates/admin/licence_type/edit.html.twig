@@ -1,0 +1,14 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Edit LicenceType
+{% endblock %}
+
+{% block body %}
+	<h1>Edit LicenceType</h1>
+
+	{{ include('admin/licence_type/_form.html.twig', {'button_label': 'Update'}) }}
+
+	<a href="{{ path('admin_licence_type_index') }}">back to list</a>
+
+	{{ include('admin/licence_type/_delete_form.html.twig') }}
+{% endblock %}

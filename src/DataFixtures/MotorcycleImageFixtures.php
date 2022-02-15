@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Ad;
+use App\Entity\Motorcycle;
 use App\Entity\MotorcycleImage;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -14,13 +14,13 @@ class MotorcycleImageFixtures extends Fixture implements DependentFixtureInterfa
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        $ads = $manager->getRepository(Ad::class)->findAll();
+        $motorcycles = $manager->getRepository(Motorcycle::class)->findAll();
 
         for ($i = 0; $i < 30; $i++) {
 
             $object = (new MotorcycleImage())
                 ->setImage($faker->imageUrl())
-                ->setAd($faker->randomElement($ads));
+                ->setMotorcycle($faker->randomElement($motorcycles));
             $manager->persist($object);
         }
 
@@ -29,7 +29,7 @@ class MotorcycleImageFixtures extends Fixture implements DependentFixtureInterfa
     public function getDependencies()
     {
         return [
-            AdFixtures::class
+            MotorcycleFixtures::class
         ];
     }
 }

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}New Motorcycle
 {% endblock %}
@@ -8,5 +8,5 @@
 
 	{{ include('admin/motorcycle/_form.html.twig') }}
 
-	<a href="{{ path('motorcycle_index') }}">back to list</a>
+	<a href="{{ path('admin_motorcycle_index') }}">back to list</a>
 {% endblock %}

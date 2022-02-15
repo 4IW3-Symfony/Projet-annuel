@@ -18,7 +18,8 @@ class MotorcycleType extends AbstractType
             ->add('description')
             ->add('km')
             ->add('year')
-            ->add('LicenceType')
+            ->add('visibility')
+            ->add('licenceType')
             ->add('user')
             ->add('model')
         ;

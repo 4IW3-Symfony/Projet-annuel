@@ -24,9 +24,9 @@ class MotorcycleImage
     private $image;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ad::class, inversedBy="motorcycleImages")
+     * @ORM\ManyToOne(targetEntity=Motorcycle::class, inversedBy="motorcycleImages")
      */
-    private $ad;
+    private $motorcycle;
 
     public function getId(): ?int
     {
@@ -45,14 +45,14 @@ class MotorcycleImage
         return $this;
     }
 
-    public function getAd(): ?Ad
+    public function getMotorcycle(): ?Motorcycle
     {
-        return $this->ad;
+        return $this->motorcycle;
     }
 
-    public function setAd(?Ad $ad): self
+    public function setMotorcycle(?Motorcycle $motorcycle): self
     {
-        $this->ad = $ad;
+        $this->motorcycle = $motorcycle;
 
         return $this;
     }

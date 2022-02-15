@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {% block title %}Motorcycle
 {% endblock %}
@@ -36,12 +36,16 @@
 				<th>Year</th>
 				<td>{{ motorcycle.year }}</td>
 			</tr>
+			<tr>
+				<th>Visibility</th>
+				<td>{{ motorcycle.visibility }}</td>
+			</tr>
 		</tbody>
 	</table>
 
-	<a href="{{ path('motorcycle_index') }}">back to list</a>
+	<a href="{{ path('admin_motorcycle_index') }}">back to list</a>
 
-	<a href="{{ path('motorcycle_edit', {'id': motorcycle.id}) }}">edit</a>
+	<a href="{{ path('admin_motorcycle_edit', {'id': motorcycle.id}) }}">edit</a>
 
 	{{ include('admin/motorcycle/_delete_form.html.twig') }}
 {% endblock %}

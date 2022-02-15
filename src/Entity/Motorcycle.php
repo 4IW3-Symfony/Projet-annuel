@@ -36,7 +36,6 @@ class Motorcycle
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Assert\Type("integer")
      */
     private $numberplate;
 
@@ -61,9 +60,14 @@ class Motorcycle
     private $year;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visibility;
+
+    /**
      * @ORM\ManyToOne(targetEntity=LicenceType::class, inversedBy="motorcycles")
      */
-    private $LicenceType;
+    private $licenceType;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="motorcycles")
@@ -76,9 +80,15 @@ class Motorcycle
     private $model;
 
     /**
-     * @ORM\OneToMany(targetEntity=Ad::class, mappedBy="motorcycle")
+     * @ORM\OneToMany(targetEntity=MotorcycleImage::class, mappedBy="motorcycle",cascade={"persist", "remove"})
      */
-    private $ads;
+    private $motorcycleImages;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="motorcycle")
+     */
+    private $rentals;
+
 
     public function __construct()
     {
@@ -162,14 +172,26 @@ class Motorcycle
         return $this;
     }
 
-    public function getLicenceType(): ?LicenceType
+    public function getVisibility(): ?bool
     {
-        return $this->LicenceType;
+        return $this->visibility;
     }
 
-    public function setLicenceType(?LicenceType $LicenceType): self
+    public function setVisibility(bool $visibility): self
     {
-        $this->LicenceType = $LicenceType;
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    public function getLicenceType(): ?LicenceType
+    {
+        return $this->licenceType;
+    }
+
+    public function setLicenceType(?LicenceType $licenceType): self
+    {
+        $this->licenceType = $licenceType;
 
         return $this;
     }
@@ -198,33 +220,70 @@ class Motorcycle
         return $this;
     }
 
+
     /**
-     * @return Collection|Ad[]
+     * @return Collection|MotorcycleImage[]
      */
-    public function getAd(): Collection
+    public function getMotorcycleImages(): Collection
     {
-        return $this->ads;
+        return $this->motorcycleImages;
     }
 
-    public function addAd(Ad $ad): self
+    public function addMotorcycleImage(MotorcycleImage $motorcycleImage): self
     {
-        if (!$this->ads->contains($ad)) {
-            $this->ads[] = $ad;
-            $ad->setMotorcycle($this);
+        if (!$this->motorcycleImages->contains($motorcycleImage)) {
+            $this->motorcycleImages[] = $motorcycleImage;
+            $motorcycleImage->setMotorcycle($this);
         }
 
         return $this;
     }
 
-    public function removeAd(Ad $ad): self
+    public function removeMotorcycleImage(MotorcycleImage $motorcycleImage): self
     {
-        if ($this->ads->removeElement($ad)) {
+        if ($this->motorcycleImages->removeElement($motorcycleImage)) {
             // set the owning side to null (unless already changed)
-            if ($ad->getMotorcycle() === $this) {
-                $ad->setMotorcycle(null);
+            if ($motorcycleImage->getMotorcycle() === $this) {
+                $motorcycleImage->setMotorcycle(null);
             }
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Rental[]
+     */
+    public function getRentals(): Collection
+    {
+        return $this->rentals;
+    }
+
+    public function addRental(Rental $rental): self
+    {
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setMotorcycle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRental(Rental $rental): self
+    {
+        if ($this->rentals->removeElement($rental)) {
+            // set the owning side to null (unless already changed)
+            if ($rental->getMotorcycle() === $this) {
+                $rental->setMotorcycle(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -59,6 +59,7 @@ class Rental
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="rentals")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $user;
 
@@ -69,10 +70,10 @@ class Rental
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ad::class, inversedBy="rentals")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Motorcycle::class, inversedBy="rentals")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
-    private $ad;
+    private $motorcycle;
 
     public function __construct()
     {
@@ -176,7 +177,7 @@ class Rental
         return $this->reviews;
     }
 
-    public function addReview(Review $review): self
+    public function motorcycledReview(Review $review): self
     {
         if (!$this->reviews->contains($review)) {
             $this->reviews[] = $review;
@@ -189,7 +190,7 @@ class Rental
     public function removeReview(Review $review): self
     {
         if ($this->reviews->removeElement($review)) {
-            // set the owning side to null (unless already changed)
+            // set the owning side to null (unless alremotorcycley changed)
             if ($review->getRental() === $this) {
                 $review->setRental(null);
             }
@@ -198,14 +199,14 @@ class Rental
         return $this;
     }
 
-    public function getAd(): ?Ad
+    public function getMotorcycle(): ?Motorcycle
     {
-        return $this->ad;
+        return $this->motorcycle;
     }
 
-    public function setAd(?Ad $ad): self
+    public function setMotorcycle(?Motorcycle $motorcycle): self
     {
-        $this->ad = $ad;
+        $this->motorcycle = $motorcycle;
 
         return $this;
     }

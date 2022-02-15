@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Ad;
+use App\Entity\Motorcycle;
 use App\Entity\Rental;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -16,11 +16,11 @@ class RentalFixtures extends Fixture implements DependentFixtureInterface
         $faker = \Faker\Factory::create('fr_FR');
 
         $users = $manager->getRepository(User::class)->findAll();
-        $ads = $manager->getRepository(Ad::class)->findAll();
+        $motorcycles = $manager->getRepository(Motorcycle::class)->findAll();
 
         for ($i = 0; $i < 10; $i++) {
-            $ad = $faker->randomElement($ads);
-            $km = $ad->getMotorcycle()->getKm();
+            $motorcycle = $faker->randomElement($motorcycles);
+            $km = $motorcycle->getKm();
             $object = (new Rental())
                 ->setDate($faker->dateTime)
                 ->setDateStart($faker->dateTimeBetween('-2 weeks', '-1 week'))
@@ -29,7 +29,7 @@ class RentalFixtures extends Fixture implements DependentFixtureInterface
                 ->setKmStart($km)
                 ->setKmEnd($km + $faker->numberBetween(100, 1000))
                 ->setUser($faker->randomElement($users))
-                ->setAd($ad);
+                ->setMotorcycle($motorcycle);
             $manager->persist($object);
         }
 
@@ -39,7 +39,7 @@ class RentalFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
-            AdFixtures::class
+            MotorcycleFixtures::class
         ];
     }
 }

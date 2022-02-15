@@ -3,29 +3,40 @@
 		<ul class="nav flex-column">
 			<li class="nav-item">
 				<a class="nav-link active" aria-current="page" href="#">
-					<span data-feather="home"></span>
 					Dashboard
 				</a>
 			</li>
+
 			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file"></span>
-					Annonces
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ path('motorcycle_index') }}">
-					<span data-feather="shopping-cart"></span>
+				<a class="nav-link" href="{{ path('admin_motorcycle_index') }}">
 					Motos
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="users"></span>
+				<a class="nav-link" href="{{ path('admin_licence_type_index') }}">
+					Type de permis
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path('admin_rental_index') }}">
 					Locations
 				</a>
 			</li>
-
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path('admin_user_index') }}">
+					Users
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path('admin_review_index') }}">
+					Avis
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path('admin_contact_index') }}">
+					Message/Ticket
+				</a>
+			</li>
 		</ul>
 
 	</div>
