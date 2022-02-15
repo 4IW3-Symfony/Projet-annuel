@@ -102,12 +102,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $licenceType;
 
     /**
-     * @ORM\OneToMany(targetEntity=Motorcycle::class, mappedBy="users")
+     * @ORM\OneToMany(targetEntity=Motorcycle::class, mappedBy="user", cascade={"remove"})
      */
     private $motorcycles;
 
     /**
-     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="users")
+     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="user")
      */
     private $rentals;
 

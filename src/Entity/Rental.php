@@ -51,6 +51,7 @@ class Rental
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="rentals")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $user;
 
@@ -62,7 +63,7 @@ class Rental
 
     /**
      * @ORM\ManyToOne(targetEntity=Motorcycle::class, inversedBy="rentals")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $motorcycle;
 

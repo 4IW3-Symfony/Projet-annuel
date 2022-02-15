@@ -70,9 +70,15 @@ class Motorcycle
     private $model;
 
     /**
-     * @ORM\OneToMany(targetEntity=MotorcycleImage::class, mappedBy="motorcycle")
+     * @ORM\OneToMany(targetEntity=MotorcycleImage::class, mappedBy="motorcycle",cascade={"persist", "remove"})
      */
     private $motorcycleImages;
+
+     /**
+     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="motorcycle")
+     */
+    private $rentals;
+
 
     public function __construct()
     {
@@ -234,6 +240,37 @@ class Motorcycle
 
         return $this;
     }
+
+    /**
+     * @return Collection|Rental[]
+     */
+    public function getRentals(): Collection
+    {
+        return $this->rentals;
+    }
+
+    public function addRental(Rental $rental): self
+    {
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setMotorcycle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRental(Rental $rental): self
+    {
+        if ($this->rentals->removeElement($rental)) {
+            // set the owning side to null (unless already changed)
+            if ($rental->getMotorcycle() === $this) {
+                $rental->setMotorcycle(null);
+            }
+        }
+
+        return $this;
+    }
+
 
     public function __toString()
     {

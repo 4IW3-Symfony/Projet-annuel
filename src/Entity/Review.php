@@ -41,7 +41,7 @@ class Review
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reviews")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $customer;
 
