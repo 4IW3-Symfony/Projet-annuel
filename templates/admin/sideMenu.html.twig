@@ -2,38 +2,38 @@
 	<div class="position-sticky pt-3">
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">
+				<a class="nav-link {{ app.request.get('_route') == 'admin_default' ? 'active' }}" href="{{ path('admin_default') }}">
 					Dashboard
 				</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="{{ path('admin_motorcycle_index') }}">
+				<a class="nav-link {{ app.request.get('_route') == 'admin_motorcycle_index' ? 'active' }}" href="{{ path('admin_motorcycle_index') }}">
 					Motos
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{{ path('admin_licence_type_index') }}">
+				<a class="nav-link {{ app.request.get('_route') == 'admin_licence_type_index' ? 'active' }}" href="{{ path('admin_licence_type_index') }}">
 					Type de permis
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{{ path('admin_rental_index') }}">
+				<a class="nav-link {{ app.request.get('_route') == 'admin_rental_index' ? 'active' }}" href="{{ path('admin_rental_index') }}">
 					Locations
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{{ path('admin_user_index') }}">
+				<a class="nav-link {{ app.request.get('_route') == 'admin_user_index' ? 'active' }}" href="{{ path('admin_user_index') }}">
 					Users
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{{ path('admin_review_index') }}">
+				<a class="nav-link {{ app.request.get('_route') == 'admin_review_index' ? 'active' }}" href="{{ path('admin_review_index') }}">
 					Avis
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{{ path('admin_contact_index') }}">
+				<a class="nav-link {{ app.request.get('_route') == 'admin_contact_index' ? 'active' }}" href="{{ path('admin_contact_index') }}">
 					Message/Ticket
 				</a>
 			</li>
