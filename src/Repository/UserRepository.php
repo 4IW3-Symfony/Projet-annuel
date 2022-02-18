@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -34,6 +35,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function findByRole(string $role): array
+    {
+        // The ResultSetMapping maps the SQL result to entities
+        $rsm = $this->createResultSetMappingBuilder("u");
+
+        $sql = sprintf(
+            'SELECT %s
+        FROM "user" u
+        WHERE u.roles::jsonb ?? :role',
+            $rsm->generateSelectClause()
+        );
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+        $query->setParameter('role', $role);
+
+        return $query->getResult();
     }
 
     // /**

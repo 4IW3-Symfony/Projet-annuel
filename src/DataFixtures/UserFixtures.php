@@ -37,7 +37,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $date = $dt->format("Y-m-d");
             $user = (new User())
                 ->setEmail("user$i@test.com")
-                ->setRoles(['ROLE_USER'])
+                // ->setRoles(['ROLE_USER'])
+                ->setRoles($faker->randomElement([["ROLE_USER"], ["ROLE_USER", "ROLE_OWNER"]]))
                 ->setIsVerified(true)
                 ->setFirstname($faker->firstName)
                 ->setLastname($faker->lastName)
