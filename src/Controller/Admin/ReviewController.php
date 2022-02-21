@@ -11,47 +11,62 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/review')]
+#[Route('/', requirements: ['back' => "admin|dashboard"])]
 class ReviewController extends AbstractController
 {
-    #[Route('/', name: 'admin_review_index', methods: ['GET'])]
-    public function index(ReviewRepository $reviewRepository): Response
+    #[Route('admin/review/', name: 'admin_review_index', methods: ['GET'])]
+    public function admin_index(ReviewRepository $reviewRepository): Response
     {
         return $this->render('admin/review/index.html.twig', [
             'reviews' => $reviewRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'admin_review_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('dashboard/review/', name: 'dashboard_review_index', methods: ['GET'])]
+    public function dashboard_index(ReviewRepository $reviewRepository): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        return $this->render('dashboard/review/index.html.twig', [
+            'reviews' => $reviewRepository->findBy(["customer" => $user->getId()]),
+        ]);
+    }
+
+    #[Route('admin/review/new', name: 'admin_review_new', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
+    #[Route('dashboard/review/new', name: 'dashboard_review_new', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
+    public function new(Request $request, EntityManagerInterface $entityManager, $back): Response
     {
         $review = new Review();
         $form = $this->createForm(ReviewType::class, $review);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var \App\Entity\User $user */
+            $user = $this->getUser();
+            $review->setCustomer($user);
             $entityManager->persist($review);
             $entityManager->flush();
-
-            return $this->redirectToRoute('admin_review_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute("{$back}_review_index", [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/review/new.html.twig', [
+        return $this->renderForm("{$back}/review/new.html.twig", [
             'review' => $review,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_review_show', methods: ['GET'])]
-    public function show(Review $review): Response
+    #[Route('admin/review/{id}', name: 'admin_review_show', methods: ['GET'], defaults: ['back' => "admin"])]
+    #[Route('dashboard/review/{id}', name: 'dashboard_review_show', methods: ['GET'], defaults: ['back' => "dashboard"])]
+    public function show(Review $review, $back): Response
     {
-        return $this->render('admin/review/show.html.twig', [
+        return $this->render("{$back}/review/show.html.twig", [
             'review' => $review,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_review_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Review $review, EntityManagerInterface $entityManager): Response
+    #[Route('admin/review/{id}/edit', name: 'admin_review_edit', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
+    #[Route('dashboard/review/{id}/edit', name: 'dashboard_review_edit', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
+    public function edit(Request $request, Review $review, EntityManagerInterface $entityManager, $back): Response
     {
         $form = $this->createForm(ReviewType::class, $review);
         $form->handleRequest($request);
@@ -59,23 +74,24 @@ class ReviewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_review_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute("{$back}_review_index", [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/review/edit.html.twig', [
+        return $this->renderForm("{$back}/review/edit.html.twig", [
             'review' => $review,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_review_delete', methods: ['POST'])]
-    public function delete(Request $request, Review $review, EntityManagerInterface $entityManager): Response
+    #[Route('admin/review/{id}', name: 'admin_review_delete', methods: ['POST'], defaults: ['back' => "admin"])]
+    #[Route('dashboard/review/{id}', name: 'dashboard_review_delete', methods: ['POST'], defaults: ['back' => "dashboard"])]
+    public function delete(Request $request, Review $review, EntityManagerInterface $entityManager, $back): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$review->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $review->getId(), $request->request->get('_token'))) {
             $entityManager->remove($review);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_review_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute("{$back}_review_index", [], Response::HTTP_SEE_OTHER);
     }
 }
