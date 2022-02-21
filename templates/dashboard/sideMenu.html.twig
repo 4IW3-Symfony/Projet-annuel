@@ -1,79 +1,32 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse" style="background:#EEF5FB">
 	<div class="position-sticky pt-3">
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">
-					<span data-feather="home"></span>
+				<a class="nav-link {{ app.request.get('_route') == 'dashboard_default' ? 'active' }}" href="{{ path('dashboard_default') }}">
 					Dashboard
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file"></span>
-					Annonces
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="shopping-cart"></span>
-					Motos
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="users"></span>
-					Locations
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">
-					<span data-feather="home"></span>
-					Dashboard
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file"></span>
-					Annonces
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="shopping-cart"></span>
-					Motos
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="users"></span>
-					Locations
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">
-					<span data-feather="home"></span>
-					Dashboard
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file"></span>
-					Annonces
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="shopping-cart"></span>
-					Motos
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="users"></span>
-					Locations
 				</a>
 			</li>
 
+			{# <li class="nav-item">
+										<a class="nav-link {{ app.request.get('_route') == 'dashboard_motorcycle_index' ? 'active' }}" href="{{ path('dashboard_motorcycle_index') }}">
+											Motos
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link {{ app.request.get('_route') == 'dashboard_rental_index' ? 'active' }}" href="{{ path('dashboard_rental_index') }}">
+											Locations
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link {{ app.request.get('_route') == 'dashboard_review_index' ? 'active' }}" href="{{ path('dashboard_review_index') }}">
+											Avis
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link {{ app.request.get('_route') == 'dashboard_contact_index' ? 'active' }}" href="{{ path('dashboard_contact_index') }}">
+											Message/Ticket
+										</a>
+									</li> #}
 		</ul>
 
 	</div>
