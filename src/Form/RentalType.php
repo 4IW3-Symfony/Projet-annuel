@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Rental;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,14 +14,16 @@ class RentalType extends AbstractType
     {
         $builder
             ->add('date')
-            ->add('date_start')
-            ->add('date_end')
+            ->add('date_start', DateTimeType::class, [
+                'date_label' => 'Start',
+            ])
+            ->add('date_end', DateTimeType::class, [
+                'date_label' => 'End',
+            ])
             ->add('status')
             ->add('km_start')
             ->add('km_end')
-            ->add('user')
-            ->add('motorcycle')
-        ;
+            ->add('motorcycle');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

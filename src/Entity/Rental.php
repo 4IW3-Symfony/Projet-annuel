@@ -27,20 +27,21 @@ class Rental
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Date
+     * @Assert\Type("\DateTimeInterface")
+     * @Assert\GreaterThan("today")
+     * 
      */
     private $date_start;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\Date
+     * @Assert\Type("\DateTimeInterface")
      * @Assert\GreaterThanOrEqual(propertyPath="date_start")
      */
     private $date_end;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Choice({"visible", "hidden"})
      */
     private $status;
 
