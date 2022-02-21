@@ -20,9 +20,7 @@ class MotorcycleType extends AbstractType
             ->add('year')
             ->add('visibility')
             ->add('licenceType')
-            ->add('user')
-            ->add('model')
-        ;
+            ->add('model');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

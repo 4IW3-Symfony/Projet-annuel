@@ -5,7 +5,7 @@
 	</button>
 	<ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="flex-direction: row;">
 		<li class="nav-item nav-link">
-			Dashboard
+			{{ app.user.firstname |upper }}
 		</li>
 		<li class="nav-item text-nowrap">
 			<a class="nav-item nav-link px-3" href="{{ path('app_logout') }}">Sign out</a>

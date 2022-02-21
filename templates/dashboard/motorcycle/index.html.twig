@@ -1,0 +1,55 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Motorcycle List
+{% endblock %}
+
+{% block body %}
+	<h1>Motorcycle List</h1>
+	<a class="btn btn-primary" href="{{ path('dashboard_motorcycle_new') }}">Create new</a>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Power</th>
+				<th>Numberplate</th>
+				<th>Description</th>
+				<th>Km</th>
+				<th>Year</th>
+				<th>Visibility</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for motorcycle in motorcycles %}
+				<tr>
+					<td>{{ motorcycle.id }}</td>
+					<td>{{ motorcycle.name }}</td>
+					<td>{{ motorcycle.power }}</td>
+					<td>{{ motorcycle.numberplate }}</td>
+					<td>{{ motorcycle.description }}</td>
+					<td>{{ motorcycle.km }}</td>
+					<td>{{ motorcycle.year }}</td>
+					<td>{{ motorcycle.Visibility }}</td>
+					<td class="action">
+						<a href="{{ path('dashboard_motorcycle_show', {'id': motorcycle.id}) }}">
+							<i class="bi bi-eye-fill icon-show"></i>
+						</a>
+						<a href="{{ path('dashboard_motorcycle_edit', {'id': motorcycle.id}) }}">
+							<i class="bi bi-pencil-square icon-edit"></i>
+						</a>
+						{{ include('dashboard/motorcycle/_delete_form.html.twig') }}
+
+					</td>
+
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
