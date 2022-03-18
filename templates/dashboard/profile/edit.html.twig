@@ -1,0 +1,88 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Profil
+{% endblock %}
+
+{% block body %}
+<h1>Profil</h1>
+<div class="container-xl px-4 mt-4">
+	<div
+		class="row">
+		{# <div
+		            class="col-xl-4">
+		            <!-- Profile picture card-->
+		            <div class="card mb-4 mb-xl-0">
+		            <div class="card-header">Profile Picture</div>
+		            <div
+		            class="card-body text-center">
+		            <!-- Profile picture image-->
+		            <img
+		            class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+		            <!-- Profile picture help block-->
+		            <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+		            <!-- Profile picture upload button-->
+		            <button class="btn btn-primary" type="button">Upload new image</button>
+		            </div>
+		            </div>
+		            </div> #}
+		<div
+			class="col-xl-12">
+			<!-- Account details card-->
+			<div class="card mb-4">
+				<div class="card-header">Account Details</div>
+				<div class="card-body">
+					{{ form_start(form) }}
+					<div class="row gx-3 mb-3">
+						<div class="col-md-6">
+							{{ form_label(form.firstname,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.firstname) }}
+						</div>
+						<div class="col-md-6">
+							{{ form_label(form.lastname,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.lastname) }}
+						</div>
+					</div>
+
+					<div class="row gx-3 mb-3">
+						<div class="col-md-6">
+							{{ form_label(form.email,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.email) }}
+						</div>
+						<div class="col-md-6">
+							{{ form_label(form.dateOfBirth,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_widget(form.dateOfBirth) }}
+							{{ form_errors(form.dateOfBirth) }}
+						</div>
+					</div>
+
+					<div class="mb-3">
+						{{ form_label(form.address,null, {'label_attr': {'class': 'small mb-1'}})}}
+						{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+						{{ form_errors(form.address) }}
+					</div>
+
+					<div class="row gx-3 mb-3">
+						<div class="col-md-6">
+							{{ form_label(form.zip,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_widget(form.zip, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.zip) }}
+						</div>
+						<div class="col-md-6">
+							{{ form_label(form.city,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.city) }}
+						</div>
+					</div>
+					{{ form_row(form._token) }}
+					<!-- Save changes button-->
+					<button class="btn btn-primary">{{ button_label|default('Update') }}</button>
+					{{ form_end(form,{'render_rest': false}) }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{%endblock%}
