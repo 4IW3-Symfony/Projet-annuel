@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Security\Voter\MotorcycleVoter;
 
 #[Route('/', requirements: ['back' => "admin|dashboard"])]
 class MotorcycleController extends AbstractController
@@ -72,6 +74,7 @@ class MotorcycleController extends AbstractController
 
     #[Route('admin/motorcycle/{id}/edit', name: 'admin_motorcycle_edit', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/{id}/edit', name: 'dashboard_motorcycle_edit', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
+    #[IsGranted(MotorcycleVoter::EDIT, subject: 'motorcycle')]
     public function edit(Request $request, Motorcycle $motorcycle, EntityManagerInterface $entityManager, $back): Response
     {
         $form = $this->createForm(MotorcycleType::class, $motorcycle);
@@ -91,6 +94,7 @@ class MotorcycleController extends AbstractController
 
     #[Route('admin/motorcycle/{id}', name: 'admin_motorcycle_delete', methods: ['POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/{id}', name: 'dashboard_motorcycle_delete', methods: ['POST'], defaults: ['back' => "dashboard"])]
+    #[IsGranted(MotorcycleVoter::DELETE, subject: 'motorcycle')]
     public function delete(Request $request, Motorcycle $motorcycle, EntityManagerInterface $entityManager, $back): Response
     {
         if ($this->isCsrfTokenValid('delete' . $motorcycle->getId(), $request->request->get('_token'))) {
