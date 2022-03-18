@@ -63,7 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Assert\NotBlank
-     * @Assert\Date
+     * @Assert\Type("DateTime")
      */
     private $dateOfBirth;
 
@@ -92,7 +92,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
-     * @Assert\Type("integer")
+     * @Assert\Type("digit")
+     * @Assert\Length(min=5, max=5)
      * @Assert\Positive
      */
     private $zip;
