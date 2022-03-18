@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Security\Voter\ReviewVoter;
 
 #[Route('/', requirements: ['back' => "admin|dashboard"])]
 class ReviewController extends AbstractController
@@ -66,6 +68,7 @@ class ReviewController extends AbstractController
 
     #[Route('admin/review/{id}/edit', name: 'admin_review_edit', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/review/{id}/edit', name: 'dashboard_review_edit', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
+    #[IsGranted(ReviewVoter::EDIT, subject: 'review')]
     public function edit(Request $request, Review $review, EntityManagerInterface $entityManager, $back): Response
     {
         $form = $this->createForm(ReviewType::class, $review);
@@ -85,6 +88,7 @@ class ReviewController extends AbstractController
 
     #[Route('admin/review/{id}', name: 'admin_review_delete', methods: ['POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/review/{id}', name: 'dashboard_review_delete', methods: ['POST'], defaults: ['back' => "dashboard"])]
+    #[IsGranted(ReviewVoter::DELETE, subject: 'review')]
     public function delete(Request $request, Review $review, EntityManagerInterface $entityManager, $back): Response
     {
         if ($this->isCsrfTokenValid('delete' . $review->getId(), $request->request->get('_token'))) {
