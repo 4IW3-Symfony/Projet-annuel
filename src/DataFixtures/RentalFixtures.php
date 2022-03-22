@@ -22,7 +22,6 @@ class RentalFixtures extends Fixture implements DependentFixtureInterface
             $motorcycle = $faker->randomElement($motorcycles);
             $km = $motorcycle->getKm();
             $object = (new Rental())
-                ->setDate($faker->dateTime)
                 ->setDateStart($faker->dateTimeBetween('-2 weeks', '-1 week'))
                 ->setDateEnd($faker->dateTimeBetween('-5 days'))
                 ->setStatus($faker->randomDigit)

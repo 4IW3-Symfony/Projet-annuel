@@ -25,7 +25,7 @@
 				{% for rental in rentals %}
 					<tr>
 						<td>{{ rental.id }}</td>
-						<td>{{ rental.date ? rental.date|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ rental.createdAt ? rental.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ rental.status }}</td>
