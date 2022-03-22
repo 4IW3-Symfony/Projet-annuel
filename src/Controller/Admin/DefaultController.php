@@ -10,7 +10,7 @@ use App\Entity\User;
 use App\Entity\Motorcycle;
 use App\Entity\Rental;
 
-
+#[Route('/admin', name: 'admin_')]
 class DefaultController extends AbstractController
 {
     private $em;

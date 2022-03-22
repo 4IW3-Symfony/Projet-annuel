@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/licence/type')]
+#[Route('/admin/licence-type')]
 class LicenceTypeController extends AbstractController
 {
     #[Route('/', name: 'admin_licence_type_index', methods: ['GET'])]
@@ -71,7 +71,7 @@ class LicenceTypeController extends AbstractController
     #[Route('/{id}', name: 'admin_licence_type_delete', methods: ['POST'])]
     public function delete(Request $request, LicenceType $licenceType, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$licenceType->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $licenceType->getId(), $request->request->get('_token'))) {
             $entityManager->remove($licenceType);
             $entityManager->flush();
         }
