@@ -17,7 +17,7 @@
 				<th>Description</th>
 				<th>Km</th>
 				<th>Year</th>
-				<th>Visibility</th>
+				<th>Status</th>
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -31,7 +31,7 @@
 					<td>{{ motorcycle.description }}</td>
 					<td>{{ motorcycle.km }}</td>
 					<td>{{ motorcycle.year }}</td>
-					<td>{{ motorcycle.Visibility }}</td>
+					<td>{{ motorcycle.status }}</td>
 					<td class="action">
 						<a href="{{ path('admin_motorcycle_show', {'id': motorcycle.id}) }}">
 							<i class="bi bi-eye-fill icon-show"></i>

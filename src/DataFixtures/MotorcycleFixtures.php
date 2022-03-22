@@ -30,7 +30,7 @@ class MotorcycleFixtures extends Fixture implements DependentFixtureInterface
                 ->setDescription($faker->sentence(7))
                 ->setKm($faker->numberBetween($min = 1000, $max = 15000))
                 ->setYear($faker->numberBetween($min = 2010, $max = 2021))
-                ->setVisibility($faker->randomElement([TRUE, FALSE]))
+                ->setStatus($faker->randomElement(Motorcycle::STATUS))
                 ->setLicenceType($faker->randomElement($licenceTypes))
                 ->setUser($faker->randomElement($users))
                 ->setModel($faker->randomElement($models));

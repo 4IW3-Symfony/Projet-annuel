@@ -6,6 +6,7 @@ use App\Entity\Motorcycle;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class MotorcycleType extends AbstractType
 {
@@ -18,7 +19,10 @@ class MotorcycleType extends AbstractType
             ->add('description')
             ->add('km')
             ->add('year')
-            ->add('visibility')
+            ->add('status',ChoiceType::class, [
+                'choices'  =>
+                    Motorcycle::STATUS
+                ])
             ->add('licenceType')
             ->add('model');
     }

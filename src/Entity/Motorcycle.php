@@ -7,6 +7,7 @@ use App\Repository\MotorcycleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,6 +16,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Motorcycle
 {
     use TimestampableTrait;
+
+    const STATUS_HIDDEN = 0;
+    const STATUS_AVAILABLE = 1;
+    const STATUS_NOT_AVAILABLE = 2;
+
+    // const STATUS = [
+    //     self::STATUS_HIDDEN => "Hidden",
+    //     self::STATUS_AVAILABLE => "Available",
+    //     self::STATUS_NOT_AVAILABLE => "Not Available"
+    // ];
+    const STATUS = [
+        self::STATUS_HIDDEN,
+        self::STATUS_AVAILABLE,
+        self::STATUS_NOT_AVAILABLE
+    ];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -62,9 +78,10 @@ class Motorcycle
     private $year;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
+     * @Assert\Choice(choices=self::STATUS, message="Choose a valid status.")
      */
-    private $visibility;
+    private $status = self::STATUS_AVAILABLE;
 
     /**
      * @var string|null
@@ -182,14 +199,14 @@ class Motorcycle
         return $this;
     }
 
-    public function getVisibility(): ?bool
+    public function getStatus(): ?int
     {
-        return $this->visibility;
+        return $this->status;
     }
 
-    public function setVisibility(bool $visibility): self
+    public function setStatus(int $status): self
     {
-        $this->visibility = $visibility;
+        $this->status = $status;
 
         return $this;
     }
@@ -296,6 +313,19 @@ class Motorcycle
         return $this;
     }
 
+
+    public function isHidden()
+    {
+        return $this->status == self::STATUS_HIDDEN;
+    }
+    public function isAvalaible()
+    {
+        return $this->status == self::STATUS_AVAILABLE;
+    }
+    public function isNotAvalaible()
+    {
+        return $this->status == self::STATUS_NOT_AVAILABLE;
+    }
 
     public function __toString()
     {
