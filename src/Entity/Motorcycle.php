@@ -67,6 +67,14 @@ class Motorcycle
     private $visibility;
 
     /**
+     * @var string|null
+     *^M
+     * @Gedmo\Slug(fields={"name", "id"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
+
+    /**
      * @ORM\ManyToOne(targetEntity=LicenceType::class, inversedBy="motorcycles")
      */
     private $licenceType;
@@ -94,7 +102,7 @@ class Motorcycle
 
     public function __construct()
     {
-        $this->ads = new ArrayCollection();
+        // $this->ads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,6 +192,11 @@ class Motorcycle
         $this->visibility = $visibility;
 
         return $this;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     public function getLicenceType(): ?LicenceType
