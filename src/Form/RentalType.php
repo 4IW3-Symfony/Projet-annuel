@@ -13,7 +13,6 @@ class RentalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date')
             ->add('date_start', DateTimeType::class, [
                 'date_label' => 'Start',
             ])
