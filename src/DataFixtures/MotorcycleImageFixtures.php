@@ -19,7 +19,8 @@ class MotorcycleImageFixtures extends Fixture implements DependentFixtureInterfa
         for ($i = 0; $i < 30; $i++) {
 
             $object = (new MotorcycleImage())
-                ->setImage($faker->imageUrl())
+                // ->setImage($faker->imageUrl())
+                ->setImageName("no-image.png")
                 ->setMotorcycle($faker->randomElement($motorcycles));
             $manager->persist($object);
         }

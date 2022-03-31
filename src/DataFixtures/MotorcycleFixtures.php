@@ -20,7 +20,7 @@ class MotorcycleFixtures extends Fixture implements DependentFixtureInterface
         $users = $manager->getRepository(User::class)->findAll();
         $models = $manager->getRepository(Model::class)->findAll();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 100; $i++) {
 
             $object = (new Motorcycle())
                 ->setName($faker->word)

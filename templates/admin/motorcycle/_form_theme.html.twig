@@ -1,0 +1,86 @@
+{# {% block _motorcycle_motorcycle_images_widget %}
+	<ul id="motorcycle-images-fields-list" data-prototype="{{ form_widget(prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ value|length }}">
+		{% for key,motorcycleImageForm in form.children %}
+			{{ form_widget(motorcycleImageForm) }}
+		{% endfor %}
+	</ul>
+
+	<button type="button" class="btn btn-secondary add-another-collection-widget" data-list-selector="#motorcycle-images-fields-list">Add another Motorcycle Image</button>
+{% endblock %} #}
+
+{% block _motorcycle_motorcycle_images_widget %}
+
+	<div id="filesProto" data-prototype="{{ form_widget(prototype)|e }}"></div>
+
+	<div class="row">
+		<div class="col col-xs-12" id="filesBox">
+			{% set pos = 0 %}
+			{% for key,motorcycleImageForm in form.children %}
+				<div class="row">
+					<div class="col col-xs-1" id="jsRemove{{ pos }}" style="">
+						<button type="button" class="btn btn-danger" onclick="removeFile($(this));">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</button>
+					</div>
+					<div class="col col-xs-11" id="jsPreview{{ pos }}">{{ motorcycleImageForm.vars.value.imageName }}</div>
+
+					<div style="display:none">
+						{{ form_widget(motorcycleImageForm) }}
+					</div>
+				</div>
+
+				{% set pos = pos + 1 %}
+			{% endfor %}
+		</div>
+	</div>
+
+
+	<button type="button" class="btn btn-secondary add-another-collection-widget" data-list-selector="#motorcycle-images-fields-list">Add another Motorcycle Image</button>
+
+	<script>
+		var fileCount = '{{ form.children|length }}'
+var removeButton = "<button type='button' class='btn btn-danger btn-xs' onclick='removeFile($(this));'><i class='fa fa-times' aria-hidden='true'></i></button>";
+function removeFile(ob) {
+ob.parent().parent().remove();
+}
+function createAddFile(fileCount) { // grab the prototype template
+var newWidget = $("#filesProto").attr('data-prototype');
+// replace the "__name__" used in the id and name of the prototype
+newWidget = newWidget.replace(/__name__/g, fileCount);
+newWidget = "<div style='display:none'>" + newWidget + "</div>";
+hideStuff = "";
+hideStuff += "<div class='col col-xs-1' id='jsRemove" + fileCount + "' style='display: none;'>";
+hideStuff += removeButton;
+hideStuff += "</div>";
+hideStuff += "<div class='col col-xs-11' id='jsPreview" + fileCount + "'>";
+hideStuff += "</div>";
+hideStuff += "<div class='col col-xs-12'>";
+hideStuff += "<button type='button' id='jsBtnUpload" + fileCount + "' class='btn btn-warning'>";
+hideStuff += "<i class='fa fa-plus'></i>    {{ 'document' | trans }}";
+hideStuff += "</button>";
+hideStuff += "</div>";
+$("#filesBox").append("<div class='row'>" + hideStuff + newWidget + "</div>");
+// On click => Simulate file behaviour
+$("#jsBtnUpload" + fileCount).on('click', function (e) {
+$('#playground_cookiejarbundle_folder_documents_' + fileCount + '_file').trigger('click');
+});
+// Once the file is added
+$('#playground_cookiejarbundle_folder_documents_' + fileCount + '_file').on('change', function () { // Show its name
+fileName = $(this).prop('motorcycle_images')[0].name;
+$("#jsPreview" + fileCount).append(fileName);
+// Hide the add file button
+$("#jsBtnUpload" + fileCount).hide();
+// Show the remove file button
+$("#jsRemove" + fileCount).show();
+// Create another instance of add file button and company
+createAddFile(parseInt(fileCount) + 1);
+});
+}
+$(document).ready(function () {
+createAddFile(fileCount);
+fileCount++;
+});
+	</script>
+
+
+{% endblock %}

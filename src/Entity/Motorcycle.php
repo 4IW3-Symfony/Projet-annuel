@@ -17,6 +17,8 @@ class Motorcycle
 {
     use TimestampableTrait;
 
+    const DEFAULT_IMAGE = "images/no-image.png";
+
     const STATUS_HIDDEN = 0;
     const STATUS_AVAILABLE = 1;
     const STATUS_NOT_AVAILABLE = 2;
@@ -107,7 +109,7 @@ class Motorcycle
     private $model;
 
     /**
-     * @ORM\OneToMany(targetEntity=MotorcycleImage::class, mappedBy="motorcycle",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=MotorcycleImage::class, mappedBy="motorcycle",cascade={"persist","remove"},orphanRemoval=true)
      */
     private $motorcycleImages;
 
@@ -119,7 +121,7 @@ class Motorcycle
 
     public function __construct()
     {
-        // $this->ads = new ArrayCollection();
+        $this->motorcycleImages = new ArrayCollection();
     }
 
     public function getId(): ?int

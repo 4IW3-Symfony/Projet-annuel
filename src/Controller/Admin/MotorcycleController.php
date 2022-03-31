@@ -47,6 +47,18 @@ class MotorcycleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Image upload
+            $motorcycleImages = $motorcycle->getMotorcycleImages();
+            foreach ($motorcycleImages as $key => $motorcycleImage) {
+                // dd($motorcycleImages);
+                if ($motorcycleImage->getImageFile() !== null || $motorcycleImage->getId() !== null) {
+                    $motorcycleImage->setMotorcycle($motorcycle);
+                    $motorcycleImages->set($key, $motorcycleImage);
+                } else {
+                    //to avoid null element to database
+                    $motorcycle->removeMotorcycleImage($motorcycleImage);
+                }
+            }
             /** @var \App\Entity\User $user */
             $user = $this->getUser();
             $motorcycle->setUser($user);
@@ -78,6 +90,18 @@ class MotorcycleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Image upload
+            $motorcycleImages = $motorcycle->getMotorcycleImages();
+            foreach ($motorcycleImages as $key => $motorcycleImage) {
+                // dd($motorcycleImages);
+                if ($motorcycleImage->getImageFile() !== null || $motorcycleImage->getId() !== null) {
+                    $motorcycleImage->setMotorcycle($motorcycle);
+                    $motorcycleImages->set($key, $motorcycleImage);
+                } else {
+                    //to avoid null element to database
+                    $motorcycle->removeMotorcycleImage($motorcycleImage);
+                }
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);

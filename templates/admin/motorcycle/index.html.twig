@@ -11,6 +11,7 @@
 		<thead>
 			<tr>
 				<th>Id</th>
+				<th>Photo</th>
 				<th>Name</th>
 				<th>Power</th>
 				<th>Numberplate</th>
@@ -25,6 +26,14 @@
 			{% for motorcycle in motorcycles %}
 				<tr>
 					<td>{{ motorcycle.id }}</td>
+					<td>
+						{%  if motorcycle.motorcycleImages|length > 0 %}
+							{# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
+							<img src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/>
+						{% else %}
+							<img src="https://via.placeholder.com/640x480/000000/FFFFFF/?text=--NO-IMAGE---" class="card-img-top" style="max-width:100px">
+						{% endif %}
+					</td>
 					<td>{{ motorcycle.name }}</td>
 					<td>{{ motorcycle.power }}</td>
 					<td>{{ motorcycle.numberplate }}</td>
