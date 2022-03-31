@@ -31,7 +31,7 @@
 							{# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
 							<img src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/>
 						{% else %}
-							<img src="https://via.placeholder.com/640x480/000000/FFFFFF/?text=--NO-IMAGE---" class="card-img-top" style="max-width:100px">
+							<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top" style="max-width:100px">
 						{% endif %}
 					</td>
 					<td>{{ motorcycle.name }}</td>
