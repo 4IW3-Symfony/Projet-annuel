@@ -14,7 +14,7 @@ class MotorcycleVoter extends Voter
     const VIEW = 'view';
     const EDIT = 'edit';
     const DELETE = 'delete';
-    
+
     private $security;
 
     public function __construct(Security $security)
@@ -59,12 +59,20 @@ class MotorcycleVoter extends Voter
 
     private function canEdit(Motorcycle $motorcycle, User $user): bool
     {
-        return $user === $motorcycle->getUser();
+
+        //correct one only user can edit his motorycle 
+        // return $user === $motorcycle->getUser();
+
+        //only for developpement purpose: giving permission to admin to edit user motorycle
+        if ($user === $motorcycle->getUser() || $this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
+        return false;
     }
 
     private function canDelete(Motorcycle $motorcycle, User $user): bool
     {
-        if($user === $motorcycle->getUser() || $this->security->isGranted('ROLE_ADMIN')) {
+        if ($user === $motorcycle->getUser() || $this->security->isGranted('ROLE_ADMIN')) {
             return true;
         }
         return false;
