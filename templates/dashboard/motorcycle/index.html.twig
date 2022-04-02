@@ -11,13 +11,14 @@
 		<thead>
 			<tr>
 				<th>Id</th>
+				<th>Photo</th>
 				<th>Name</th>
 				<th>Power</th>
 				<th>Numberplate</th>
 				<th>Description</th>
 				<th>Km</th>
 				<th>Year</th>
-				<th>Visibility</th>
+				<th>Status</th>
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -25,13 +26,21 @@
 			{% for motorcycle in motorcycles %}
 				<tr>
 					<td>{{ motorcycle.id }}</td>
+					<td>
+						{%  if motorcycle.motorcycleImages|length > 0 %}
+							{# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
+							<img src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/>
+						{% else %}
+							<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top" style="max-width:100px">
+						{% endif %}
+					</td>
 					<td>{{ motorcycle.name }}</td>
 					<td>{{ motorcycle.power }}</td>
 					<td>{{ motorcycle.numberplate }}</td>
 					<td>{{ motorcycle.description }}</td>
 					<td>{{ motorcycle.km }}</td>
 					<td>{{ motorcycle.year }}</td>
-					<td>{{ motorcycle.Visibility }}</td>
+					<td>{{ motorcycle.status }}</td>
 					<td class="action">
 						<a href="{{ path('dashboard_motorcycle_show', {'id': motorcycle.id}) }}">
 							<i class="bi bi-eye-fill icon-show"></i>
