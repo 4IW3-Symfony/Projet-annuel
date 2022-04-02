@@ -9,6 +9,19 @@
 	<table class="table">
 		<tbody>
 			<tr>
+				<th>Images</th>
+				<td>
+					{%  if motorcycle.motorcycleImages|length > 0 %}
+						{% for image in motorcycle.motorcycleImages %}
+							<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" style="max-width:100px"/>
+						{% endfor %}
+					{% else %}
+						<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top" style="max-width:100px">
+					{% endif %}
+				</td>
+			</tr>
+			<tr></tr>
+			<tr>
 				<th>Id</th>
 				<td>{{ motorcycle.id }}</td>
 			</tr>
@@ -37,8 +50,8 @@
 				<td>{{ motorcycle.year }}</td>
 			</tr>
 			<tr>
-				<th>Visibility</th>
-				<td>{{ motorcycle.visibility }}</td>
+				<th>Status</th>
+				<td>{{ motorcycle.status }}</td>
 			</tr>
 		</tbody>
 	</table>

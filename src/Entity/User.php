@@ -11,14 +11,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @Vich\Uploadable
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
 {
+
     use TimestampableTrait;
     /**
      * @ORM\Id
@@ -48,6 +54,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     * @var string|null
+     */
+    private $avatar;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatar")
+     *  @Assert\File(
+     *     maxSize = "2M",
+     *     mimeTypes = {"image/png", "image/jpeg", "image/jpg"},
+     *     mimeTypesMessage = "Please upload a valid IMAGE"
+     * )
+     * @var File|null
+     */
+    private $avatarFile;
 
 
     /**
@@ -492,8 +517,55 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     *
+     * @param File|UploadedFile|null $avatarFile
+     */
+    public function setAvatarFile(?File $avatarFile = null): void
+    {
+        $this->avatarFile = $avatarFile;
+        if (null !== $avatarFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getAvatarFile(): ?File
+    {
+        return $this->avatarFile;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
     public function __toString()
     {
         return $this->lastname . " " . $this->firstname;
+    }
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->password,
+        ) = unserialize($serialized);
     }
 }
