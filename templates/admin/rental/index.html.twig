@@ -6,6 +6,10 @@
 {% block body %}
 	<h1>Rental index</h1>
 	<a class="btn btn-primary" href="{{ path('admin_rental_new') }}">Create new</a>
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+		<button class="btn btn-primary">{{ button_label|default('Filtrer') }}</button>
+	{{ form_end(form) }}
 	<div class="table-responsive">
 
 		<table class="table">

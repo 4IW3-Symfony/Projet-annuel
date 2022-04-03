@@ -4,21 +4,46 @@ namespace App\Controller\Admin;
 
 use App\Entity\Rental;
 use App\Form\RentalType;
+use App\Form\TriStatusType;
 use App\Repository\RentalRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 #[Route('/', requirements: ['back' => "admin|dashboard"])]
 class RentalController extends AbstractController
 {
-    #[Route('admin/rental/', name: 'admin_rental_index', methods: ['GET'])]
-    public function admin_index(RentalRepository $rentalRepository): Response
+    #[Route('admin/rental/', name: 'admin_rental_index', methods: ['GET','POST'])]
+    public function admin_index(RentalRepository $rentalRepository,Request $request): Response
     {
+        $status = 0;
+        $form = $this->createFormBuilder()->add('status',ChoiceType::class,[
+            'choices' => [
+                'Location Crée' => 1,
+                'Location Validée par propriétaire' => 2,
+                'Véhicule remis au locataire' => 3,
+                'Véhicule restitué' =>4,
+                'Location Clos' =>5,
+                'Location SAV' => 6,
+            ],
+        ])
+        ->getForm();
+        $rental= $rentalRepository->findAll();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $data = $form->getData();
+            $rental = $rentalRepository->findBy([
+                'status' => $data['status'],
+            ]);
+        }
+      
         return $this->render('admin/rental/index.html.twig', [
-            'rentals' => $rentalRepository->findAll(),
+            'rentals' => $rental,
+            'form' => $form->createView(),
         ]);
     }
 
