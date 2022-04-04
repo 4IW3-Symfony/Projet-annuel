@@ -26,6 +26,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
 {
 
     use TimestampableTrait;
+
+    private $plainPassword;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -250,7 +253,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function isVerified(): bool
@@ -567,5 +570,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
             $this->email,
             $this->password,
         ) = unserialize($serialized);
+    }
+
+    /**
+     * Get the value of plainPassword
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set the value of plainPassword
+     *
+     * @return  self
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 }

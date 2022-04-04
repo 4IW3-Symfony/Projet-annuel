@@ -27,17 +27,17 @@ class ProfileType extends AbstractType
                 'delete_label' => 'Remove Image',
                 'allow_delete' => true,
             ])
-            ->add('password', RepeatedType::class, array(
+            ->add('plainPassword', RepeatedType::class, array(
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+                    // new NotBlank([
+                    //     'message' => 'Please enter a password',
+                    // ]),
+                    // new Length([
+                    //     'min' => 6,
+                    //     'minMessage' => 'Your password should be at least {{ limit }} characters',
+                    //     // max length allowed by Symfony for security reasons
+                    //     'max' => 4096,
+                    // ]),
                 ],
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
@@ -46,7 +46,7 @@ class ProfileType extends AbstractType
                         'class' => 'form-control'
                     )
                 ),
-                'required' => true,
+                'required' => false,
                 'first_options'  => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password'),
             ))

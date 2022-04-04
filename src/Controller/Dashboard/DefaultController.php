@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ProfileType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Security;
 
 class DefaultController extends AbstractController
@@ -32,7 +33,7 @@ class DefaultController extends AbstractController
     }
 
     #[Route('dashboard/profile', name: 'dashboard_profile', methods: ['GET', 'POST'])]
-    public function profile(Request $request, EntityManagerInterface $entityManager): Response
+    public function profile(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
 
         $user = $this->security->getUser();
@@ -43,6 +44,15 @@ class DefaultController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form->get("plainPassword")->getData() != null) {
+                $user->setPassword(
+                    $userPasswordHasherInterface->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+            }
             /** @var \App\Entity\User $user */
             $entityManager->flush();
             $this->addFlash('success', 'Profile updated successfully');
