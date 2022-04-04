@@ -39,8 +39,12 @@
 				</div>
 			</div>
 		</div>
-		<div
-			class="col-xl-8">
+		<div class="col-xl-8">
+
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-danger">
+					{{ message }}</div>
+			{% endfor %}
 			<!-- Account details card-->
 			<div class="card mb-4">
 				<div class="card-header">Account Details</div>
@@ -55,6 +59,13 @@
 							{{ form_label(form.lastname,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
 							{{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
 							{{ form_errors(form.lastname) }}
+						</div>
+					</div>
+					<div class="row gx-3 mb-3">
+						<div class="col-md-6">
+							{{ form_label(form.oldPassword,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
+							{{ form_widget(form.oldPassword, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.oldPassword) }}
 						</div>
 					</div>
 					<div class="row gx-3 mb-3">

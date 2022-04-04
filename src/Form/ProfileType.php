@@ -27,6 +27,7 @@ class ProfileType extends AbstractType
                 'delete_label' => 'Remove Image',
                 'allow_delete' => true,
             ])
+            ->add("oldPassword", PasswordType::class, ['mapped' => false, 'required' => false])
             ->add('plainPassword', RepeatedType::class, array(
                 'constraints' => [
                     // new NotBlank([
