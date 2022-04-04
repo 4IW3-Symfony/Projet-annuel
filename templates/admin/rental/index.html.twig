@@ -10,6 +10,7 @@
 	{{ form_widget(form) }}
 		<button class="btn btn-primary">{{ button_label|default('Filtrer') }}</button>
 	{{ form_end(form) }}
+	<a href="{{ path('admin_rental_index') }}">Annuler</a>
 	<div class="table-responsive">
 
 		<table class="table">
