@@ -39,52 +39,74 @@
 				</div>
 			</div>
 		</div>
-		<div
-			class="col-xl-8">
+		<div class="col-xl-8">
+
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-danger">
+					{{ message }}</div>
+			{% endfor %}
 			<!-- Account details card-->
 			<div class="card mb-4">
 				<div class="card-header">Account Details</div>
 				<div class="card-body">
 					<div class="row gx-3 mb-3">
 						<div class="col-md-6">
-							{{ form_label(form.firstname,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_label(form.firstname,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
 							{{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
 							{{ form_errors(form.firstname) }}
 						</div>
 						<div class="col-md-6">
-							{{ form_label(form.lastname,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_label(form.lastname,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
 							{{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
 							{{ form_errors(form.lastname) }}
 						</div>
 					</div>
-
 					<div class="row gx-3 mb-3">
 						<div class="col-md-6">
-							{{ form_label(form.email,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_label(form.oldPassword,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
+							{{ form_widget(form.oldPassword, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.oldPassword) }}
+						</div>
+					</div>
+					<div class="row gx-3 mb-3">
+						<div class="col-md-6">
+							{{ form_label(form.plainPassword.first,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
+							{{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.plainPassword.first) }}
+						</div>
+						<div class="col-md-6">
+							{{ form_label(form.plainPassword.second,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
+							{{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+							{{ form_errors(form.plainPassword.second) }}
+						</div>
+					</div>
+					<div class="row gx-3 mb-3">
+						<div class="col-md-6">
+							{{ form_label(form.email,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
 							{{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
 							{{ form_errors(form.email) }}
 						</div>
 						<div class="col-md-6">
-							{{ form_label(form.dateOfBirth,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_label(form.dateOfBirth,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
 							{{ form_widget(form.dateOfBirth) }}
 							{{ form_errors(form.dateOfBirth) }}
 						</div>
 					</div>
 
 					<div class="mb-3">
-						{{ form_label(form.address,null, {'label_attr': {'class': 'small mb-1'}})}}
+						{{ form_label(form.address,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
 						{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
 						{{ form_errors(form.address) }}
 					</div>
 
 					<div class="row gx-3 mb-3">
 						<div class="col-md-6">
-							{{ form_label(form.zip,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_label(form.zip,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
 							{{ form_widget(form.zip, {'attr': {'class': 'form-control'}}) }}
 							{{ form_errors(form.zip) }}
 						</div>
 						<div class="col-md-6">
-							{{ form_label(form.city,null, {'label_attr': {'class': 'small mb-1'}})}}
+							{{ form_label(form.city,null, {'label_attr': {'class': 'col-sm-12 small mb-1'}})}}
 							{{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
 							{{ form_errors(form.city) }}
 						</div>
