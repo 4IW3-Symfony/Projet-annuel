@@ -1,0 +1,19 @@
+vich_uploader:
+  db_driver: orm
+
+  mappings:
+    motorcycle_image:
+      uri_prefix: /upload/images/motorcycles
+      upload_destination: "%kernel.project_dir%/public/upload/images/motorcycles"
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+      inject_on_load: false
+      delete_on_update: false
+      delete_on_remove: true
+
+    user_avatar:
+      uri_prefix: /upload/images/users/avatar
+      upload_destination: "%kernel.project_dir%/public/upload/images/users/avatar"
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+      inject_on_load: false
+      delete_on_update: true
+      delete_on_remove: true

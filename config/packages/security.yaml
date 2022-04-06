@@ -1,7 +1,7 @@
 security:
     role_hierarchy:
         ROLE_EDITOR: ROLE_USER
-        ROLE_ADMIN: ROLE_EDITOR ## [ROLE_EDITOR, ROLE_VALIDATOR]
+        ROLE_ADMIN: ROLE_ADMIN ## [ROLE_EDITOR, ROLE_VALIDATOR]
 
     # https://symfony.com/doc/current/security/authenticator_manager.html
     enable_authenticator_manager: true
@@ -43,7 +43,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/dashboard, roles: ROLE_EDITOR }
+        - { path: ^/dashboard, roles: ROLE_USER }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }

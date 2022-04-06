@@ -1,0 +1,53 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Rental index
+{% endblock %}
+
+{% block body %}
+	<h1>Rental index</h1>
+	<a class="btn btn-primary" href="{{ path('dashboard_rental_new') }}">Create new</a>
+	<div class="table-responsive">
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Date</th>
+					<th>Date_start</th>
+					<th>Date_end</th>
+					<th>Status</th>
+					<th>Km_start</th>
+					<th>Km_end</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for rental in rentals %}
+					<tr>
+						<td>{{ rental.id }}</td>
+						<td>{{ rental.createdAt ? rental.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ rental.status }}</td>
+						<td>{{ rental.kmStart }}</td>
+						<td>{{ rental.kmEnd }}</td>
+						<td class="action">
+							<a href="{{ path('dashboard_rental_show', {'id': rental.id}) }}">
+								<i class="bi bi-eye-fill icon-show"></i>
+							</a>
+							<a href="{{ path('dashboard_rental_edit', {'id': rental.id}) }}">
+								<i class="bi bi-pencil-square icon-edit"></i>
+							</a>
+							{{ include('dashboard/rental/_delete_form.html.twig') }}
+
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="8">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

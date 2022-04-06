@@ -1,0 +1,26 @@
+<div class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
+	<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ path('dashboard_default') }}">EasyLoc</a>
+	<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="flex-direction: row;">
+		<li class="nav-item dropdown">
+
+			<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+				{%  if app.user.avatar is not null %}
+					<img class="img-account-profile rounded-circle mb-2" src="{{ vich_uploader_asset(app.user, 'avatarFile') }}" alt="" style="width:45px;height:45px">
+				{% endif %}
+				{{ app.user.firstname |upper }}</a>
+			<div class="dropdown-menu dropdown-menu-end">
+				<a class="dropdown-item" href="{{ path('dashboard_profile') }}">Profile</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="{{ path('app_logout') }}">Sign out</a>
+
+			</div>
+		</li>
+
+		<li class="nav-item text-nowrap">
+			<a class="nav-item nav-link px-3" href="{{ path('app_logout') }}">Sign out</a>
+		</li>
+	</ul>
+</div>

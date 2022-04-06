@@ -1,0 +1,48 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Review index
+{% endblock %}
+
+{% block body %}
+	<h1>Review index</h1>
+	<a class="btn btn-primary" href="{{ path('admin_review_new') }}">Create new</a>
+
+	<div class="table-responsive">
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Date</th>
+					<th>Title</th>
+					<th>Review</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for review in reviews %}
+					<tr>
+						<td>{{ review.id }}</td>
+						<td>{{ review.date ? review.date|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ review.title }}</td>
+						<td>{{ review.review }}</td>
+						<td class="action">
+							<a href="{{ path('admin_review_show', {'id': review.id}) }}">
+								<i class="bi bi-eye-fill icon-show"></i>
+							</a>
+							<a href="{{ path('admin_review_edit', {'id': review.id}) }}">
+								<i class="bi bi-pencil-square icon-edit"></i>
+							</a>
+							{{ include('admin/review/_delete_form.html.twig') }}
+
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="5">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

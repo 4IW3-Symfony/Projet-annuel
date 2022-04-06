@@ -1,0 +1,46 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Rental{% endblock %}
+
+{% block body %}
+    <h1>Rental</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ rental.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ rental.date ? rental.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date_start</th>
+                <td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date_end</th>
+                <td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ rental.status }}</td>
+            </tr>
+            <tr>
+                <th>Km_start</th>
+                <td>{{ rental.kmStart }}</td>
+            </tr>
+            <tr>
+                <th>Km_end</th>
+                <td>{{ rental.kmEnd }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_rental_index') }}">back to list</a>
+
+    <a href="{{ path('admin_rental_edit', {'id': rental.id}) }}">edit</a>
+
+    {{ include('admin/rental/_delete_form.html.twig') }}
+{% endblock %}

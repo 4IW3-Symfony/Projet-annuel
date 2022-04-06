@@ -1,0 +1,26 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}LicenceType{% endblock %}
+
+{% block body %}
+    <h1>LicenceType</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ licence_type.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ licence_type.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_licence_type_index') }}">back to list</a>
+
+    <a href="{{ path('admin_licence_type_edit', {'id': licence_type.id}) }}">edit</a>
+
+    {{ include('admin/licence_type/_delete_form.html.twig') }}
+{% endblock %}

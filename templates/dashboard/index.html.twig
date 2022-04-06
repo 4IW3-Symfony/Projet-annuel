@@ -1,16 +1,16 @@
-{% extends 'base_dashboard.twig' %}
+{% extends 'base_dashboard.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Dashboard
+{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block PageHeading %}Dashboard
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Dashboard</h1>
+{% block content %}
 
-   
-</div>
+	<div class="example-wrapper">
+		<h3>Welcome
+			{{app.user.email}}
+		</h3>
+	</div>
 {% endblock %}

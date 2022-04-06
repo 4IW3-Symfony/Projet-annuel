@@ -1,0 +1,109 @@
+{# {% form_theme form 'bootstrap_5_horizontal_layout.html.twig' %}
+{% form_theme form 'admin/motorcycle/_form_theme.html.twig' %}
+{{ form_start(form) }}
+
+{{ form_widget(form) }}
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }} #}
+<style></style>
+
+<div class="row">
+	<div class="col">
+
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
+
+
+		<div class="hr-line-dashed"></div>
+
+		<div id="filesProto" data-prototype="{{ form_widget(form.motorcycle_images.vars.prototype)|e }}"></div>
+
+		<div class="row">
+			<div class="col col-xs-12" id="filesBox">
+				{% set pos = 0 %}
+				{% for motorcycle in form.motorcycle_images %}
+
+					<div style="max-width:200px;margin:10px auto">
+						<div id="divRemove{{ pos }}" style="display:inline-block;">
+							<button type="button" class="btn btn-danger" onclick="removeFile($(this));">
+								<i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+							</button>
+						</div>
+
+						<div id="divPreview{{ pos }}" style=" display:inline-block;">
+							<img src="{{ vich_uploader_asset(motorcycle.vars.value, 'imageFile') }}" alt="{{ motorcycle.vars.value.imageName }}" style="max-width:100px"/>
+						</div>
+
+						<div style="display:none">
+							{{ form_widget(motorcycle) }}
+						</div>
+					</div>
+
+					{% set pos = pos + 1 %}
+				{% endfor %}
+			</div>
+		</div>
+		{{ form_widget(form) }}
+		<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+		{{ form_end(form) }}
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+	var fileCount = '{{ form.motorcycle_images|length }}';
+var removeButton = "<button type='button' class='btn btn-danger btn-xs' onclick='removeFile($(this));'><i class='fa-solid fa-trash-can' aria-hidden='true'></i></button>";
+function removeFile(ob) {
+ob.parent().parent().remove();
+}
+function createAddFile(fileCount) { // grab the prototype template
+var newWidget = $("#filesProto").attr('data-prototype');
+// replace the "__name__" used in the id and name of the prototype
+newWidget = newWidget.replace(/__name__/g, fileCount);
+newWidget = "<div style='display:none'>" + newWidget + "</div>";
+hideStuff = `<div id='divRemove${fileCount}' style='display: none;'>
+	            ${removeButton}
+	        </div>
+            <div id='divPreview${fileCount}' style='display: inline-block;'>
+            </div>
+            <div>
+				<button type='button' id='jsBtnUpload${fileCount}' class='btn btn-secondary'>
+				<i class="fa-solid fa-file-circle-plus"></i> Add Image
+				</button>
+            </div>`;
+$("#filesBox").append("<div style='max-width:200px;margin:10px auto'>" + hideStuff + newWidget + "</div>");
+
+// On click => Simulate file behaviour
+$("#jsBtnUpload" + fileCount).on('click', function (e) {
+$('#block_motorcycle_motorcycle_images_' + fileCount + '_imageFile_file').trigger('click');
+});
+// Once the file is added
+$('#block_motorcycle_motorcycle_images_' + fileCount + '_imageFile_file').on('change', function () { // Show its name
+fileName = $(this).prop('files')[0].name;
+
+const file = $(this).prop('files')[0]
+
+if (file) {
+const tagImage = `<img src="${
+URL.createObjectURL(file)
+}" style="max-width:100px;magin:10px auto"/>`
+$("#divPreview" + fileCount).append(tagImage);
+}
+
+// $("#divPreview" + fileCount).append(fileName);
+// Hide the add file button
+$("#jsBtnUpload" + fileCount).hide();
+// Show the remove file button
+$("#divRemove" + fileCount).show();
+$("#divRemove" + fileCount).css('display', 'inline-block');
+
+// Create another instance of add file button and company
+createAddFile(parseInt(fileCount) + 1);
+});
+}
+
+
+$(document).ready(function () {
+createAddFile(fileCount);
+fileCount++;
+});
+</script>
