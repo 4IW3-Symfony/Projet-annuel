@@ -74,7 +74,7 @@ class MotorcycleController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    
     #[Route('admin/motorcycle/{id}', name: 'admin_motorcycle_show', methods: ['GET'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/{id}', name: 'dashboard_motorcycle_show', methods: ['GET'], defaults: ['back' => "dashboard"])]
     public function show(Motorcycle $motorcycle, $back): Response
@@ -127,5 +127,13 @@ class MotorcycleController extends AbstractController
         }
 
         return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('demande/motorcycle/{id}', name: 'demande_location', methods: ['POST','GET'])]
+    public function demande_location(){
+        
+        return $this->render("/motorcycle/demande_location.twig", [
+            'motorcycle' => $motorcycle,
+        ]);
     }
 }

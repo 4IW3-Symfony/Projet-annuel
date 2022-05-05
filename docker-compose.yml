@@ -69,6 +69,10 @@ services:
     ports:
       - "8080:8080"
   
+networks:
+  default:
+    external:
+      name: elk
 volumes:
   db-data: {}
   app-cache: {}
