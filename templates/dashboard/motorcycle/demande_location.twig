@@ -1,0 +1,12 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Demande de location
+{% endblock %}
+
+{% block body %}
+	<h1>Demande de location </h1>
+
+	{{ include('dashboard/rental/_form.html.twig') }}
+
+	<a href="{{ path('default') }}">back to list</a>
+{% endblock %}

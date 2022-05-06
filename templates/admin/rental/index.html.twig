@@ -28,7 +28,30 @@
 						<td>{{ rental.createdAt ? rental.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
-						<td>{{ rental.status }}</td>
+						<td>{% if rental.status == 1%}
+								En attente Validation
+								<button> Validé la révervation</button>
+							{% endif %}
+							{% if rental.status == 2%}
+								Validé
+								<button> Remis au client</button>
+							{% endif %}
+							{% if rental.status == 3%}
+								Véhicule remis au client
+								<button> Réstitution</button>
+							{% endif %}
+							{% if rental.status == 4%}
+								Vehicule Réstitué
+								<button>Cloturé la révervation</button>
+							{% endif %}
+							{% if rental.status == 5%}
+								Location Clos
+								<button> Sav</button>
+							{% endif %}
+							{% if rental.status == 6%}
+								SAV
+								<button> SAV Clos</button>
+							{% endif %}</td>
 						<td>{{ rental.kmStart }}</td>
 						<td>{{ rental.kmEnd }}</td>
 						<td class="action">

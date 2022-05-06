@@ -2,16 +2,19 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Rental;
 use App\Entity\Motorcycle;
 use App\Form\MotorcycleType;
+use App\Form\RetalReservationType;
+use App\Security\Voter\MotorcycleVoter;
 use App\Repository\MotorcycleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use App\Security\Voter\MotorcycleVoter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/', requirements: ['back' => "admin|dashboard"])]
 class MotorcycleController extends AbstractController
@@ -129,11 +132,24 @@ class MotorcycleController extends AbstractController
         return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
     }
     
-    #[Route('demande/motorcycle/{id}', name: 'demande_location', methods: ['POST','GET'])]
-    public function demande_location(){
-        
-        return $this->render("/motorcycle/demande_location.twig", [
-            'motorcycle' => $motorcycle,
+    #[Route('demande/motorcycle/{id}', name: 'demande_location', methods: ['POST','GET'], defaults: ['back' => "dashboard"])]
+    public function demande_location(Motorcycle $motorcycle,Request $request,EntityManagerInterface $entityManager,$back,UserInterface $user): Response
+    {
+        $rental = new Rental();
+        $form = $this->createForm(RetalReservationType::class, $rental);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $rental->setUser($user);
+            $rental->setMotorcycle($motorcycle);
+            $rental->setStatus(1);
+            $rental->setKmStart($motorcycle->getKm());
+            $entityManager->persist($rental);
+            $entityManager->flush();
+        }
+        return $this->render("{$back}/motorcycle/demande_location.twig", [
+            'form' => $form->createView(),
+
         ]);
     }
 }
