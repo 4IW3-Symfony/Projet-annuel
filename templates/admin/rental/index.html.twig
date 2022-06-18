@@ -17,6 +17,7 @@
 			<thead>
 				<tr>
 					<th>Id</th>
+					<th>Véhicule</th>
 					<th>Date</th>
 					<th>Date_start</th>
 					<th>Date_end</th>
@@ -30,32 +31,33 @@
 				{% for rental in rentals %}
 					<tr>
 						<td>{{ rental.id }}</td>
+						<td>{{ rental.motorcycle.name }}</td>
 						<td>{{ rental.createdAt ? rental.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{% if rental.status == 1%}
 								En attente Validation
-								<button> <a href=" path('valider_reservation') ">Validé la révervation</a></button>
+								<button> <a href=" {{ path('valider_reservation', {'id': rental.id})}} ">Validé la révervation</a></button>
 							{% endif %}
 							{% if rental.status == 2%}
 								Validé
-								<button> Remis au client</button>
+								<button><a href=" {{ path('remis_client', {'id': rental.id})}} "> Remis au client</a></button>
 							{% endif %}
 							{% if rental.status == 3%}
 								Véhicule remis au client
-								<button> Réstitution</button>
+								<button><a href=" {{ path('admin_restitution', {'id': rental.id})}} "> Restitution</a></button>
 							{% endif %}
 							{% if rental.status == 4%}
 								Vehicule Réstitué
-								<button>Cloturé la révervation</button>
+								<button><a href=" {{ path('cloturation', {'id': rental.id})}} "> Cloturé la location</a></button>
 							{% endif %}
 							{% if rental.status == 5%}
 								Location Clos
-								<button> Sav</button>
+								<button><a href=" {{ path('sav', {'id': rental.id})}} "> SAV</a></button>
 							{% endif %}
 							{% if rental.status == 6%}
 								SAV
-								<button> SAV Clos</button>
+								<button><a href=" {{ path('cloturation', {'id': rental.id})}} "> Cloturation SAV</a></button>
 							{% endif %}</td>
 						<td>{{ rental.kmStart }}</td>
 						<td>{{ rental.kmEnd }}</td>

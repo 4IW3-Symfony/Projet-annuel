@@ -24,7 +24,7 @@ class Rental
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Type("\DateTimeInterface")
-     * @Assert\GreaterThan("today")
+     * 
      * 
      */
     private $date_start;
