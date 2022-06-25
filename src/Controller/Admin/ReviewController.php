@@ -46,6 +46,8 @@ class ReviewController extends AbstractController
             /** @var \App\Entity\User $user */
             $user = $this->getUser();
             $review->setCustomer($user);
+            $review->setDate(new \DateTime("now"));
+            
             $entityManager->persist($review);
             $entityManager->flush();
             return $this->redirectToRoute("{$back}_review_index", [], Response::HTTP_SEE_OTHER);
@@ -67,8 +69,8 @@ class ReviewController extends AbstractController
     }
 
     #[Route('admin/review/{id}/edit', name: 'admin_review_edit', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
-    #[Route('dashboard/review/{id}/edit', name: 'dashboard_review_edit', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
-    #[IsGranted(ReviewVoter::EDIT, subject: 'review')]
+    #[Route('dashboard/review/{id}/edit', name: 'dashboard_review_edit', defaults: ['back' => "dashboard"], methods: ['GET', 'POST'])]
+    //#[IsGranted(ReviewVoter::EDIT, subject: 'review')]
     public function edit(Request $request, Review $review, EntityManagerInterface $entityManager, $back): Response
     {
         $form = $this->createForm(ReviewType::class, $review);

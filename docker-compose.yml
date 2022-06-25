@@ -72,7 +72,7 @@ services:
 networks:
   default:
     external:
-      name: elk
+      name: elk_external
 volumes:
   db-data: {}
   app-cache: {}
