@@ -36,7 +36,6 @@ final class Version20211217134637 extends AbstractMigration
         $this->addSql('CREATE TABLE ticke_message (id INT NOT NULL, date DATE NOT NULL, message VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE ticket (id INT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE vehicule (id INT NOT NULL, brand VARCHAR(255) NOT NULL, model VARCHAR(255) NOT NULL, version VARCHAR(255) DEFAULT NULL, year INT NOT NULL, energy VARCHAR(255) NOT NULL, km INT NOT NULL, registration VARCHAR(255) NOT NULL, licence VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('DROP TABLE record');
     }
 
     public function down(Schema $schema): void
@@ -51,8 +50,6 @@ final class Version20211217134637 extends AbstractMigration
         $this->addSql('DROP SEQUENCE ticke_message_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE ticket_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE vehicule_id_seq CASCADE');
-        $this->addSql('CREATE SEQUENCE record_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE record (id INT NOT NULL, name VARCHAR(500) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('DROP TABLE annonce');
         $this->addSql('DROP TABLE avis');
         $this->addSql('DROP TABLE chat');
