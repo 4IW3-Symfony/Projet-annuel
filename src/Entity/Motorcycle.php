@@ -2,16 +2,37 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimestampableTrait;
 use App\Repository\MotorcycleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MotorcycleRepository::class)
  */
 class Motorcycle
 {
+    use TimestampableTrait;
+
+    const DEFAULT_IMAGE = "images/no-image.png";
+
+    const STATUS_HIDDEN = 0;
+    const STATUS_AVAILABLE = 1;
+    const STATUS_NOT_AVAILABLE = 2;
+
+    // const STATUS = [
+    //     self::STATUS_HIDDEN => "Hidden",
+    //     self::STATUS_AVAILABLE => "Available",
+    //     self::STATUS_NOT_AVAILABLE => "Not Available"
+    // ];
+    const STATUS = [
+        self::STATUS_HIDDEN,
+        self::STATUS_AVAILABLE,
+        self::STATUS_NOT_AVAILABLE
+    ];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,38 +42,61 @@ class Motorcycle
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Positive
      */
     private $power;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $numberplate;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Positive
      */
     private $km;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Positive
      */
     private $year;
 
     /**
+     * @ORM\Column(type="integer")
+     * @Assert\Choice(choices=self::STATUS, message="Choose a valid status.")
+     */
+    private $status = self::STATUS_AVAILABLE;
+
+    /**
+     * @var string|null
+     *^M
+     * @Gedmo\Slug(fields={"name", "id"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
+
+    /**
      * @ORM\ManyToOne(targetEntity=LicenceType::class, inversedBy="motorcycles")
      */
-    private $LicenceType;
+    private $licenceType;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="motorcycles")
@@ -65,28 +109,34 @@ class Motorcycle
     private $model;
 
     /**
-     * @ORM\OneToMany(targetEntity=Ad::class, mappedBy="motorcycle")
+     * @ORM\OneToMany(targetEntity=MotorcycleImage::class, mappedBy="motorcycle",cascade={"persist","remove"},orphanRemoval=true)
      */
-    private $ads;
+    private $motorcycleImages;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="motorcycle")
      */
-    private $localisation;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $ville;
+    private $rentals;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $cp;
+    private $Cp;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $City;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Localisation;
+
 
     public function __construct()
     {
-        $this->ads = new ArrayCollection();
+        $this->motorcycleImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,14 +216,31 @@ class Motorcycle
         return $this;
     }
 
-    public function getLicenceType(): ?LicenceType
+    public function getStatus(): ?int
     {
-        return $this->LicenceType;
+        return $this->status;
     }
 
-    public function setLicenceType(?LicenceType $LicenceType): self
+    public function setStatus(int $status): self
     {
-        $this->LicenceType = $LicenceType;
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function getLicenceType(): ?LicenceType
+    {
+        return $this->licenceType;
+    }
+
+    public function setLicenceType(?LicenceType $licenceType): self
+    {
+        $this->licenceType = $licenceType;
 
         return $this;
     }
@@ -202,70 +269,119 @@ class Motorcycle
         return $this;
     }
 
+
     /**
-     * @return Collection|Ad[]
+     * @return Collection|MotorcycleImage[]
      */
-    public function getAd(): Collection
+    public function getMotorcycleImages(): Collection
     {
-        return $this->ads;
+        return $this->motorcycleImages;
     }
 
-    public function addAd(Ad $ad): self
+    public function addMotorcycleImage(MotorcycleImage $motorcycleImage): self
     {
-        if (!$this->ads->contains($ad)) {
-            $this->ads[] = $ad;
-            $ad->setMotorcycle($this);
+        if (!$this->motorcycleImages->contains($motorcycleImage)) {
+            $this->motorcycleImages[] = $motorcycleImage;
+            $motorcycleImage->setMotorcycle($this);
         }
 
         return $this;
     }
 
-    public function removeAd(Ad $ad): self
+    public function removeMotorcycleImage(MotorcycleImage $motorcycleImage): self
     {
-        if ($this->ads->removeElement($ad)) {
+        if ($this->motorcycleImages->removeElement($motorcycleImage)) {
             // set the owning side to null (unless already changed)
-            if ($ad->getMotorcycle() === $this) {
-                $ad->setMotorcycle(null);
+            if ($motorcycleImage->getMotorcycle() === $this) {
+                $motorcycleImage->setMotorcycle(null);
             }
         }
 
         return $this;
     }
 
-    public function getLocalisation(): ?string
+    /**
+     * @return Collection|Rental[]
+     */
+    public function getRentals(): Collection
     {
-        return $this->localisation;
+        return $this->rentals;
     }
 
-    public function setLocalisation(string $localisation): self
+    public function addRental(Rental $rental): self
     {
-        $this->localisation = $localisation;
+        if (!$this->rentals->contains($rental)) {
+            $this->rentals[] = $rental;
+            $rental->setMotorcycle($this);
+        }
 
         return $this;
     }
 
-    public function getVille(): ?string
+    public function removeRental(Rental $rental): self
     {
-        return $this->ville;
-    }
-
-    public function setVille(string $ville): self
-    {
-        $this->ville = $ville;
+        if ($this->rentals->removeElement($rental)) {
+            // set the owning side to null (unless already changed)
+            if ($rental->getMotorcycle() === $this) {
+                $rental->setMotorcycle(null);
+            }
+        }
 
         return $this;
+    }
+
+
+    public function isHidden()
+    {
+        return $this->status == self::STATUS_HIDDEN;
+    }
+    public function isAvalaible()
+    {
+        return $this->status == self::STATUS_AVAILABLE;
+    }
+    public function isNotAvalaible()
+    {
+        return $this->status == self::STATUS_NOT_AVAILABLE;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getCp(): ?int
     {
-        return $this->cp;
+        return $this->Cp;
     }
 
-    public function setCp(int $cp): self
+    public function setCp(int $Cp): self
     {
-        $this->cp = $cp;
+        $this->Cp = $Cp;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->City;
+    }
+
+    public function setCity(string $City): self
+    {
+        $this->City = $City;
+
+        return $this;
+    }
+
+    public function getLocalisation(): ?string
+    {
+        return $this->Localisation;
+    }
+
+    public function setLocalisation(string $Localisation): self
+    {
+        $this->Localisation = $Localisation;
 
         return $this;
     }
 }
-
