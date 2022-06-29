@@ -12,6 +12,23 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Motorcycle
 {
+
+    const DEFAULT_IMAGE = "images/no-image.png";
+
+    const STATUS_HIDDEN = 0;
+    const STATUS_AVAILABLE = 1;
+    const STATUS_NOT_AVAILABLE = 2;
+
+    // const STATUS = [
+    //     self::STATUS_HIDDEN => "Hidden",
+    //     self::STATUS_AVAILABLE => "Available",
+    //     self::STATUS_NOT_AVAILABLE => "Not Available"
+    // ];
+    const STATUS = [
+        self::STATUS_HIDDEN,
+        self::STATUS_AVAILABLE,
+        self::STATUS_NOT_AVAILABLE
+    ];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
