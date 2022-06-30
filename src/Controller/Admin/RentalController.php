@@ -20,31 +20,40 @@ class RentalController extends AbstractController
     #[Route('admin/rental/', name: 'admin_rental_index', methods: ['GET','POST'])]
     public function admin_index(RentalRepository $rentalRepository,Request $request): Response
     {
-        $status = 0;
-        $form = $this->createFormBuilder()->add('status',ChoiceType::class,[
-            'choices' => [
-                'Location Crée' => 1,
-                'Location Validée par propriétaire' => 2,
-                'Véhicule remis au locataire' => 3,
-                'Véhicule restitué' =>4,
-                'Location Clos' =>5,
-                'Location SAV' => 6,
-            ],
-        ])
-        ->getForm();
-        $rental= $rentalRepository->findAll();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()){
-            $data = $form->getData();
-            $rental = $rentalRepository->findBy([
-                'status' => $data['status'],
-            ]);
+        if (empty($_GET['status'])){
+            $status = 0;
         }
+        else{
+            $status = $_GET['status'];
+        }
+        // $form = $this->createFormBuilder()->add('status',ChoiceType::class,[
+        //     'choices' => [
+        //         'Tout' =>0,
+        //         'Location Crée' => 1,
+        //         'Location Validée par propriétaire' => 2,
+        //         'Véhicule remis au locataire' => 3,
+        //         'Véhicule restitué' =>4,
+        //         'Location Clos' =>5,
+        //         'Location SAV' => 6,
+        //     ],
+        // ])
+        // ->getForm();
+
+        $rental= $rentalRepository->findAll();
+        // $form->handleRequest($request);
+
+       
+            if ($status != 0){
+                $rental = $rentalRepository->findBy([
+                'status' => $status,]);
+            
+            }
+            
+        
       
         return $this->render('admin/rental/index.html.twig', [
             'rentals' => $rental,
-            'form' => $form->createView(),
+            'status' => $status,
         ]);
     }
 

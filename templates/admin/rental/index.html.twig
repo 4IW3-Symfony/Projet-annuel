@@ -4,13 +4,17 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Rental index</h1>
+	<h1>Location</h1>
 	<a class="btn btn-primary" href="{{ path('admin_rental_new') }}">Create new</a>
-	{{ form_start(form) }}
-	{{ form_widget(form) }}
-		<button class="btn btn-primary">{{ button_label|default('Filtrer') }}</button>
-	{{ form_end(form) }}
-	<a href="{{ path('admin_rental_index') }}">Annuler</a>
+	<br>
+	<a class="btn btn-primary" href="{{ path('admin_rental_index')}}">Tout</a>
+	<a class="btn btn-primary" href="{{ path('admin_rental_index', {'status': 1})}}">Dossier Crée</a>
+	<a class="btn btn-primary" href="{{ path('admin_rental_index', {'status': 2})}}">Location Validée par propriétaire</a>
+	<a class="btn btn-primary" href="{{ path('admin_rental_index', {'status': 3})}}">Véhicule remis au locataire</a>
+	<a class="btn btn-primary" href="{{ path('admin_rental_index', {'status': 4})}}">Véhicule restitué</a>
+	<a class="btn btn-primary" href="{{ path('admin_rental_index', {'status': 5})}}">Location Clos</a>
+	<a class="btn btn-primary" href="{{ path('admin_rental_index', {'status': 6})}}">Location SAV</a>
+
 	<div class="table-responsive">
 
 		<table class="table">
