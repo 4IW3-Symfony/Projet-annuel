@@ -77,7 +77,7 @@ class MotorcycleController extends AbstractController
             'form' => $form,
         ]);
     }
-    
+    #[Route('motorcycle/{id}', name: 'motorcycle_show', methods: ['GET'], defaults: ['back' => "front"])]
     #[Route('admin/motorcycle/{id}', name: 'admin_motorcycle_show', methods: ['GET'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/{id}', name: 'dashboard_motorcycle_show', methods: ['GET'], defaults: ['back' => "dashboard"])]
     public function show(Motorcycle $motorcycle, $back): Response

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Motorcycle
+{% endblock %}
+
+{% block body %}
+	<h1>Motorcycle</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Images</th>
+				<td>
+					{%  if motorcycle.motorcycleImages|length > 0 %}
+						{% for image in motorcycle.motorcycleImages %}
+							<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" style="max-width:100px"/>
+						{% endfor %}
+					{% else %}
+						<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top" style="max-width:100px">
+					{% endif %}
+				</td>
+			</tr>
+			<tr></tr>
+			<tr>
+				<th>Id</th>
+				<td>{{ motorcycle.id }}</td>
+			</tr>
+			<tr>
+				<th>Name</th>
+				<td>{{ motorcycle.name }}</td>
+			</tr>
+			<tr>
+				<th>Power</th>
+				<td>{{ motorcycle.power }}</td>
+			</tr>
+			<tr>
+				<th>Numberplate</th>
+				<td>{{ motorcycle.numberplate }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ motorcycle.description }}</td>
+			</tr>
+			<tr>
+				<th>Km</th>
+				<td>{{ motorcycle.km }}</td>
+			</tr>
+			<tr>
+				<th>Year</th>
+				<td>{{ motorcycle.year }}</td>
+			</tr>
+			<tr>
+				<th>Status</th>
+				<td>{{ motorcycle.status }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+{% endblock %}
