@@ -32,7 +32,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/resultat-search', name: 'resultat_search', methods: ['GET'])]
+    #[Route('/resultat-search', name: 'resultat_search', methods: ['GET','POST'])]
     public function resultat_search(MotorcycleRepository $motorcyleRepository,Request $request): Response 
     {
         $ville = $_GET['ville'];
@@ -51,8 +51,9 @@ class DefaultController extends AbstractController
             return $this->redirectToRoute('resultat_search', ['ville'=> $form->get('ville')->getData(),'date_start'=> $form->get('Start')->getData()->format('Y-m-d'),'date_end'=> $form->get('End')->getData()->format('Y-m-d')]);
         }
         $search = array();
+        $autre = array();
         $supp = 0 ;
-        $motorcycles = $motorcyleRepository->findBy(["City" => $ville]);
+        $motorcycles = $motorcyleRepository->findAll();
         foreach ($motorcycles as $motorcycle) {
             foreach($motorcycle->getRentals() as $rental)
             {
@@ -64,7 +65,15 @@ class DefaultController extends AbstractController
 
             }
             if ($supp == 0) {
-                array_push($search,$motorcycle);
+                if(strtolower($motorcycle->getCity()) == strtolower($ville))
+                {
+                    array_push($search,$motorcycle);
+                }
+                else
+                {
+                    array_push($autre,$motorcycle);
+                }
+                
             }
             else{
                 $supp = 0;
@@ -76,6 +85,7 @@ class DefaultController extends AbstractController
 
         return $this->render('front/search.html.twig', [
             'motorcycles' => $search,
+            'autresmotos' => $autre,
             'form' => $form->createView(),
         ]);
 

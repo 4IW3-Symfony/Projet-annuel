@@ -32,7 +32,7 @@
 		<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 		{{ form_end(form) }}
 
-		<h1 class="text-center mb-3">MOTOS</h1>
+		<h1 class="text-center mb-3">Résultat MOTOS</h1>
 		<div class="row">
 			{%for motorcycle in motorcycles %}
 				<div class="col-xl-3 col-lg-4 mb-5">
@@ -48,6 +48,29 @@
 								-{{motorcycle.model.name}}
 							</p>
 							<a href="{{ path('dashboard_motorcycle_show',{'id': motorcycle.id}) }}" class="btn btn-primary">
+								Show</a>
+						</div>
+					</div>
+				</div>
+			{%endfor %}
+		</div>
+
+        <h1 class="text-center mb-3">Autre MOTOS à proximité</h1>
+		<div class="row">
+			{%for autresmoto in autresmotos %}
+				<div class="col-xl-3 col-lg-4 mb-5">
+					<div class="card text-center" style="width: 18rem;">
+						{% if autresmoto.motorcycleImages %}
+							<img src="https://via.placeholder.com/640x480/000000/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
+						{% else %}
+							<img src="{{motorcycle.motorcycleImages.first.image}}" class="card-img-top">
+						{% endif %}
+						<div class="card-body">
+							<h5 class="card-title">{{autresmoto.name}}</h5>
+							<p class="text-muted">{{autresmoto.model.brand.name}}
+								-{{autresmoto.model.name}}
+							</p>
+							<a href="{{ path('dashboard_motorcycle_show',{'id': autresmoto.id}) }}" class="btn btn-primary">
 								Show</a>
 						</div>
 					</div>
