@@ -4,6 +4,34 @@
 {% endblock %}
 
 {% block body %}
+	<div class="hero" style="background-image: url('/images/bg-hero.jpg');">
+		<div class="container">
+			<h2 class="hero__title">Louer facilement votre deux roues</h2>
+			<form class="hero__form">
+				<div class="hero__form__field">
+					<label for="f-where" class="hero__form__field__label">Où ?</label>
+					<input type="text" class="hero__form__field__input" id="f-where" placeholder="Paris...">
+				</div>
+				<div class="hero__form__field--daterange">
+					<div class="hero__form__field">
+						<label for="f-when-1" class="hero__form__field__label">Quand ?</label>
+						<input type="text" class="hero__form__field__input" id="f-when-1" placeholder="20/12/2021">
+					</div>
+					<div class="icon-wrapper">
+						<i class="fas fa-arrow-right"></i>
+					</div>
+					<div class="hero__form__field">
+						<label for="f-when-2" class="hero__form__field__label"></label>
+						<input type="text" class="hero__form__field__input" id="f-when-2" placeholder="26/21/2021">
+					</div>
+				</div>
+				<div class="hero__form__field hero__form__field--submit">
+					<button class="hero__form__field__submit" type="button">Rechercher</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<style>
 		.example-wrapper {
 			margin: 1em auto;
