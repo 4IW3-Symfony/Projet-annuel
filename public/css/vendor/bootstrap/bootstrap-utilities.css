@@ -60,10 +60,10 @@
 }
 
 .link-dark {
-  color: #212529;
+  color: #121212;
 }
 .link-dark:hover, .link-dark:focus {
-  color: #1a1e21;
+  color: #0e0e0e;
 }
 
 .ratio {
@@ -442,7 +442,7 @@
 }
 
 .border-dark {
-  border-color: #212529 !important;
+  border-color: #121212 !important;
 }
 
 .border-white {
@@ -1271,7 +1271,7 @@
 }
 
 .text-dark {
-  color: #212529 !important;
+  color: #121212 !important;
 }
 
 .text-white {
@@ -1327,7 +1327,7 @@
 }
 
 .bg-dark {
-  background-color: #212529 !important;
+  background-color: #121212 !important;
 }
 
 .bg-body {
@@ -1367,7 +1367,7 @@
 }
 
 .rounded {
-  border-radius: 0.5rem !important;
+  border-radius: 0.75rem !important;
 }
 
 .rounded-0 {
@@ -1375,15 +1375,15 @@
 }
 
 .rounded-1 {
-  border-radius: 0.5rem !important;
+  border-radius: 0.75rem !important;
 }
 
 .rounded-2 {
-  border-radius: 0.5rem !important;
+  border-radius: 0.75rem !important;
 }
 
 .rounded-3 {
-  border-radius: 0.5rem !important;
+  border-radius: 0.75rem !important;
 }
 
 .rounded-circle {
@@ -1395,23 +1395,23 @@
 }
 
 .rounded-top {
-  border-top-left-radius: 0.5rem !important;
-  border-top-right-radius: 0.5rem !important;
+  border-top-left-radius: 0.75rem !important;
+  border-top-right-radius: 0.75rem !important;
 }
 
 .rounded-end {
-  border-top-right-radius: 0.5rem !important;
-  border-bottom-right-radius: 0.5rem !important;
+  border-top-right-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
 }
 
 .rounded-bottom {
-  border-bottom-right-radius: 0.5rem !important;
-  border-bottom-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.75rem !important;
+  border-bottom-left-radius: 0.75rem !important;
 }
 
 .rounded-start {
-  border-bottom-left-radius: 0.5rem !important;
-  border-top-left-radius: 0.5rem !important;
+  border-bottom-left-radius: 0.75rem !important;
+  border-top-left-radius: 0.75rem !important;
 }
 
 .visible {

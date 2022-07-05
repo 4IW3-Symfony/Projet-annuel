@@ -1,6 +1,10 @@
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   padding-top: 2rem;
-  &-wrapper{
+  &__wrapper{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,14 +48,6 @@
     justify-content: flex-end;
     align-items: center;
     &__login{
-      flex-shrink: 0;
-      padding: .1rem 1rem;
-      font-size: pxToRem(18);
-      color: $white;
-      font-weight: 600;
-      text-decoration: none;
-      background: $primary;
-      border-radius: 50rem;
       margin-right: 1.25rem;
     }
     &__profile{

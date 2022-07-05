@@ -222,7 +222,7 @@ kbd {
   font-size: 0.875em;
   color: #fff;
   background-color: #212529;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 }
 kbd kbd {
   padding: 0;
