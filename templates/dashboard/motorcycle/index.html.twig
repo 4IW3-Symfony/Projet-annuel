@@ -40,23 +40,31 @@
 					<td>{{ motorcycle.price }}</td>
 					<td>{{ motorcycle.km }}</td>
 					<td>{{ motorcycle.year }}</td>
-					<td>{{ motorcycle.status }}</td>
+					{% if motorcycle.status == 1 %}
+						<td style="color:green;"> Moto Libre </td>
+					{% elseif motorcycle.status == 2  %}
+						<td style="color:red;"> Moto en location </td>
+					{% elseif motorcycle.status == 3  %}
+						<td style="color:grey;"> Annonce Supprimer </td>
+					{% else %}
+						<td style="color:orange;"> Erreur </td>
+					{% endif %}
 					<td class="action">
 						<a href="{{ path('dashboard_motorcycle_show', {'id': motorcycle.id}) }}">
 							<i class="bi bi-eye-fill icon-show"></i>
 						</a>
-						<a href="{{ path('dashboard_motorcycle_edit', {'id': motorcycle.id}) }}">
-							<i class="bi bi-pencil-square icon-edit"></i>
-						</a>
-						{{ include('dashboard/motorcycle/_delete_form.html.twig') }}
+						{% if motorcycle.status != 2  %}
+							<a href="{{ path('dashboard_motorcycle_edit', {'id': motorcycle.id}) }}">
+								<i class="bi bi-pencil-square icon-edit"></i>
+							</a>
+							{{ include('dashboard/motorcycle/_delete_form.html.twig') }}
+						{% endif %}
 
 					</td>
 
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="8">no records found</td>
-				</tr>
+	
+	
 			{% endfor %}
 		</tbody>
 	</table>
