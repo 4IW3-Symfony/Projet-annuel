@@ -1,0 +1,70 @@
+{% block stylesheets %}<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />{% endblock %}
+{% block body %}
+    <style>
+        li{
+            cursor: pointer;
+        }
+        #map {
+            height: 50vh;
+            width: 50vw;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        b{
+            text-align: center;
+            width: 100%;
+            display: block;
+        }
+    </style>
+    <section style="display: flex;">
+        <div id="map"></div>
+    </section>
+</main>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([48.856614, 2.3522219], 9);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    }).addTo(map);
+    {% set arraym = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] %}
+ {% for motorcycle in motorcycles %}
+
+    {% for m in arraym %}
+        var postion = "https://api-adresse.data.gouv.fr/search/?q="{{locatisation}}&{{motorcycle.cp}}+"&limit=1";
+            //var marker{{m}} = L.marker([{{motorcycle.latitude}}, {{motorcycle.longitude}}]).addTo(map);
+            marker{{m}}.bindPopup("{{motorcycle.name}}");
+    {% endfor %}
+{% endfor %}
+    
+
+
+
+    map.closePopup();
+
+    function onClick(e) {
+
+        const markers = [...document.getElementsByClassName('leaflet-marker-icon')];
+        markers.forEach((marker) => {
+            marker.setAttribute("src", 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png');
+        });
+        map.flyTo(this.getLatLng());
+        var layer = e.target;
+        console.log(layer);
+        layer._icon.src = 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png';
+        layer._icon.naturalWidth = 200;
+        layer._icon.naturalHeight = 200;
+    }
+
+
+    document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
+
+
+</script>
+
+</body>
+{% endblock %}
+</html>

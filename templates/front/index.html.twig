@@ -1,10 +1,62 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />{% endblock %}
 
 {% block title %}Hello DefaultController!
 {% endblock %}
 
 {% block body %}
-	<style>
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([48.856614, 2.3522219], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    }).addTo(map);
+    {% set arraym = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] %}
+
+
+
+
+    map.closePopup();
+
+    function onClick(e) {
+
+        const markers = [...document.getElementsByClassName('leaflet-marker-icon')];
+        markers.forEach((marker) => {
+            marker.setAttribute("src", 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png');
+        });
+        map.flyTo(this.getLatLng());
+        var layer = e.target;
+        console.log(layer);
+        layer._icon.src = 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png';
+        layer._icon.naturalWidth = 200;
+        layer._icon.naturalHeight = 200;
+    }
+
+
+    document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
+
+
+</script>
+<style>
+        li{
+            cursor: pointer;
+        }
+        #map {
+            height: 50vh;
+            width: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        b{
+            text-align: center;
+            width: 100%;
+            display: block;
+        }
+
 		.example-wrapper {
 			margin: 1em auto;
 			max-width: 800px;
@@ -27,8 +79,12 @@
 	</div>
 
 	<div class="container">
+        <div id="map"></div>
+
+
 		<h1 class="text-center mb-3">MOTOS</h1>
 		<div class="row">
+
 			{%for motorcycle in motorcycles %}
 				<div class="col-xl-3 col-lg-4 mb-5">
 					<div class="card text-center" style="width: 18rem;">
@@ -49,5 +105,6 @@
 				</div>
 			{%endfor %}
 		</div>
+		
 	</div>
 {% endblock %}
