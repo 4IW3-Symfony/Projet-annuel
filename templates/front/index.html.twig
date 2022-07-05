@@ -6,53 +6,25 @@
 	<div class="home-hero" style="background-image: url('/images/bg-hero.jpg');">
 		<div class="container">
 			<h2 class="home-hero__title">Louer facilement votre deux roues</h2>
-			<form class="home-hero__form">
-				<div class="home-hero__form__field">
-					<label for="f-where" class="home-hero__form__field__label">Où ?</label>
-					<input type="text" class="home-hero__form__field__input" id="f-where" placeholder="Paris...">
+			<form class="w-50" method="get" action="/resultat_search">
+				<div class="form-group mb-2">
+					<label for="loc" class="text-white">Où ?</label>
+					<input type="text" class="form-control" id="loc" placeholder="Paris..." name="ville">
 				</div>
-				<div class="home-hero__form__field--daterange">
-					<div class="home-hero__form__field">
-						<label for="f-when-1" class="home-hero__form__field__label">Quand ?</label>
-						<input type="text" class="home-hero__form__field__input" id="f-when-1" placeholder="20/12/2021">
-					</div>
-					<div class="icon-wrapper">
-						<i class="fas fa-arrow-right"></i>
-					</div>
-					<div class="home-hero__form__field">
-						<label for="f-when-2" class="home-hero__form__field__label"></label>
-						<input type="text" class="home-hero__form__field__input" id="f-when-2" placeholder="26/21/2021">
+				<div class="form-group mb-2">
+					<label for="date1" class="text-white">Quand ?</label>
+					<div class="d-flex align-items-center">
+						<input type="date" class="form-control" id="date1" placeholder="14/05/2022" name="date_start">
+						<span>arrow</span>
+						<input type="date" class="form-control" id="date2" placeholder="19/05/2022" name="date_end">
 					</div>
 				</div>
-				<div class="home-hero__form__field home-hero__form__field--submit">
-					<button class="home-hero__form__field__submit btn btn-dark" type="button">Rechercher</button>
-				</div>
+				<button type="submit" class="btn btn-dark">Rechercher</button>
 			</form>
 		</div>
 	</div>
 
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
-
-	<div class="example-wrapper">
-
-		<a href="{{ path('app_login') }}">
-			<button>
-				Log in
-			</button>
-		</a>
-	</div>
-
+	<hr>
 	<div class="container">
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
