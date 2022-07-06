@@ -1,8 +1,10 @@
 const header = document.getElementById('header');
 
 
-window.addEventListener('scroll', scrolling);
-function scrolling() {
+document.addEventListener('DOMContentLoaded', defineScrolledHeader);
+
+window.addEventListener('scroll', defineScrolledHeader);
+function defineScrolledHeader() {
     if (window.scrollY > 50) {
         header.classList.add('scrolled');
     } else {

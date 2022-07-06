@@ -25,6 +25,7 @@
   padding-top: 2rem;
   padding-bottom: 1rem;
   transition: all 150ms ease-in;
+  z-index: 15;
   &__wrapper{
     display: flex;
     justify-content: space-between;
