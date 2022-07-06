@@ -66,6 +66,7 @@ class MotorcycleController extends AbstractController
             }
             /** @var \App\Entity\User $user */
             $user = $this->getUser();
+            $motorcycle->setStatus(0);
             $motorcycle->setUser($user);
             $entityManager->persist($motorcycle);
             $entityManager->flush();

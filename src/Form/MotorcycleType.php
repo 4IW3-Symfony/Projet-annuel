@@ -23,18 +23,20 @@ class MotorcycleType extends AbstractType
                 'delete_empty' => true,
                 'by_reference' => false,
             ])
-            ->add('name')
+            ->add('name',null,[
+                'label' => "Titre de l'annonce"
+            ])
             ->add('power')
+            ->add('price')
             ->add('numberplate')
             ->add('description')
             ->add('km')
             ->add('year')
-            ->add('status', ChoiceType::class, [
-                'choices'  =>
-                Motorcycle::STATUS
-            ])
             ->add('licenceType')
-            ->add('model');
+            ->add('model')
+            ->add('Localisation')
+            ->add('City')
+            ->add('Cp');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
