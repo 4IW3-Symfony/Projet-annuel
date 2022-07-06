@@ -26,6 +26,7 @@ class DefaultController extends AbstractController
         }
         $motorcycles = $motorcyleRepository->findBy(["status" => Motorcycle::STATUS_AVAILABLE]);
         return $this->render('front/index.html.twig', [
+            'isHome' => true,
             'motorcycles' => $motorcycles,
             'controller_name' => 'DefaultController',
             'form' => $form->createView(),

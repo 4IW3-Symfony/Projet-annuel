@@ -10749,33 +10749,44 @@ textarea.form-control-lg {
   }
 }
 .header {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  transition: all 150ms ease-in;
+  z-index: 15;
+}
+.header.home {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   padding-top: 2rem;
-  padding-bottom: 1rem;
-  transition: all 150ms ease-in;
-  z-index: 15;
 }
-.header.scrolled {
+.header.home img {
+  filter: brightness(1);
+}
+.header.home a:not(.btn), .header.home span, .header.home .header__logo__title {
+  color: #fff;
+}
+.header.home .header__user__profile {
+  border-color: #fff;
+}
+.header.home.scrolled {
   background: #fff;
-  color: #000;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1098039216);
 }
-.header.scrolled img {
-  filter: brightness(0);
-}
-.header.scrolled .header__logo__img {
+.header.home.scrolled .header__logo__img {
   scale: 0.8;
 }
-.header.scrolled a:not(.btn), .header.scrolled span, .header.scrolled .header__logo__title {
-  color: #000;
+.header.home.scrolled img {
+  filter: brightness(0);
 }
-.header.scrolled .header__user__profile {
-  border-color: #000;
+.header.home.scrolled a:not(.btn), .header.home.scrolled span, .header.home.scrolled .header__logo__title {
+  color: #121212;
+}
+.header.home.scrolled .header__user__profile {
+  border-color: #121212;
 }
 .header__wrapper {
   display: flex;
@@ -10787,11 +10798,12 @@ textarea.form-control-lg {
 }
 .header__logo__img {
   width: 5.75rem;
+  filter: brightness(0);
 }
 .header__logo__title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: white;
+  color: #000;
 }
 .header__menu__list {
   display: flex;
@@ -10807,12 +10819,12 @@ textarea.form-control-lg {
   margin-right: 0;
 }
 .header__menu__list__item__link {
-  color: #fff;
+  color: #000;
   font-size: 1.125rem;
   text-decoration: none;
 }
 .header__menu__list__item__link:hover {
-  color: #e6e6e6;
+  color: #1a1a1a;
 }
 .header__user {
   display: flex;
@@ -10828,13 +10840,13 @@ textarea.form-control-lg {
   align-items: center;
   background: none;
   border-radius: 50rem;
-  border: 2px solid #fff;
+  border: 2px solid #000;
   width: 2.8125rem;
   height: 2.8125rem;
 }
 .header__user__profile__icon {
   font-size: 1.75rem;
-  color: #fff;
+  color: #000;
 }
 
 .home-hero {
@@ -10906,7 +10918,6 @@ textarea.form-control-lg {
 
 body {
   font-family: "Nunito", sans-serif;
-  background: #121212;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -1,9 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Motorcycle
-{% endblock %}
+{% block title %}easyloc - {{ motorcycle.name }}{% endblock %}
 
 {% block body %}
+	<section>
+		<div class="container">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/">Accueil</a></li>
+					<li class="breadcrumb-item"><a href="/resultat-search">Recherche</a></li>
+					<li class="breadcrumb-item active" aria-current="page">{{ motorcycle.name }}</li>
+				</ol>
+			</nav>
+		</div>
+	</section>
+	<main>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-8">
+					<div class="d-flex justify-content-center align-items-center overflow-hidden" style="height: 300px;">
+						{%  if motorcycle.motorcycleImages|length > 0 %}
+							{% for image in motorcycle.motorcycleImages %}
+								<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid"/>
+							{% endfor %}
+						{% else %}
+							<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top img-fluid">
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
 	<h1>Motorcycle</h1>
 
 	<table class="table">

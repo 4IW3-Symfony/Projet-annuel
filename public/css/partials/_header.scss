@@ -1,28 +1,41 @@
 .header {
-  &.scrolled {
-    background: $white;
-    color: $black;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    box-shadow: 0 0 2px 0 #0000001c;
+  &.home {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-top: 2rem;
+
     img {
-      filter: brightness(0);
-    }
-    .header__logo__img {
-      scale: 0.8;
+      filter: brightness(1);
     }
     a:not(.btn), span, .header__logo__title {
-      color: $black;
+      color: $white;
     }
     .header__user__profile {
-      border-color: $black;
+      border-color: $white;
+    }
+
+    &.scrolled {
+      background: $white;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      box-shadow: 0 0 2px 0 #0000001c;
+      .header__logo__img {
+        scale: 0.8;
+      }
+      img {
+        filter: brightness(0);
+      }
+      a:not(.btn), span, .header__logo__title {
+        color: $dark;
+      }
+      .header__user__profile {
+        border-color: $dark;
+      }
     }
   }
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding-top: 2rem;
+  padding-top: 1rem;
   padding-bottom: 1rem;
   transition: all 150ms ease-in;
   z-index: 15;
@@ -35,11 +48,12 @@
     text-decoration: none;
     &__img{
       width: 5.75rem;
+      filter: brightness(0);
     }
     &__title{
       font-size: pxToRem(24);
       font-weight: 600;
-      color: white;
+      color: $black;
     }
   }
   &__menu{
@@ -55,11 +69,11 @@
           margin-right: 0;
         }
         &__link{
-          color: $white;
+          color: $black;
           font-size: pxToRem(18);
           text-decoration: none;
           &:hover{
-            color: darken($white, 10%);
+            color: lighten($black, 10%);
           }
         }
       }
@@ -78,12 +92,12 @@
       align-items: center;
       background: none;
       border-radius: 50rem;
-      border: 2px solid $white;
+      border: 2px solid $black;
       width: pxToRem(45);
       height: pxToRem(45);
       &__icon{
         font-size: 1.75rem;
-        color: $white;
+        color: $black;
       }
     }
   }
