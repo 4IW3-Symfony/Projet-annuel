@@ -1,9 +1,30 @@
 .header {
+  &.scrolled {
+    background: $white;
+    color: $black;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    box-shadow: 0 0 2px 0 #0000001c;
+    img {
+      filter: brightness(0);
+    }
+    .header__logo__img {
+      scale: 0.8;
+    }
+    a:not(.btn), span, .header__logo__title {
+      color: $black;
+    }
+    .header__user__profile {
+      border-color: $black;
+    }
+  }
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   padding-top: 2rem;
+  padding-bottom: 1rem;
+  transition: all 150ms ease-in;
   &__wrapper{
     display: flex;
     justify-content: space-between;

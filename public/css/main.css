@@ -10754,6 +10754,27 @@ textarea.form-control-lg {
   left: 0;
   right: 0;
   padding-top: 2rem;
+  padding-bottom: 1rem;
+  transition: all 150ms ease-in;
+}
+.header.scrolled {
+  background: #fff;
+  color: #000;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1098039216);
+}
+.header.scrolled img {
+  filter: brightness(0);
+}
+.header.scrolled .header__logo__img {
+  scale: 0.8;
+}
+.header.scrolled a:not(.btn), .header.scrolled span, .header.scrolled .header__logo__title {
+  color: #000;
+}
+.header.scrolled .header__user__profile {
+  border-color: #000;
 }
 .header__wrapper {
   display: flex;
