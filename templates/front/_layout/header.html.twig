@@ -1,0 +1,34 @@
+<header class="header {% if isHome is defined %}home{%endif%}" id="header">
+    <div class="container">
+        <div class="header__wrapper">
+            <a class="header__logo" href="/">
+                <img class="header__logo__img" src="/images/logo-white.png" alt="logo easyloc">
+                <span class="header__logo__title">easyloc</span>
+            </a>
+            <nav class="header__menu">
+                <ul class="header__menu__list">
+                    <li class="header__menu__list__item">
+                        <a href="/#" class="header__menu__list__item__link">Louer</a>
+                    </li>
+                    <li class="header__menu__list__item">
+                        <a href="/#" class="header__menu__list__item__link">Guide de location</a>
+                    </li>
+                    <li class="header__menu__list__item">
+                        <a href="/#" class="header__menu__list__item__link">Devenez loueur</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__user">
+                <a href="{{ path('app_login') }}" class="header__user__login btn btn-dark">
+                    Se connecter
+                </a>
+                <button class="header__user__profile">
+          <span class="header__user__profile__icon material-icons-outlined">
+            person
+          </span>
+                    <span class="header__user__profile__dropdown"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
