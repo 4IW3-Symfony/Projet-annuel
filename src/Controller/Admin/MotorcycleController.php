@@ -157,4 +157,22 @@ class MotorcycleController extends AbstractController
 
         ]);
     }
+
+    #[Route('/admin/validation_moto', name: 'validation_index', methods: ['POST','GET'], defaults: ['back' => "back"])]
+    public function validation_moto_index(MotorcycleRepository $motorcycleRepository): Response
+    {
+        return $this->render('admin/motorcycle/validation.html.twig', [
+            'motorcycles' => $motorcycleRepository->findBy(['status' => 0]),
+        ]);
+
+    }
+
+    #[Route('/admin/validation_moto/{id}', name: 'validation_moto', methods: ['POST','GET'], defaults: ['back' => "back"])]
+    public function validation_moto(Request $request, Motorcycle $moto, EntityManagerInterface $entityManager, $back): Response
+    {
+        $moto->setStatus(1);
+        $entityManager->flush();
+        return $this->redirectToRoute("validation_index", [], Response::HTTP_SEE_OTHER);
+
+    }
 }
