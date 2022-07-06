@@ -79,9 +79,13 @@
 	</div>
 
 	<div class="container">
-        <div id="map"></div>
 
-
+       
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+		{{ form_end(form) }}
+ <div id="map"></div>
 		<h1 class="text-center mb-3">MOTOS</h1>
 		<div class="row">
 
@@ -98,7 +102,7 @@
 							<p class="text-muted">{{motorcycle.model.brand.name}}
 								-{{motorcycle.model.name}}
 							</p>
-							<a href="{{ path('dashboard_motorcycle_show',{'id': motorcycle.id}) }}" class="btn btn-primary">
+							<a href="{{ path('motorcycle_show',{'id': motorcycle.id}) }}" class="btn btn-primary">
 								Show</a>
 						</div>
 					</div>
