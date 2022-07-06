@@ -9,12 +9,8 @@
 	<table class="table">
 		<tbody>
 			<tr>
-				<th>Id</th>
-				<td>{{ rental.id }}</td>
-			</tr>
-			<tr>
-				<th>Date</th>
-				<td>{{ rental.date ? rental.date|date('Y-m-d H:i:s') : '' }}</td>
+				<th>Date de création</th>
+				<td>{{ rental.createdAt ? rental.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 			</tr>
 			<tr>
 				<th>Date_start</th>
@@ -36,12 +32,21 @@
 				<th>Km_end</th>
 				<td>{{ rental.kmEnd }}</td>
 			</tr>
+			<tr>
+				<th>Montant</th>
+				<td>{{ rental.price }}€</td>
+			</tr>
+			<tr>
+				<th>Jour Location</th>
+				{% set difference = date(rental.dateEnd).diff(date(rental.dateStart)) %}
+				{% set leftDays = difference.days %}
+				<td> {{ leftDays }}Jour </td>
+
+			</tr>
 		</tbody>
 	</table>
 
 	<a href="{{ path('dashboard_rental_index') }}">back to list</a>
 
-	<a href="{{ path('dashboard_rental_edit', {'id': rental.id}) }}">edit</a>
 
-	{{ include('dashboard/rental/_delete_form.html.twig') }}
 {% endblock %}

@@ -133,6 +133,11 @@ class Motorcycle
      */
     private $Localisation;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $price;
+
 
     public function __construct()
     {
@@ -381,6 +386,18 @@ class Motorcycle
     public function setLocalisation(string $Localisation): self
     {
         $this->Localisation = $Localisation;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

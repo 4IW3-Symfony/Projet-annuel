@@ -13,6 +13,16 @@
 				</a>
 			</li>
 			<li class="nav-item">
+				<a class="nav-link {{ app.request.get('_route') == 'validation_index' ? 'active' }}" href="{{ path('validation_index') }}">
+					Validation New Moto
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link  href='#'">
+					Validation Permis User
+				</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link {{ app.request.get('_route') == 'admin_brand_index' ? 'active' }}" href="{{ path('admin_brand_index') }}">
 					Marques
 				</a>

@@ -28,7 +28,8 @@ class RentalFixtures extends Fixture implements DependentFixtureInterface
                 ->setKmStart($km)
                 ->setKmEnd($km + $faker->numberBetween(100, 1000))
                 ->setUser($faker->randomElement($users))
-                ->setMotorcycle($motorcycle);
+                ->setMotorcycle($motorcycle)
+                ->setPrice($faker->numberBetween($min = 50, $max = 500));
             $manager->persist($object);
         }
 
