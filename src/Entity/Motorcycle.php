@@ -118,6 +118,21 @@ class Motorcycle
      */
     private $rentals;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $Cp;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $City;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Localisation;
+
 
     public function __construct()
     {
@@ -332,5 +347,41 @@ class Motorcycle
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getCp(): ?int
+    {
+        return $this->Cp;
+    }
+
+    public function setCp(int $Cp): self
+    {
+        $this->Cp = $Cp;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->City;
+    }
+
+    public function setCity(string $City): self
+    {
+        $this->City = $City;
+
+        return $this;
+    }
+
+    public function getLocalisation(): ?string
+    {
+        return $this->Localisation;
+    }
+
+    public function setLocalisation(string $Localisation): self
+    {
+        $this->Localisation = $Localisation;
+
+        return $this;
     }
 }

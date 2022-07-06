@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}Demande de location
+{% endblock %}
+
+{% block body %}
+	
+	<h1>Demande de location </h1>
+	{% for message in app.flashes('Success') %}
+		<div class="flash-notice">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{{ include('dashboard/rental/_form.html.twig') }}
+
+	<a href="{{ path('default') }}">back to list</a>
+{% endblock %}

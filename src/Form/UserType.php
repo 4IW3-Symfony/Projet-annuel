@@ -8,10 +8,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+
+use Symfony\Component\Validator\Constraints\IsTrue;
+
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 
 class UserType extends AbstractType
 {
@@ -26,12 +32,14 @@ class UserType extends AbstractType
                     'multiple' => true,
                 ]
             )
+
             ->add('email');
         // ->add('isVerified')
 
         // If the usePassword options is set to true,
         if ($options["usePassword"]) {
             $builder->add('password', RepeatedType::class, array(
+
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -43,6 +51,7 @@ class UserType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => array(
@@ -56,6 +65,7 @@ class UserType extends AbstractType
             ));
         }
         $builder->add('firstname')
+
             ->add('lastname')
             ->add('dateOfBirth', DateType::class, [
                 'label' => 'Date of birth'
