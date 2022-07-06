@@ -18,10 +18,10 @@
 }
 
 .link-secondary {
-  color: #6c757d;
+  color: #adb5bd;
 }
 .link-secondary:hover, .link-secondary:focus {
-  color: #565e64;
+  color: #bdc4ca;
 }
 
 .link-success {
@@ -418,7 +418,7 @@
 }
 
 .border-secondary {
-  border-color: #6c757d !important;
+  border-color: #adb5bd !important;
 }
 
 .border-success {
@@ -1247,7 +1247,7 @@
 }
 
 .text-secondary {
-  color: #6c757d !important;
+  color: #adb5bd !important;
 }
 
 .text-success {
@@ -1303,7 +1303,7 @@
 }
 
 .bg-secondary {
-  background-color: #6c757d !important;
+  background-color: #adb5bd !important;
 }
 
 .bg-success {

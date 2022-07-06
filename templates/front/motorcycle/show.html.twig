@@ -18,71 +18,62 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-md-8">
-					<div class="d-flex justify-content-center align-items-center overflow-hidden" style="height: 300px;">
-						{%  if motorcycle.motorcycleImages|length > 0 %}
-							{% for image in motorcycle.motorcycleImages %}
-								<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid"/>
-							{% endfor %}
-						{% else %}
-							<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top img-fluid">
-						{% endif %}
+					<div class="motorcycle__carrousel mb-4">
+						<div class="d-flex justify-content-center align-items-center overflow-hidden bg-secondary" style="height: 300px;">
+							{%  if motorcycle.motorcycleImages|length > 0 %}
+								{% for image in motorcycle.motorcycleImages %}
+									<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid"/>
+								{% endfor %}
+							{% else %}
+								<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top img-fluid">
+							{% endif %}
+						</div>
+					</div>
+					<h1>{{ motorcycle.name }} - {{ motorcycle.status }}</h1>
+					<p>{{ motorcycle.description }}</p>
+					<h2>Détails de la moto</h2>
+					{% dump(motorcycle.model) %}
+					<table class="table">
+						<tbody>
+						<tr>
+							<th>Power</th>
+							<td>{{ motorcycle.power }}</td>
+						</tr>
+						<tr>
+							<th>Km</th>
+							<td>{{ motorcycle.km }}</td>
+						</tr>
+						<tr>
+							<th>Year</th>
+							<td>{{ motorcycle.year }}</td>
+						</tr>
+						<tr>
+							<th>Year</th>
+							<td>{{ motorcycle.city }}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-12 col-md-4">
+					<div class="card p-3">
+						<h3>Réservation</h3>
+						<form method="get" action="#">
+							<div class="form-group mb-2">
+								<label for="loc">Date de départ</label>
+								<input type="text" class="form-control" id="loc" placeholder="Paris..." name="ville">
+							</div>
+							<div class="form-group mb-2">
+								<label for="loc">Date de retour</label>
+								<input type="text" class="form-control" id="loc" placeholder="Paris..." name="ville">
+							</div>
+						</form>
+						<div class="my-2">Prix: <strong class="h3">200€</strong></div>
+						<a href="{{ path('demande_location',{'id': motorcycle.id}) }}" class="btn btn-dark">Réserver</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</main>
-	<h1>Motorcycle</h1>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Images</th>
-				<td>
-					{%  if motorcycle.motorcycleImages|length > 0 %}
-						{% for image in motorcycle.motorcycleImages %}
-							<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" style="max-width:100px"/>
-						{% endfor %}
-					{% else %}
-						<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top" style="max-width:100px">
-					{% endif %}
-				</td>
-			</tr>
-			<tr></tr>
-			<tr>
-				<th>Id</th>
-				<td>{{ motorcycle.id }}</td>
-			</tr>
-			<tr>
-				<th>Name</th>
-				<td>{{ motorcycle.name }}</td>
-			</tr>
-			<tr>
-				<th>Power</th>
-				<td>{{ motorcycle.power }}</td>
-			</tr>
-			<tr>
-				<th>Numberplate</th>
-				<td>{{ motorcycle.numberplate }}</td>
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td>{{ motorcycle.description }}</td>
-			</tr>
-			<tr>
-				<th>Km</th>
-				<td>{{ motorcycle.km }}</td>
-			</tr>
-			<tr>
-				<th>Year</th>
-				<td>{{ motorcycle.year }}</td>
-			</tr>
-			<tr>
-				<th>Status</th>
-				<td>{{ motorcycle.status }}</td>
-			</tr>
-		</tbody>
-	</table>
-
-    <a href="{{ path('demande_location',{'id': motorcycle.id}) }}" class="btn btn-primary">Demande une location</a>
 
 {% endblock %}
