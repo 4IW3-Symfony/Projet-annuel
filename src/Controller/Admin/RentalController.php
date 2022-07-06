@@ -7,6 +7,7 @@ use App\Form\RentalType;
 use App\Form\TriStatusType;
 use App\Form\Rental\RestitutionType;
 use App\Repository\RentalRepository;
+use App\Repository\MotorcycleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,15 +59,26 @@ class RentalController extends AbstractController
     }
 
     #[Route('dashboard/rental/', name: 'dashboard_rental_index', methods: ['GET'])]
-    public function dashboard_index(RentalRepository $rentalRepository): Response
+    public function dashboard_index(RentalRepository $rentalRepository, MotorcycleRepository $motorcycleRepository): Response
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
-        $rentals = $rentalRepository->findBy(["user" => $user->getId()]);
+        $mesmotos = $motorcycleRepository->findBy(["user" => $user->getId()]);
         return $this->render('dashboard/rental/index.html.twig', [
-            'rentals' => $rentals,
+            'mesmotos' => $mesmotos,
         ]);
     }
+
+    #[Route('dashboard/reservation/', name: 'dashboard_reservation', methods: ['GET'])]
+    public function dashboard_reservation(RentalRepository $rentalRepository): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        return $this->render('dashboard/rental/reservation.html.twig', [
+            'rentals' => $rentalRepository->findBy(["user" => $user->getId()]),
+        ]);
+    }
+
 
     #[Route('admin/rental/new', name: 'admin_rental_new', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/rental/new', name: 'dashboard_rental_new', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
