@@ -32,12 +32,43 @@
     }).addTo(map);
     {% set arraym = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] %}
  {% for motorcycle in motorcycles %}
+    //let postion = {{motorcycle.Localisation }}&{{motorcycle.cp}};
+    postion=  "{{motorcycle.Localisation }}";
+    cp = "{{motorcycle.cp}}";
+    postion = postion.replaceAll(',', '');
+    postion = postion.replace(/\s/g, '+')
+    //console.log(postion)
+    //url = 'https://api-adresse.data.gouv.fr/search/?q='+ postion+'&postcode='+cp+'&limit=1';
+    url = 'https://nominatim.openstreetmap.org/search/'+ postion+'+'+cp+'+france?format=json&addressdetails=1&limit=1&polygon_svg=1';
+    
+    console.log(url)
+    function my_async_fn(url) {
+    return fetch(url,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+          },})
+    .then(response => {
+        console.log(response); // Logs the response
+        return response;
+    });
+    }
+    data = my_async_fn(url); 
+    console.log(data)
+/*
+ reponse = fetch(url,{
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+    }})
+.then(function(response){return reponse.json()})
+.catch(error => console.log("Erreur : " + error));
+console.log(reponse)*/
+console.log(JSON.stringify(data))
 
-    {% for m in arraym %}
-        var postion = "https://api-adresse.data.gouv.fr/search/?q="{{locatisation}}&{{motorcycle.cp}}+"&limit=1";
-            //var marker{{m}} = L.marker([{{motorcycle.latitude}}, {{motorcycle.longitude}}]).addTo(map);
-            marker{{m}}.bindPopup("{{motorcycle.name}}");
-    {% endfor %}
+     marker = L.marker([reponse.lon, reponse.lat]).addTo(map);
+            marker.bindPopup("{{motorcycle.name}}");
+    
 {% endfor %}
     
 

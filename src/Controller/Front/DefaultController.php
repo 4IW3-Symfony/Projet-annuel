@@ -95,11 +95,7 @@ class DefaultController extends AbstractController
     {
         
         $motorcycles = $motorcyleRepository->findBy(["status" => Motorcycle::STATUS_AVAILABLE]);
-        
-        dump($motorcycles);
-        $localisation = str_replace(" ","+",$motorcycles["localisation"]);
         return $this->render('front/map.html.twig', [
-            'localisation' => $localisation,
             'motorcycles' => $motorcycles,
             'controller_name' => 'DefaultController',
         ]);
