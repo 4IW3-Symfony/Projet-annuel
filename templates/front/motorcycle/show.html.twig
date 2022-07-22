@@ -51,23 +51,28 @@
 							<th>Year</th>
 							<td>{{ motorcycle.city }}</td>
 						</tr>
+						<tr>
+							<th>Price / Day</th>
+							<td>{{ motorcycle.price }}€</td>
+						</tr>
 						</tbody>
 					</table>
 				</div>
 				<div class="col-12 col-md-4">
 					<div class="card p-3">
 						<h3>Réservation</h3>
-						<form method="get" action="#">
+						
 							<div class="form-group mb-2">
 								<label for="loc">Date de départ</label>
-								<input type="text" class="form-control" id="loc" placeholder="Paris..." name="ville">
+								<h5>  {{ date_start }}  </h5>
 							</div>
 							<div class="form-group mb-2">
 								<label for="loc">Date de retour</label>
-								<input type="text" class="form-control" id="loc" placeholder="Paris..." name="ville">
+								<h5>  {{ date_end }}  </h5>
 							</div>
-						</form>
-						<div class="my-2">Prix: <strong class="h3">200€</strong></div>
+						{% set difference = date(date_end).diff(date(date_start)) %}
+						{% set leftDays = difference.days %}
+						<div class="my-2">Prix: <strong class="h3">{{ leftDays * motorcycle.price }} / {{ leftDays }} Days</strong></div>
 						<a href="{{ path('demande_location',{'id': motorcycle.id}) }}" class="btn btn-dark">Réserver</a>
 					</div>
 				</div>

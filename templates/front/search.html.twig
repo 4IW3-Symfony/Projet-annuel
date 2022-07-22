@@ -30,7 +30,7 @@
 								<p class="text-muted">{{motorcycle.model.brand.name}}
 									-{{motorcycle.model.name}}
 								</p>
-								<a href="{{ path('motorcycle_show',{'id': motorcycle.id}) }}" class="btn btn-primary">
+								<a href="{{ path('motorcycle_show',{'id': motorcycle.id, 'date_end' : date_end , 'date_start':date_start}) }}" class="btn btn-primary">
 									Show</a>
 							</div>
 						</article>
@@ -55,7 +55,7 @@
 							<p class="text-muted">{{autresmoto.model.brand.name}}
 								-{{autresmoto.model.name}}
 							</p>
-							<a href="{{ path('motorcycle_show',{'id': autresmoto.id}) }}" class="btn btn-primary">
+							<a href="{{ path('motorcycle_show',{'id': autresmoto.id, 'date_end' : date_end , 'date_start':date_start}) }}" class="btn btn-primary">
 								Show</a>
 						</div>
 					</div>

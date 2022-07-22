@@ -88,6 +88,8 @@ class DefaultController extends AbstractController
             'motorcycles' => $search,
             'autresmotos' => $autre,
             'form' => $form->createView(),
+            'date_start' => $date_start,
+            'date_end' => $date_end,
         ]);
 
     }

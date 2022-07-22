@@ -85,6 +85,8 @@ class MotorcycleController extends AbstractController
     {
         return $this->render("{$back}/motorcycle/show.html.twig", [
             'motorcycle' => $motorcycle,
+            'date_end' => $_GET["date_end"],
+            'date_start' => $_GET["date_start"],
         ]);
     }
 
