@@ -15,6 +15,11 @@
 		</div>
 	</section>
 	<main>
+		{% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-md-8">
@@ -32,7 +37,6 @@
 					<h1>{{ motorcycle.name }} - {{ motorcycle.status }}</h1>
 					<p>{{ motorcycle.description }}</p>
 					<h2>Détails de la moto</h2>
-					{% dump(motorcycle.model) %}
 					<table class="table">
 						<tbody>
 						<tr>
@@ -62,7 +66,9 @@
 		
 					<div class="col-12 col-md-4">
 						<div class="card p-3">
+							<h3>Réservation</h3>
 							{{ form_start(form) }}
+	
 								<div class="form-group mb-2">
 									{{ form_row(form.date_start) }}
 								</div>
@@ -71,7 +77,7 @@
 									{{ form_row(form.date_end) }}
 								</div>
 
-								<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+								<button class="btn btn-primary">{{ button_label|default('Réserver') }}</button>
 							{{ form_end(form) }}
 						</div>
 					</div>
@@ -91,8 +97,8 @@
 							</div>
 						{% set difference = date(date_end).diff(date(date_start)) %}
 						{% set leftDays = difference.days %}
-						<div class="my-2">Prix: <strong class="h3">{{ leftDays * motorcycle.price }} / {{ leftDays }} Days</strong></div>
-						<a href="{{ path('demande_location',{'id': motorcycle.id}) }}" class="btn btn-dark">Réserver</a>
+						<div class="my-2">Prix: <strong class="h3">{{ leftDays * motorcycle.price }}€ / {{ leftDays }} Days</strong></div>
+						<a href="{{ path('demande_location',{'id': motorcycle.id ,'date_end': date_end , 'date_start': date_start}) }}" class="btn btn-dark">Réserver</a>
 					</div>
 				</div>
 				{% endif %}

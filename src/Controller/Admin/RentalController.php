@@ -200,5 +200,12 @@ class RentalController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('demande-location-success', name: 'rental_success', methods: ['GET'])]
+    public function rental_success()
+    {
+        return $this->renderForm("front/rental/demande-success.html.twig");
+    }
+
     
 }

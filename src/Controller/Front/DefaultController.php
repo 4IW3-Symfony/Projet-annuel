@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use DateTime;
 use App\Entity\Motorcycle;
 use App\Repository\MotorcycleRepository;
 use App\Form\Motorcycle\MotorcycleSearchType;
@@ -58,12 +59,16 @@ class DefaultController extends AbstractController
         foreach ($motorcycles as $motorcycle) {
             foreach($motorcycle->getRentals() as $rental)
             {
-                if(($rental->getDateStart() < $date_end && $rental->getDateStart()> $date_start())  || ($rental->getDateEnd() < $date_end && $rental->getDateEnd()> $date_start() ))
+                if(($rental->getDateStart() <= new DateTime($date_end) && $rental->getDateStart() >= new DateTime($date_start) ) || ($rental->getDateEnd() <= new DateTime($date_end) && $rental->getDateEnd() >= new DateTime($date_start) ))
                 {
                     $supp = 1 ;
                 }
 
 
+            }
+            if ($motorcycle->getStatus() == 3)
+            {
+                $supp = 1 ;
             }
             if ($supp == 0) {
                 if(strtolower($motorcycle->getCity()) == strtolower($ville))

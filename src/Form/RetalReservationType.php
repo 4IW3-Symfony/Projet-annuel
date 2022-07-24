@@ -18,12 +18,16 @@ class RetalReservationType extends AbstractType
         $builder
             ->add('date_start',DateType::class,[
                 'widget' => 'single_text',
+                'label' => 'Début',
+               
                 'attr' => [
                     'min' => (new DateTime('now'))->format('Y-m-d'),
                 ],
             ])
             ->add('date_end', DateType::class,[
                 'widget' => 'single_text',
+                'label' => 'Fin',
+                
                 'attr' => [
                     'min' => (new DateTime('now'))->format('Y-m-d'),
                 ],

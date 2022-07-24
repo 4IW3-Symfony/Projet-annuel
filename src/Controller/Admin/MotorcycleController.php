@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use DateTime;
 use App\Entity\Rental;
 use App\Entity\Motorcycle;
 use App\Form\MotorcycleType;
 use App\Form\RetalReservationType;
+use App\Form\ReservationMotorcycleType;
 use App\Security\Voter\MotorcycleVoter;
 use App\Repository\MotorcycleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -93,18 +95,11 @@ class MotorcycleController extends AbstractController
             $date_start = null;
             
         }
-        $rental = new Rental();
-        $form = $this->createForm(RetalReservationType::class, $rental);
+        $form = $this->createForm(ReservationMotorcycleType::class, null);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
-            $rental->setUser(UserInterface::class);
-            $rental->setMotorcycle($motorcycle);
-            $rental->setStatus(1);
-            $rental->setKmStart($motorcycle->getKm());
-            $entityManager->persist($rental);
-            $entityManager->flush();
-            
-            $this->addFlash('Success','La demande de location à été crée , vous recevra un mail de confirmation .');
+
+            return $this->redirectToRoute('motorcycle_show',['id' => $motorcycle->getId(),'date_end' => $form->get('date_end')->getData()->format('Y-m-d'), 'date_start' => $form->get('date_start')->getData()->format('Y-m-d') ]);
         }
         
         return $this->render("{$back}/motorcycle/show.html.twig", [
@@ -165,24 +160,56 @@ class MotorcycleController extends AbstractController
     {
         
             $rental = new Rental();
-            $form = $this->createForm(RetalReservationType::class, $rental);
-            $form->handleRequest($request);
-            
-            if ($form->isSubmitted() && $form->isValid()){
-                $rental->setUser(UserInterface::class);
-                $rental->setMotorcycle($motorcycle);
+            $date_start = $_GET['date_start'];
+            $date_end = $_GET['date_end'];
+            /** @var \App\Entity\User $user */
+            if( $this->getUser() == null){
+                return $this->redirectToRoute("app_login");
+            }
+
+            foreach($motorcycle->getRentals() as $rental)
+            {   
+                
+                if($motorcycle->getStatus() == 1)
+                {
+    
+                    if(($rental->getDateStart() <= new DateTime($date_end) && $rental->getDateStart() >= new DateTime($date_start) ) || ($rental->getDateEnd() <= new DateTime($date_end) && $rental->getDateEnd() >= new DateTime($date_start) ))
+                    {
+                        $this->addFlash('error', 'Votre demande de location a été refusé, veuillez contacter le support Easyloc pour plus d information');
+
+                        return $this->redirectToRoute("motorcycle_show", ['id' => $motorcycle->getId()], Response::HTTP_SEE_OTHER);
+
+                    }
+                }
+                else
+                {
+                    $this->addFlash('error', 'Votre demande de location a été refusé, veuillez contacter le support Easyloc pour plus d information');
+
+                    return $this->redirectToRoute("motorcycle_show", ['id' => $motorcycle->getId()], Response::HTTP_SEE_OTHER);
+
+                }
+
+
+            }
+                $rental->setDateStart(new DateTime($date_start));
+                $rental->setDateEnd(new DateTime($date_end));
+
+                /** @var \App\Entity\User $user */
+                $rental->setUser($this->getUser());
+                $diff = (array) date_diff(new DateTime($date_start),new DateTime($date_end));
+                $date = $diff['days'];
+                $rental->setPrice(($date * $motorcycle->getPrice()));
                 $rental->setStatus(1);
+                $rental->setMotorcycle($motorcycle);
                 $rental->setKmStart($motorcycle->getKm());
                 $entityManager->persist($rental);
                 $entityManager->flush();
-                
-                $this->addFlash('Success','La demande de location à été crée , vous recevra un mail de confirmation .');
-            }
+                $this->addFlash('Success','La demande de location a été crée , vous recevra un mail de confirmation .');
+                return $this->redirectToRoute("rental_success");
+               
         
-        return $this->render("{$back}/motorcycle/demande_location.twig", [
-            'form' => $form->createView(),
-
-        ]);
+    
+        
     }
 
     #[Route('/admin/validation_moto', name: 'validation_index', methods: ['POST','GET'], defaults: ['back' => "back"])]
@@ -202,4 +229,26 @@ class MotorcycleController extends AbstractController
         return $this->redirectToRoute("validation_index", [], Response::HTTP_SEE_OTHER);
 
     }
+
+    // public function validation_date(Motorcycle $motorcycle,$date_start,$date_end): Booleen
+    // {
+    //     foreach($motorcycle->getRentals() as $rental)
+    //         {
+    //             if($motorcycle->getStatus() == 1)
+    //             {
+    //                 if(($rental->getDateStart() < $date_end && $rental->getDateStart()> $date_start())  || ($rental->getDateEnd() < $date_end && $rental->getDateEnd()> $date_start() ))
+    //                 {
+    //                     return false;
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 return false;
+    //             }
+
+
+    //         }
+    //     return true; 
+
+    // }
 }
