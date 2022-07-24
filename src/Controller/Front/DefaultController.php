@@ -40,10 +40,22 @@ class DefaultController extends AbstractController
         $ville = $_GET['ville'];
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
+        $min_price = $motorcyleRepository->findPriceMin();
+        $max_price = $motorcyleRepository->findPriceMax();
+        $min_year = $motorcyleRepository->findYearMin();
+        $max_year = $motorcyleRepository->findYearMax();
+        $min_power =$motorcyleRepository->findPowerMin();
+        $max_power = $motorcyleRepository->findPowerMax();
         $form = $this->createForm(MotorcycleSearchType::class,null,[
             'ville' => $ville,
             'date_start' => date( "Y-m-d", strtotime( $date_start) ),
             'date_end' => date( "Y-m-d", strtotime( $date_end) ),
+            'prix_minimun' => $min_price[0][1],
+            'prix_maximun' => $max_price[0][1],
+            'year_minimun' => $min_year[0][1],
+            'year_maximun' => $max_year[0][1],
+            'power_minimun' => $min_power[0][1],
+            'power_maximun' => $max_power[0][1],
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){

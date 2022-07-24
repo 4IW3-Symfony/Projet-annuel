@@ -47,4 +47,64 @@ class MotorcycleRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findPriceMin()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+        Select min(m.price) 
+        FROM App\Entity\Motorcycle m
+        Where m.status = 1');
+        return $query->getResult();
+    }
+
+    public function findPriceMax()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+        Select max(m.price) 
+        FROM App\Entity\Motorcycle m
+        Where m.status = 1');
+        return $query->getResult();
+    }
+
+    public function findYearMin()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+        Select min(m.year) 
+        FROM App\Entity\Motorcycle m
+        Where m.status = 1');
+        return $query->getResult();
+    }
+
+    public function findYearMax()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+        Select max(m.year) 
+        FROM App\Entity\Motorcycle m
+        Where m.status = 1');
+        return $query->getResult();
+    }
+
+    public function findPowerMin()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+        Select min(m.power) 
+        FROM App\Entity\Motorcycle m
+        Where m.status = 1');
+        return $query->getResult();
+    }
+
+    public function findPowerMax()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('
+        Select max(m.power) 
+        FROM App\Entity\Motorcycle m
+        Where m.status = 1');
+        return $query->getResult();
+    }
 }
