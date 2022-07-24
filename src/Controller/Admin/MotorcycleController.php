@@ -78,15 +78,40 @@ class MotorcycleController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Route('motorcycle/{id}', name: 'motorcycle_show', methods: ['GET'], defaults: ['back' => "front"])]
-    #[Route('admin/motorcycle/{id}', name: 'admin_motorcycle_show', methods: ['GET'], defaults: ['back' => "admin"])]
-    #[Route('dashboard/motorcycle/{id}', name: 'dashboard_motorcycle_show', methods: ['GET'], defaults: ['back' => "dashboard"])]
-    public function show(Motorcycle $motorcycle, $back): Response
+    #[Route('motorcycle/{id}', name: 'motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "front"])]
+    #[Route('admin/motorcycle/{id}', name: 'admin_motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "admin"])]
+    #[Route('dashboard/motorcycle/{id}', name: 'dashboard_motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "dashboard"])]
+    public function show(Motorcycle $motorcycle, $back, Request $request): Response
     {
+        if( isset($_GET['date_end']) && isset($_GET['date_start']) )
+        {
+            $date_end = $_GET["date_end"];
+            $date_start = $_GET["date_start"];
+        }
+        else{
+            $date_end = null ;
+            $date_start = null;
+            
+        }
+        $rental = new Rental();
+        $form = $this->createForm(RetalReservationType::class, $rental);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $rental->setUser(UserInterface::class);
+            $rental->setMotorcycle($motorcycle);
+            $rental->setStatus(1);
+            $rental->setKmStart($motorcycle->getKm());
+            $entityManager->persist($rental);
+            $entityManager->flush();
+            
+            $this->addFlash('Success','La demande de location à été crée , vous recevra un mail de confirmation .');
+        }
+        
         return $this->render("{$back}/motorcycle/show.html.twig", [
             'motorcycle' => $motorcycle,
-            'date_end' => $_GET["date_end"],
-            'date_start' => $_GET["date_start"],
+            'date_end' => $date_end,
+            'date_start' => $date_start,
+            'form' => $form->createView(),
         ]);
     }
 

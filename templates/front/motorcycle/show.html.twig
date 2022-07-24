@@ -58,6 +58,25 @@
 						</tbody>
 					</table>
 				</div>
+				{% if (date_end == null) and (date_start == null) %}
+		
+					<div class="col-12 col-md-4">
+						<div class="card p-3">
+							{{ form_start(form) }}
+								<div class="form-group mb-2">
+									{{ form_row(form.date_start) }}
+								</div>
+
+								<div class="form-group mb-2">
+									{{ form_row(form.date_end) }}
+								</div>
+
+								<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+							{{ form_end(form) }}
+						</div>
+					</div>
+			
+				{% else %}
 				<div class="col-12 col-md-4">
 					<div class="card p-3">
 						<h3>Réservation</h3>
@@ -76,6 +95,8 @@
 						<a href="{{ path('demande_location',{'id': motorcycle.id}) }}" class="btn btn-dark">Réserver</a>
 					</div>
 				</div>
+				{% endif %}
+
 			</div>
 		</div>
 	</main>
