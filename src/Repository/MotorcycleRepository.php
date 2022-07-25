@@ -107,4 +107,53 @@ class MotorcycleRepository extends ServiceEntityRepository
         Where m.status = 1');
         return $query->getResult();
     }
+
+    public function searchMotorcycle($condition)
+    {
+        $qb = $this->createQueryBuilder('m')->join('m.model','md')->join('md.brand','d')->join('m.licenceType','lt')->where('m.status != 3');
+        foreach( $condition as $key => $value)
+        {
+            switch($key){
+                case "marque":
+                    $qb->andWhere('d.name = :marque');
+                    $qb->setParameter('marque',$value);
+                    break;
+                case "prix_min":
+                    $qb->andWhere('m.price >= :prix_min');
+                    $qb->setParameter('prix_min', $value);
+                    break;
+                case "prix_max":
+                    $qb->andWhere('m.price <= :prix_max');
+                    $qb->setParameter('prix_max', $value);
+                    break;
+                case "year_min":
+                    $qb->andWhere('m.year >= :year_min');
+                    $qb->setParameter('year_min', $value);
+                    break;
+                case "year_max":
+                    $qb->andWhere('m.year <= :year_max');
+                    $qb->setParameter('year_max', $value);
+                    break;
+                case "power_min":
+                    $qb->andWhere('m.power >= :power_min');
+                    $qb->setParameter('power_min', $value);
+                    break;
+                case "power_max":
+                    $qb->andWhere('m.power <= :power_max');
+                    $qb->setParameter('power_max', $value);
+                    break;
+                case "A2":
+                    $qb->andWhere('lt.type = :A2');
+                    $qb->setParameter('A2','A2');
+                    break;
+                case "A":
+                    $qb->andWhere('lt.type = :A');
+                    $qb->setParameter('A','A');
+                    break;
+                
+            }
+        }
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
 }

@@ -41,14 +41,6 @@ class DefaultController extends AbstractController
         $ville = null;
         $date_start = null;
         $date_end = null;
-        $min_prix = null;
-        $max_prix =null;
-        $min_year = null;
-        $max_year = null;
-        $min_power = null;
-        $max_power = null;
-        $permis = null;
-        $marque = null;
         if($_GET !=null){
             $ville = $_GET['motorcycle_search']['ville'];
             $date_start = $_GET['motorcycle_search']['Start'];
@@ -65,14 +57,13 @@ class DefaultController extends AbstractController
             'ville' => $ville,
             'date_start' => date( "Y-m-d", strtotime( $date_start) ),
             'date_end' => date( "Y-m-d", strtotime( $date_end) ),
-            'permis' => $permis,
-            'marque' => $marque,
-            'prix_min' => $min_prix,
-            'prix_max' => $max_prix,
-            'year_min' => $min_year,
-            'year_max' => $max_year,
-            'power_min' => $min_power,
-            'power_max' => $max_power,
+            'marque' => isset($_GET['motorcycle_search']['marque']) ?:null,
+            'prix_min' => isset($_GET['motorcycle_search']['prix_min']) ?:null,
+            'prix_max' => isset($_GET['motorcycle_search']['prix_max']) ?:null,
+            'year_min' => isset($_GET['motorcycle_search']['year_min']) ?:null,
+            'year_max' => isset($_GET['motorcycle_search']['year_max']) ?:null,
+            'power_min' => isset($_GET['motorcycle_search']['power_min']) ?:null,
+            'power_max' => isset($_GET['motorcycle_search']['power_max']) ?:null,
             'prix_minimun' => $min_price[0][1],
             'prix_maximun' => $max_price[0][1],
             'year_minimun' => $min_year[0][1],
@@ -82,12 +73,28 @@ class DefaultController extends AbstractController
 
         ]);
         $form->handleRequest($request);
-        
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            foreach($_GET['motorcycle_search'] as $key => $value)
+            {
+                if($value == null )
+                {
+                    unset($_GET['motorcycle_search'][$key]);
+                }
+            }
+            $motorcycles = $motorcyleRepository->searchMotorcycle($_GET['motorcycle_search']);
+            dump($motorcycles);
+            
+        }
+
         $search = array();
         $autre = array();
         $supp = 0 ;
-        $motorcycles = $motorcyleRepository->findAll();
-        if (!is_null($ville ) && !is_null($date_end) && !is_null($date_start))
+        if(!isset($motorcycles)){
+            $motorcycles = $motorcyleRepository->findAll();
+        }
+
+        if (!empty($ville) && !empty($date_end) && !empty($date_start))
         {
             foreach ($motorcycles as $motorcycle) {
                 foreach($motorcycle->getRentals() as $rental)
@@ -122,6 +129,7 @@ class DefaultController extends AbstractController
         }
         else{
             $search = $motorcycles;
+            dump($search);
         }
         
 

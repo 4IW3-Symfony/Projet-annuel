@@ -2,6 +2,7 @@
 
 namespace App\Form\Motorcycle;
 
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -21,15 +23,18 @@ class MotorcycleSearchType extends AbstractType
             ->setMethod('GET')
             ->add('ville',null,[
                 'attr' => ['value' => $options['ville']],
+                'required' => false,
             ])
 
             ->add('Start', DateType::class, [
                 'widget' => 'single_text',
-                'attr' => ['value' => $options['date_start']],
+                'attr' => ['min' => date("Y-m-d")],
+                'required' => false,
             ])
             ->add('End', DateType::class, [
                 'widget' => 'single_text',
-                'attr' => ['value' => $options['date_end']],
+                'attr' => ['min' => date("Y-m-d")],
+                'required' => false,
                 'constraints' => [
                 
                     new Constraints\Callback(function($object, ExecutionContextInterface $context) {
@@ -47,12 +52,13 @@ class MotorcycleSearchType extends AbstractType
                 ],
             
             ])
-            ->add('permis', ChoiceType::Class,[
-                'choices' => [
-                    'All' => 'All',
-                    'A' => 'A',
-                    'A2' => 'A2',
-                ]
+            ->add('A2', CheckboxType::Class,[
+                'value' => true,
+                'required' => false,
+            ])
+            ->add('A', CheckboxType::Class,[
+                'value' => true,
+                'required' => false,
             ])
             ->add('marque', ChoiceType::Class,[
                 'choices' =>[
@@ -89,12 +95,14 @@ class MotorcycleSearchType extends AbstractType
                     'Victory Motorcycle' =>'Victory Motorcycle',
                     'Yamaha' =>'Yamaha',
                     
-                ]
+                ],
+                'required' => false,
             ])
             ->add('prix_min',IntegerType::class,[
                 'label' => 'Prix min',
                 'attr' =>['min' => $options['prix_minimun'],
                             'max' => $options['prix_maximun']],
+                'required' => false,
 
             ])
             ->add('prix_max',IntegerType::class,[
@@ -106,20 +114,24 @@ class MotorcycleSearchType extends AbstractType
                 new Constraints\Callback(function($object, ExecutionContextInterface $context) {
                     $min = $context->getRoot()->getData()['prix_min'];
                     $max = $object;
-
-                    if ($min > $max) {
+                    if($max != null){
+                        if ($min > $max) {
                         $context
                             ->buildViolation('Prix doit être inférieur à max')
                             ->addViolation();
+                        }
                     }
+                    
                 }),
             ],
+            'required' => false,
 
             ])
             ->add('year_min',IntegerType::class,[
                 'label' => 'Année min',
                 'attr' =>['min' => $options['year_minimun'],
                         'max' => $options['year_maximun'],],
+                'required' => false,
                 
 
             ])
@@ -132,19 +144,23 @@ class MotorcycleSearchType extends AbstractType
                     new Constraints\Callback(function($object, ExecutionContextInterface $context) {
                         $min = $context->getRoot()->getData()['year_min'];
                         $max = $object;
-    
-                        if ($min > $max) {
+                        if($max != null){
+                            if ($min > $max) {
                             $context
                                 ->buildViolation('Année doit être inférieur à max')
                                 ->addViolation();
+                            }
                         }
+                        
                     }),
                 ],
+                'required' => false,
             ])
             ->add('power_min',IntegerType::class,[
                 'label' => 'Puissance min',
                 'attr' =>['min' => $options['power_minimun'],
                         'max' => $options['power_maximun'],],
+                'required' => false,
 
             ])
             ->add('power_max',IntegerType::class,[
@@ -156,14 +172,17 @@ class MotorcycleSearchType extends AbstractType
                     new Constraints\Callback(function($object, ExecutionContextInterface $context) {
                         $min = $context->getRoot()->getData()['power_min'];
                         $max = $object;
-    
-                        if ($min > $max) {
+                        if($max != null){
+                            if ($min > $max) {
                             $context
                                 ->buildViolation('Puissance doit être inférieur à max')
                                 ->addViolation();
                         }
+                        }
+                        
                     }),
                 ],
+                'required' => false,
 
             ])
         ;
@@ -183,7 +202,6 @@ class MotorcycleSearchType extends AbstractType
             'year_maximun' => null,
             'power_minimun' => null,
             'power_maximun' => null,
-            'permis' => null,
             'marque' => null,
             'prix_min' => null,
             'prix_max' => null ,
