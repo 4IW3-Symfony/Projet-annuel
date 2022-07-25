@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
@@ -17,6 +18,7 @@ class MotorcycleSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->setMethod('GET')
             ->add('ville',null,[
                 'attr' => ['value' => $options['ville']],
             ])
@@ -45,7 +47,50 @@ class MotorcycleSearchType extends AbstractType
                 ],
             
             ])
-            ->add('marque')
+            ->add('permis', ChoiceType::Class,[
+                'choices' => [
+                    'All' => 'All',
+                    'A' => 'A',
+                    'A2' => 'A2',
+                ]
+            ])
+            ->add('marque', ChoiceType::Class,[
+                'choices' =>[
+                    ''=> '',
+                    'Aprilia' => 'Aprilia',
+                    'Beta' => 'Beta',
+                    'BMW' =>'BMW',
+                    'Cagiva' =>'Cagiva',
+                    'Can-Am' =>'Can-Am',
+                    'Dervi' =>'Dervi',
+                    'Ducati' =>'Ducati',
+                    'Fantic' =>'Fantic',
+                    'Gas Gas' =>'Gas Gas',
+                    'Gilera' =>'Gilera',
+                    'Harley-Davidson' =>'Harley-Davidson',
+                    'Honda' =>'Honda',
+                    'Husaberg' => 'Husaberg',
+                    'Husqvarna' =>'Husqvarna',
+                    'Indian' =>'Indian',
+                    'Italjet' =>'Italjet',
+                    'Kawasaki' =>'Kawasaki',
+                    'KTM' => 'KTM',
+                    'Kymco' =>'Kymco',
+                    'MBK' =>'MBK',
+                    'Moto Guzzi' => 'Moto Guzzi' ,
+                    'Peugeot' =>'Peugeot' ,
+                    'Piaggio' => 'Piaggio',
+                    'Sherco' => 'Sherco',
+                    'Star Motorcycles' => 'Star Motorcycles',
+                    'Suzuki' =>   'Suzuki',
+                    'Sym' =>  'Sym' ,
+                    'Triumph' =>'Triumph',
+                    'Vespa' =>'Vespa' ,
+                    'Victory Motorcycle' =>'Victory Motorcycle',
+                    'Yamaha' =>'Yamaha',
+                    
+                ]
+            ])
             ->add('prix_min',IntegerType::class,[
                 'label' => 'Prix min',
                 'attr' =>['min' => $options['prix_minimun'],
@@ -64,7 +109,7 @@ class MotorcycleSearchType extends AbstractType
 
                     if ($min > $max) {
                         $context
-                            ->buildViolation('Min doit être inférieur à max')
+                            ->buildViolation('Prix doit être inférieur à max')
                             ->addViolation();
                     }
                 }),
@@ -75,13 +120,26 @@ class MotorcycleSearchType extends AbstractType
                 'label' => 'Année min',
                 'attr' =>['min' => $options['year_minimun'],
                         'max' => $options['year_maximun'],],
+                
 
             ])
             ->add('year_max',IntegerType::class,[
                 'label' => 'Année max',
                 'attr' =>['min' => $options['year_minimun'],
                         'max' => $options['year_maximun'],],
+                'constraints' => [
 
+                    new Constraints\Callback(function($object, ExecutionContextInterface $context) {
+                        $min = $context->getRoot()->getData()['year_min'];
+                        $max = $object;
+    
+                        if ($min > $max) {
+                            $context
+                                ->buildViolation('Année doit être inférieur à max')
+                                ->addViolation();
+                        }
+                    }),
+                ],
             ])
             ->add('power_min',IntegerType::class,[
                 'label' => 'Puissance min',
@@ -93,6 +151,19 @@ class MotorcycleSearchType extends AbstractType
                 'label' => 'Puissance max',
                 'attr' =>['min' => $options['power_minimun'],
                         'max' => $options['power_maximun'],],
+                'constraints' => [
+
+                    new Constraints\Callback(function($object, ExecutionContextInterface $context) {
+                        $min = $context->getRoot()->getData()['power_min'];
+                        $max = $object;
+    
+                        if ($min > $max) {
+                            $context
+                                ->buildViolation('Puissance doit être inférieur à max')
+                                ->addViolation();
+                        }
+                    }),
+                ],
 
             ])
         ;
