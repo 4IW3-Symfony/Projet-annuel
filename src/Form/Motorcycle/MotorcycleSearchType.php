@@ -183,6 +183,14 @@ class MotorcycleSearchType extends AbstractType
             'year_maximun' => null,
             'power_minimun' => null,
             'power_maximun' => null,
+            'permis' => null,
+            'marque' => null,
+            'prix_min' => null,
+            'prix_max' => null ,
+            'year_min' => null,
+            'year_max' => null ,
+            'power_min' => null, 
+            'power_max'=> null,
         ]);
     }
 }

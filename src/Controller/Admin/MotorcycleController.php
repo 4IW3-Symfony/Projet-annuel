@@ -167,13 +167,20 @@ class MotorcycleController extends AbstractController
                 return $this->redirectToRoute("app_login");
             }
 
-            foreach($motorcycle->getRentals() as $rental)
+            if(new DateTime($date_end) <= new DateTime($date_start)){
+                $this->addFlash('error', 'Votre demande de location a été refusé, veuillez contacter le support Easyloc pour plus d information');
+
+                return $this->redirectToRoute("motorcycle_show", ['id' => $motorcycle->getId()], Response::HTTP_SEE_OTHER);
+
+            }
+
+            foreach($motorcycle->getRentals() as $location)
             {   
                 
                 if($motorcycle->getStatus() == 1)
                 {
     
-                    if(($rental->getDateStart() <= new DateTime($date_end) && $rental->getDateStart() >= new DateTime($date_start) ) || ($rental->getDateEnd() <= new DateTime($date_end) && $rental->getDateEnd() >= new DateTime($date_start) ))
+                    if(($location->getDateStart() <= new DateTime($date_end) && $location->getDateStart() >= new DateTime($date_start) ) || ($location->getDateEnd() <= new DateTime($date_end) && $location->getDateEnd() >= new DateTime($date_start) ))
                     {
                         $this->addFlash('error', 'Votre demande de location a été refusé, veuillez contacter le support Easyloc pour plus d information');
 
@@ -191,6 +198,7 @@ class MotorcycleController extends AbstractController
 
 
             }
+
                 $rental->setDateStart(new DateTime($date_start));
                 $rental->setDateEnd(new DateTime($date_end));
 

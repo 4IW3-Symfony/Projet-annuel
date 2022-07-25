@@ -11,14 +11,14 @@
 					<form method="get" action="/resultat-search">
 						<div class="form-group mb-2">
 							<label for="loc" class="text-white">Où ?</label>
-							<input type="text" class="form-control" id="loc" placeholder="Paris..." name="ville">
+							<input type="text" class="form-control" id="loc" placeholder="Paris..." name="motorcycle_search[ville]">
 						</div>
 						<div class="form-group mb-2">
 							<label for="date1" class="text-white">Quand ?</label>
 							<div class="d-flex align-items-center">
-								<input type="date" class="form-control" id="date1" placeholder="14/05/2022" name="date_start" min={{ "now"|date("Y-m-d") }}>
+								<input type="date" class="form-control" id="date1" placeholder="14/05/2022" name="motorcycle_search[Start]" min={{ "now"|date("Y-m-d") }}>
 								<span>arrow</span>
-								<input type="date" class="form-control" id="date2" placeholder="19/05/2022" name="date_end" min={{ "now"|date("Y-m-d") }}>
+								<input type="date" class="form-control" id="date2" placeholder="19/05/2022" name="motorcycle_search[End]" min={{ "now"|date("Y-m-d") }}>
 							</div>
 						</div>
 						<button type="submit" class="btn btn-dark">Rechercher</button>
