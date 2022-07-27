@@ -20,11 +20,30 @@
 					{% endif%}
 					{%for motorcycle in motorcycles %}
 						<article class="card text-center" style="width: 18rem;">
-							{% if motorcycle.motorcycleImages %}
-								<img src="https://via.placeholder.com/640x480/000000/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
+							{# {% if motorcycle.motorcycleImages %}
+								{% dump(motorcycle.motorcycleImages) %}
+								{% for image in motorcycle.motorcycleImages %}
+	
+									<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid"/>
+
+								{% endfor %}
 							{% else %}
-								<img src="{{motorcycle.motorcycleImages.first.image}}" class="card-img-top">
+								<img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
+							{% endif %} #}
+							{%  if motorcycle.motorcycleImages|length > 0 %}
+								{% set cp = 0 %}
+								{% for image in motorcycle.motorcycleImages %}
+									{% if cp == 0 %}
+										<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid" width="640px" height="480px"/>
+										{% set cp = 1 %}
+									{% endif %}
+	
+								
+								{% endfor %}
+							{% else %}
+								<img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
 							{% endif %}
+							
 							<div class="card-body">
 								<h5 class="card-title">{{motorcycle.name}}</h5>
 								<p class="text-muted">{{motorcycle.model.brand.name}}
@@ -34,7 +53,7 @@
 									Show</a>
 							</div>
 						</article>
-					{%endfor %}
+					{% endfor %}
 				</div>
 			</div>
 		</div>

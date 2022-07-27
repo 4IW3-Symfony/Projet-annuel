@@ -22,10 +22,9 @@ class DefaultController extends AbstractController
             
 
             $date = $form->get('Start')->getData();
-            var_dump($date->format('Y-m-d'));
             return $this->redirectToRoute('resultat_search', ['ville'=> $form->get('ville')->getData(),'date_start'=> $form->get('Start')->getData()->format('Y-m-d'),'date_end'=> $form->get('End')->getData()->format('Y-m-d')]);
         }
-        $motorcycles = $motorcyleRepository->findBy(["status" => Motorcycle::STATUS_AVAILABLE]);
+        $motorcycles = $motorcyleRepository->findBy(["status" => 0 ]);
         
         return $this->render('front/index.html.twig', [
             'isHome' => true,
