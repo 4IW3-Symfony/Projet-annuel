@@ -26,6 +26,7 @@ class DefaultController extends AbstractController
             return $this->redirectToRoute('resultat_search', ['ville'=> $form->get('ville')->getData(),'date_start'=> $form->get('Start')->getData()->format('Y-m-d'),'date_end'=> $form->get('End')->getData()->format('Y-m-d')]);
         }
         $motorcycles = $motorcyleRepository->findBy(["status" => Motorcycle::STATUS_AVAILABLE]);
+        
         return $this->render('front/index.html.twig', [
             'isHome' => true,
             'motorcycles' => $motorcycles,

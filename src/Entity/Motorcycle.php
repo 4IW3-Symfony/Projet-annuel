@@ -349,10 +349,13 @@ class Motorcycle
         return $this->status == self::STATUS_NOT_AVAILABLE;
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
+    // public function __toString()
+    // {
+        
+    //     return $this->name;
+    
+        
+    // }
 
     public function getCp(): ?int
     {

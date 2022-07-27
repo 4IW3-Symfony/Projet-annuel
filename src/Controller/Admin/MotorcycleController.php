@@ -7,8 +7,11 @@ use App\Entity\Rental;
 use App\Entity\Motorcycle;
 use App\Form\MotorcycleType;
 use App\Form\RetalReservationType;
+use App\Repository\BrandRepository;
+use App\Repository\ModelRepository;
 use App\Form\ReservationMotorcycleType;
 use App\Security\Voter\MotorcycleVoter;
+use Doctrine\Persistence\ObjectManager;
 use App\Repository\MotorcycleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,38 +50,54 @@ class MotorcycleController extends AbstractController
 
     #[Route('admin/motorcycle/new', name: 'admin_motorcycle_new', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/new', name: 'dashboard_motorcycle_new', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $back): Response
+    public function new(ModelRepository $model,BrandRepository $brandrepository ,Request $request, EntityManagerInterface $entityManager, $back): Response
     {
-        $motorcycle = new Motorcycle();
-        $form = $this->createForm(MotorcycleType::class, $motorcycle);
-        $form->handleRequest($request);
+    
+        
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Image upload
-            $motorcycleImages = $motorcycle->getMotorcycleImages();
-            foreach ($motorcycleImages as $key => $motorcycleImage) {
-                // dd($motorcycleImages);
-                if ($motorcycleImage->getImageFile() !== null || $motorcycleImage->getId() !== null) {
-                    $motorcycleImage->setMotorcycle($motorcycle);
-                    $motorcycleImages->set($key, $motorcycleImage);
-                } else {
-                    //to avoid null element to database
-                    $motorcycle->removeMotorcycleImage($motorcycleImage);
+        if (isset($_GET['marque'])){
+            $motorcycle = new Motorcycle();
+            $modele_moto = $brandrepository->findOneBy(['name' => $_GET['marque']]);
+            $form = $this->createForm(MotorcycleType::class, $motorcycle,['group' => $modele_moto]);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                // Image upload
+                $motorcycleImages = $motorcycle->getMotorcycleImages();
+                foreach ($motorcycleImages as $key => $motorcycleImage) {
+                    // dd($motorcycleImages);
+                    if ($motorcycleImage->getImageFile() !== null || $motorcycleImage->getId() !== null) {
+                        $motorcycleImage->setMotorcycle($motorcycle);
+                        $motorcycleImages->set($key, $motorcycleImage);
+                    } else {
+                        //to avoid null element to database
+                        $motorcycle->removeMotorcycleImage($motorcycleImage);
+                    }
                 }
+                /** @var \App\Entity\User $user */
+                $user = $this->getUser();
+                $motorcycle->setStatus(0);
+                $motorcycle->setUser($user);
+                $entityManager->persist($motorcycle);
+                $entityManager->flush();
+                return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
             }
-            /** @var \App\Entity\User $user */
-            $user = $this->getUser();
-            $motorcycle->setStatus(0);
-            $motorcycle->setUser($user);
-            $entityManager->persist($motorcycle);
-            $entityManager->flush();
-            return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
+        }
+        else{
+            $motorcycle = "";
+            $form ="";
+
         }
 
-        return $this->renderForm("{$back}/motorcycle/new.html.twig", [
-            'motorcycle' => $motorcycle,
-            'form' => $form,
-        ]);
+            return $this->renderForm("{$back}/motorcycle/new.html.twig", [
+                'motorcycle' => $motorcycle,
+                'form' => $form,
+                'brands' => $brandrepository->findAll(),
+                'back' => $back,
+            ]);
+        
+        
+        
     }
     #[Route('motorcycle/{id}', name: 'motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "front"])]
     #[Route('admin/motorcycle/{id}', name: 'admin_motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "admin"])]
@@ -115,7 +134,8 @@ class MotorcycleController extends AbstractController
     #[IsGranted(MotorcycleVoter::EDIT, subject: 'motorcycle')]
     public function edit(Request $request, Motorcycle $motorcycle, EntityManagerInterface $entityManager, $back): Response
     {
-        $form = $this->createForm(MotorcycleType::class, $motorcycle);
+
+        $form = $this->createForm(MotorcycleType::class, $motorcycle,['group'=> $motorcycle->getModel()->getBrand()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

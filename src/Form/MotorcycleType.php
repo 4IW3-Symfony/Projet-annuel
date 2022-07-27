@@ -2,9 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Model;
 use App\Entity\Motorcycle;
+use Doctrine\ORM\EntityRepository;
+use App\Repository\BrandRepository;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -33,7 +38,14 @@ class MotorcycleType extends AbstractType
             ->add('km')
             ->add('year')
             ->add('licenceType')
-            ->add('model')
+            ->add('model', EntityType::class,[
+                'class' => Model::class,
+                // 'query_builder' => function(EntityRepository $er)
+                // { return $er->createQueryBuilder('model')->join('model.brand','b')->where('b.name = :name')->setParameter('name','Aprilia'); },
+                'choices' => $options['group']->getModels(),
+                'choice_label' => 'name',
+              
+            ])
             ->add('Localisation')
             ->add('City')
             ->add('Cp');
@@ -43,6 +55,7 @@ class MotorcycleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Motorcycle::class,
+            'group' => null,
         ]);
     }
 

@@ -50,7 +50,7 @@ class BrandFixtures extends Fixture
 
         $object = (new Brand())
         ->setName("Kawasaki")
-        ->setLogo("images/brand/kawasaki.png");
+        ->setLogo("images/brand/kawasaki.jpeg");
         $manager->persist($object);
 
         $object = (new Brand())
@@ -60,7 +60,7 @@ class BrandFixtures extends Fixture
 
         $object = (new Brand())
         ->setName("Suzuki")
-        ->setLogo("images/brand/Suzuki.png");
+        ->setLogo("images/brand/Suzuki.jpeg");
         $manager->persist($object);
 
         $object = (new Brand())
