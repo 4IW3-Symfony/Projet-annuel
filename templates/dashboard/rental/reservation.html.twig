@@ -10,6 +10,7 @@
 		<table class="table">
 			<thead>
 				<tr>
+					<th>Photo</th>
 					<th>Marque et Model Moto</th>
 					<th>Date de réservation</th>
 					<th>Date_start</th>
@@ -23,11 +24,19 @@
 			</thead>
 			<tbody>
 					{% for rental in rentals %}
-						<tr>
+								<tr>
+									<td>
+								{%  if rental.motorcycle.motorcycleImages|length > 0 %}
+									{# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
+									<img src="{{ vich_uploader_asset(rental.motorcycle.motorcycleImages.first, 'imageFile') }}" alt="{{ rental.motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/>
+								{% else %}
+									<img src="{{asset(constant('DEFAULT_IMAGE', rental.motorcycle))}}" class="card-img-top" style="max-width:100px">
+								{% endif %}
+							</td>
 							<td>{{ rental.motorcycle.model.brand.name }} {{ rental.motorcycle.model.name }}</td>
-							<td>{{ rental.createdAt ? rental.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-							<td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d H:i:s') : '' }}</td>
-							<td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{ rental.createdAt ? rental.createdAt|date('Y-m-d ') : '' }}</td>
+							<td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d ') : '' }}</td>
+							<td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d ') : '' }}</td>
 							
 							{% set difference = date(rental.dateEnd).diff(date(rental.dateStart)) %}
 							{% set leftDays = difference.days %}

@@ -40,6 +40,11 @@
 					<td>{{ motorcycle.price }}</td>
 					<td>{{ motorcycle.km }}</td>
 					<td>{{ motorcycle.year }}</td>
+					{# {% for rental in motorcycle.rentals %}
+						{% if  date() >= rental.date_start && date() <= rental.date_end %}
+							<td style="color:red;"> Moto en location </td>
+						{% endif %}
+					{% endfor %} #}
 					{% if motorcycle.status == 1 %}
 						<td style="color:green;"> Moto Libre </td>
 					{% elseif motorcycle.status == 2  %}
@@ -70,5 +75,7 @@
 			{% endfor %}
 		</tbody>
 	</table>
+
+
 
 {% endblock %}

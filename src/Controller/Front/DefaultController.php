@@ -82,6 +82,11 @@ class DefaultController extends AbstractController
                     unset($_GET['motorcycle_search'][$key]);
                 }
             }
+            if(isset($_GET['motorcycle_search']['A2']) && isset($_GET['motorcycle_search']['A']))
+            {
+                unset($_GET['motorcycle_search']['A2']);
+                unset($_GET['motorcycle_search']['A']);
+            }
             $motorcycles = $motorcyleRepository->searchMotorcycle($_GET['motorcycle_search']);
             dump($motorcycles);
             
