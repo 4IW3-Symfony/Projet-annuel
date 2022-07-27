@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use DateTime;
+use App\Api\ApiCall;
 use App\Entity\Rental;
 use App\Entity\Motorcycle;
 use App\Form\MotorcycleType;
@@ -50,7 +51,7 @@ class MotorcycleController extends AbstractController
 
     #[Route('admin/motorcycle/new', name: 'admin_motorcycle_new', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/new', name: 'dashboard_motorcycle_new', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
-    public function new(ModelRepository $model,BrandRepository $brandrepository ,Request $request, EntityManagerInterface $entityManager, $back): Response
+    public function new(ModelRepository $model,BrandRepository $brandrepository ,Request $request, EntityManagerInterface $entityManager, $back, ApiCall $apicall): Response
     {
     
         
@@ -75,6 +76,9 @@ class MotorcycleController extends AbstractController
                     }
                 }
                 /** @var \App\Entity\User $user */
+                $apidata = $apicall->getApiData($form->get('Cp')->getData());
+                $motorcycle->setLat($apidata->lat);
+                $motorcycle->setLon($apidata->lon);
                 $user = $this->getUser();
                 $motorcycle->setStatus(0);
                 $motorcycle->setUser($user);
@@ -132,7 +136,7 @@ class MotorcycleController extends AbstractController
     #[Route('admin/motorcycle/{id}/edit', name: 'admin_motorcycle_edit', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/{id}/edit', name: 'dashboard_motorcycle_edit', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
     #[IsGranted(MotorcycleVoter::EDIT, subject: 'motorcycle')]
-    public function edit(Request $request, Motorcycle $motorcycle, EntityManagerInterface $entityManager, $back): Response
+    public function edit(Request $request, Motorcycle $motorcycle, EntityManagerInterface $entityManager, $back,ApiCall $apicall): Response
     {
 
         $form = $this->createForm(MotorcycleType::class, $motorcycle,['group'=> $motorcycle->getModel()->getBrand()]);
@@ -151,9 +155,14 @@ class MotorcycleController extends AbstractController
                     $motorcycle->removeMotorcycleImage($motorcycleImage);
                 }
             }
+            $apidata = $apicall->getApiData($form->get('Cp')->getData());
+            dump($apidata);
+            $motorcycle->setLat($apidata->lat);
+            $motorcycle->setLon($apidata->lon);
+            dump($apidata->lat);
             $entityManager->flush();
 
-            return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm("{$back}/motorcycle/edit.html.twig", [

@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use DateTime;
+use App\Api\ApiCall;
 use App\Entity\Motorcycle;
 use App\Repository\MotorcycleRepository;
 use App\Form\Motorcycle\MotorcycleSearchType;
@@ -14,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'default')]
-    public function index(MotorcycleRepository $motorcyleRepository,Request $request): Response
+    public function index(MotorcycleRepository $motorcyleRepository,Request $request,ApiCall $apicall): Response
     {
         $form = $this->createForm(MotorcycleSearchType::class);
         $form->handleRequest($request);
@@ -25,6 +26,9 @@ class DefaultController extends AbstractController
             return $this->redirectToRoute('resultat_search', ['ville'=> $form->get('ville')->getData(),'date_start'=> $form->get('Start')->getData()->format('Y-m-d'),'date_end'=> $form->get('End')->getData()->format('Y-m-d')]);
         }
         $motorcycles = $motorcyleRepository->findBy(["status" => 0 ]);
+        // dump($apicall->getApiData(75017));
+        // $response = file_get_contents('https://api.openweathermap.org/geo/1.0/zip?zip=75017,FR&limit=5&appid=ef67e96d44d75c418e4d22debbd10d22');
+        // $response = json_decode($response);
         
         return $this->render('front/index.html.twig', [
             'isHome' => true,
