@@ -1,0 +1,13 @@
+.remove-symfony-label {
+  .mb-3.row {
+    display: flex;
+    flex-direction: column;
+    .col-form-label {
+      width: 100%;
+    }
+    .col-sm-10 {
+      width: 100%;
+      margin: 0;
+    }
+  }
+}

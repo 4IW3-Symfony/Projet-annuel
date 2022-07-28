@@ -10748,6 +10748,18 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.remove-symfony-label .mb-3.row {
+  display: flex;
+  flex-direction: column;
+}
+.remove-symfony-label .mb-3.row .col-form-label {
+  width: 100%;
+}
+.remove-symfony-label .mb-3.row .col-sm-10 {
+  width: 100%;
+  margin: 0;
+}
+
 .header {
   padding-top: 1rem;
   padding-bottom: 1rem;
