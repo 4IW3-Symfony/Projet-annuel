@@ -21,13 +21,10 @@
             <div class="header__user">
                 
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ path('dashboard_profile') }}" class="header__user__login btn btn-dark">
-                    {{ app.user.firstname }}
-                </a>
                 <a href="{{ path('dashboard_profile') }} " class="header__user__profile button" style='text-decoration:none;'>
-          <span class="header__user__profile__icon material-icons-outlined">
-            person
-          </span>
+                  <span class="header__user__profile__icon material-icons-outlined">
+                    person
+                  </span>
                     <span class="header__user__profile__dropdown"></span>
                 </a>
                 {% else %}

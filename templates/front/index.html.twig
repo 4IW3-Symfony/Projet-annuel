@@ -3,67 +3,105 @@
 {% block title %}easyloc - Location de deux roues{% endblock %}
 
 {% block body %}
-	<div class="home-hero" style="background-image: url('/images/bg-hero.jpg');">
-		<div class="container">
-			<h2 class="home-hero__title">Louer facilement votre deux roues</h2>
-			<div class="row">
-				<div class="col-12 col-md-6">
-					<form method="get" action="/resultat-search">
-						<div class="form-group mb-2">
-							<label for="loc" class="text-white">Où ?</label>
-							{{ form_widget(form.ville) }}
-							{{ form_row(form._token) }}
-						</div>
-						<div class="form-group mb-2">
-							<label for="date1" class="text-white">Quand ?</label>
-							<div class="d-flex align-items-center">
-								{{ form_widget(form.Start) }}
-								<span>arrow</span>
-								{{ form_widget(form.End) }}
-							</div>
-						</div>
-						{{ form_widget(form.recherche) }}
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="home-hero" style="background-image: url('/images/bg-hero.jpg');">
+        <div class="container">
+            <h2 class="home-hero__title">Louer facilement votre deux roues</h2>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <form method="get" action="/resultat-search">
+                        <div class="form-group mb-2">
+                            <label for="loc" class="text-white">Où ?</label>
+                            {{ form_widget(form.ville) }}
+                            {{ form_row(form._token) }}
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="date1" class="text-white">Quand ?</label>
+                            <div class="d-flex align-items-center">
+                                {{ form_widget(form.Start) }}
+                                <span>arrow</span>
+                                {{ form_widget(form.End) }}
+                            </div>
+                        </div>
+                        {{ form_widget(form.recherche) }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="container">
-{#		{{ form_start(form) }}#}
-{#		{{ form_widget(form) }}#}
-{#		<button class="btn btn-primary">{{ button_label|default('Save') }}</button>#}
-{#		{{ form_end(form) }}#}
+    <section class="map">
+        <div class="map__menu">
+            <div class="map__menu__header">
+                <h2 class="map__menu__header__title">
+                    Nos suggestions
+                </h2>
+                <div class="map__menu__header__cta">
+                    <a href="/search" class="btn btn-dark btn-sm">Recherche avancée</a>
+                </div>
+            </div>
+            <div class="map__menu__nav">
+                <div class="map__menu__nav__list">
+                    {% for i in 0..4 %}
+                        <article>
+                            <a href="/motorcycle/{{ i }}" class="map__menu__nav__list__item">
+                                <figure class="map__menu__nav__list__item__figure">
+                                    <img class="map__menu__nav__list__item__figure__img"
+                                         src="https://acidmoto.ch/cms/sites/default/files/concept_yamaha_r9.jpg"
+                                         alt="Moto - Model"/>
+                                </figure>
+                                <div class="map__menu__nav__list__item__content">
+                                    <h1 class="map__menu__nav__list__item__content__title">YAMAHA R9</h1>
+                                    <small class="map__menu__nav__list__item__content__city">Paris, 75012</small>
+                                    <span class="map__menu__nav__list__item__content__license">A1, B</span>
+                                    <span class="map__menu__nav__list__item__content__price">
+                                        <strong class="map__menu__nav__list__item__content__price__value">110€</strong>
+                                        <small class="map__menu__nav__list__item__content__price__unit">/jour</small>
+                                    </span>
+                                </div>
+                            </a>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="map__map">
+            <div id="map"></div>
+            <div id="map-data" data-motorcycles="{{ motorcycles_markers|json_encode }}"></div>
+        </div>
+    </section>
 
-		<h1 class="text-center my-3">Suggestions</h1>
-		<div class="row">
-			{% for motorcycle in motorcycles %}
-				<div class="col-xl-3 col-lg-4 mb-5">
-					<div class="card rounded-1 text-center" style="width: 18rem;">
-						{%  if motorcycle.motorcycleImages|length > 0 %}
-								{% set cp = 0 %}
-								{% for image in motorcycle.motorcycleImages %}
-									{% if cp == 0 %}
-										<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid" width="286px" height="215px"/>
-										{% set cp = 1 %}
-									{% endif %}
-	
-								
-								{% endfor %}
-							{% else %}
-								<img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
-							{% endif %}
-						<div class="card-body">
-							<h5 class="card-title">{{motorcycle.name}}</h5>
-							<p class="text-muted">{{motorcycle.model.brand.name}}
-								-{{motorcycle.model.name}}
-							</p>
-							<a href="{{ path('motorcycle_show',{'id': motorcycle.id}) }}" class="btn btn-dark">
-								Show</a>
-						</div>
-					</div>
-				</div>
-			{%endfor %}
-		</div>
-	</div>
+    <div class="container">
+        <h1 class="text-center my-3">Suggestions</h1>
+        <div class="row">
+            {% for motorcycle in motorcycles %}
+                <div class="col-xl-3 col-lg-4 mb-5">
+                    <div class="card rounded-1 text-center" style="width: 18rem;">
+                        {% if motorcycle.motorcycleImages|length > 0 %}
+                            {% set cp = 0 %}
+                            {% for image in motorcycle.motorcycleImages %}
+                                {% if cp == 0 %}
+                                    <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}"
+                                         class="img-fluid" width="286px" height="215px"/>
+                                    {% set cp = 1 %}
+                                {% endif %}
+
+
+                            {% endfor %}
+                        {% else %}
+                            <img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---"
+                                 class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ motorcycle.name }}</h5>
+                            <p class="text-muted">{{ motorcycle.model.brand.name }}
+                                -{{ motorcycle.model.name }}
+                            </p>
+                            <a href="{{ path('motorcycle_show',{'id': motorcycle.id}) }}" class="btn btn-dark">
+                                Show</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

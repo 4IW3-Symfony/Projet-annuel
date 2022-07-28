@@ -9,11 +9,13 @@
 @import "partials/header";
 @import "partials/home";
 @import "partials/motorcycle";
+@import "partials/search";
+
 
 * {
   box-sizing: border-box;
 }
 
-body{
+body {
   font-family: 'Nunito', sans-serif;
 }
