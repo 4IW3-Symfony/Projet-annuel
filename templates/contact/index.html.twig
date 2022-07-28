@@ -1,0 +1,30 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Contact index{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-start">
+        <h1>Contact</h1>
+        <a href="{{ path('dashboard_contact_admin') }}" class="btn btn-dark">Contacter un administateur</a>
+    </div>
+
+    {% for contact in contacts %}
+        {% for user in contact.users %}
+            {% if app.user.firstname == user.firstname and app.user.lastname == user.lastname %}
+
+            {% else %}
+                {% if user.id == 1 %}
+                    <div class="list-group">
+                        <a href="{{ path('app_contact_show',{'id':contact.id}) }}" class="list-group-item list-group-item-action">Administrateur {{ contact.ContactMessages.last ? contact.ContactMessages.last.date|date('m-d H:i') : '' }}</a>
+                    </div>
+                {% else %}
+                    <div style="border:solid">
+                        <a href="{{ path('app_contact_show',{'id':contact.id}) }}" class="list-group-item list-group-item-action">{{ user.lastname }} {{user.firstname}} {{ contact.ContactMessages.last ? contact.ContactMessages.last.date|date('m-d H:i') : '' }}</a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+    {% endfor %}
+
+{% endblock %}

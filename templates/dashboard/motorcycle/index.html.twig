@@ -4,77 +4,88 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Mes Motos</h1>
-	<a class="btn btn-primary" href="{{ path('dashboard_motorcycle_new') }}">Ajouter une moto</a>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Photo</th>
-				<th>Marque</th>
-				<th>Model</th>
-				<th>Power</th>
-				<th>Numberplate</th>
-				<th>Tarif</th>
-				<th>Km</th>
-				<th>Year</th>
-				<th>Status</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for motorcycle in motorcycles %}
-				<tr>
-					<td>
-						{%  if motorcycle.motorcycleImages|length > 0 %}
-							{# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
-							<img src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/>
-						{% else %}
-							<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top" style="max-width:100px">
-						{% endif %}
-					</td>
-					<td>{{ motorcycle.model.brand.name }}</td>
-					<td>{{ motorcycle.model.name }}</td>
-					<td>{{ motorcycle.power }}ch</td>
-					<td>{{ motorcycle.numberplate }}</td>
-					<td>{{ motorcycle.price }}€ /Jour</td>
-					<td>{{ motorcycle.km }} km</td>
-					<td>{{ motorcycle.year }}</td>
-					{# {% for rental in motorcycle.rentals %}
+    <div class="d-flex justify-content-between align-items-start">
+        <h1 class="fw-bold">Mes Motos</h1>
+        <a class="btn btn-primary" href="{{ path('dashboard_motorcycle_new') }}">Ajouter une moto</a>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Photo</th>
+            <th>Marque</th>
+            <th>Model</th>
+            <th>Power</th>
+            <th>Numberplate</th>
+            <th>Tarif</th>
+            <th>Km</th>
+            <th>Year</th>
+            <th>Status</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for motorcycle in motorcycles %}
+            <tr>
+                <td>
+                    {% if motorcycle.motorcycleImages|length > 0 %}
+                        {# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
+                        <img src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}"
+                             alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/>
+                    {% else %}
+                        <img src="{{ asset(constant('DEFAULT_IMAGE', motorcycle)) }}" class="card-img-top"
+                             style="max-width:100px">
+                    {% endif %}
+                </td>
+                <td>{{ motorcycle.model.brand.name }}</td>
+                <td>{{ motorcycle.model.name }}</td>
+                <td>{{ motorcycle.power }}ch</td>
+                <td>{{ motorcycle.numberplate }}</td>
+                <td>{{ motorcycle.price }}€ /Jour</td>
+                <td>{{ motorcycle.km }} km</td>
+                <td>{{ motorcycle.year }}</td>
+                {# {% for rental in motorcycle.rentals %}
 						{% if  date() >= rental.date_start && date() <= rental.date_end %}
 							<td style="color:red;"> Moto en location </td>
 						{% endif %}
 					{% endfor %} #}
-					{% if motorcycle.status == 1 %}
-						<td style="color:green;"> Moto Libre </td>
-					{% elseif motorcycle.status == 2  %}
-						<td style="color:red;"> Moto en location </td>
-					{% elseif motorcycle.status == 0  %}
-					<td style="color:blue;"> Moto en attente de validation </td>
-					{% elseif motorcycle.status == 3  %}
-						<td style="color:grey;"> Annonce Supprimer </td>
-					{% else %}
-						<td style="color:orange;"> Erreur </td>
-					{% endif %}
-					<td class="action">
-						<a href="{{ path('dashboard_motorcycle_show', {'id': motorcycle.id}) }}">
-							<i class="bi bi-eye-fill icon-show"></i>
-						</a>
-						{% if motorcycle.status != 2  %}
-							<a href="{{ path('dashboard_motorcycle_edit', {'id': motorcycle.id}) }}">
-								<i class="bi bi-pencil-square icon-edit"></i>
-							</a>
-							{{ include('dashboard/motorcycle/_delete_form.html.twig') }}
-						{% endif %}
+                {% if motorcycle.status == 1 %}
+                    <td>
+                        <span class="badge text-white bg-success">Disponible</span>
+                    </td>
+                {% elseif motorcycle.status == 2 %}
+                    <td>
+                        <span class="badge text-white bg-danger">En location</span>
+                    </td>
+                {% elseif motorcycle.status == 0 %}
+                    <td>
+                        <span class="badge text-white bg-warning">En attente</span>
+                    </td>
+                {% elseif motorcycle.status == 3 %}
+                    <td>
+                        <span class="badge text-white bg-primary">Annonce supprimée</span>
+                    </td>
+                {% else %}
+                    <td class="fst-italic text-danger">Erreur</td>
+                {% endif %}
+                <td class="action">
+                    <a href="{{ path('dashboard_motorcycle_show', {'id': motorcycle.id}) }}">
+                        <i class="bi bi-eye-fill icon-show"></i>
+                    </a>
+                    {% if motorcycle.status != 2 %}
+                        <a href="{{ path('dashboard_motorcycle_edit', {'id': motorcycle.id}) }}">
+                            <i class="bi bi-pencil-square icon-edit"></i>
+                        </a>
+                        {{ include('dashboard/motorcycle/_delete_form.html.twig') }}
+                    {% endif %}
 
-					</td>
+                </td>
 
-				</tr>
-	
-	
-			{% endfor %}
-		</tbody>
-	</table>
+            </tr>
+
+
+        {% endfor %}
+        </tbody>
+    </table>
 
 
 

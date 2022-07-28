@@ -87,6 +87,11 @@
     justify-content: center;
     gap: 50px;
     width: 100%;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
 
     &__item {
       width: 220px;
@@ -96,6 +101,9 @@
       padding: 1.5rem;
       text-decoration: none;
       background-repeat: no-repeat;
+      @media (max-width: 768px) {
+        height: 175px;
+      }
 
       &:hover {
         box-shadow: 0 4px 7px -3px #00000094;

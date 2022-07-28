@@ -26,20 +26,7 @@ class DefaultController extends AbstractController
             return $this->redirectToRoute('resultat_search', ['ville'=> $form->get('ville')->getData(),'date_start'=> $form->get('Start')->getData()->format('Y-m-d'),'date_end'=> $form->get('End')->getData()->format('Y-m-d')]);
         }
         $motorcycles = $motorcyleRepository->findBy(["status" => 1 ]);
-        $motorcyclesMarkers = array_map(function ($motorcycle) {
-            return [
-                'lat' => $motorcycle->getLat(),
-                'lon' => $motorcycle->getLon(),
-                'city' => $motorcycle->getCity(),
-                'cp' => $motorcycle->getCp(),
-                'model' => $motorcycle->getModel()->getName(),
-                'brand' => $motorcycle->getModel()->getBrand()->getName(),
-                'image' => $motorcycle->getMotorcycleImages()[0] ? '/upload/images/motorcycles/'.$motorcycle->getMotorcycleImages()[0]->getImageName() : 'https://via.placeholder.com/420',
-                'price' => $motorcycle->getPrice(),
-                'license' => $motorcycle->getLicenceType()->getType(),
-                'id' => $motorcycle->getId(),
-            ];
-        }, $motorcycles);
+        $motorcyclesMarkers = $this->getMarkers($motorcycles);
 
 
         // dump($apicall->getApiData(75017));
@@ -58,7 +45,7 @@ class DefaultController extends AbstractController
     #[Route('/resultat-search', name: 'resultat_search', methods: ['GET'])]
     public function resultat_search(MotorcycleRepository $motorcyleRepository,Request $request): Response 
     {
-        dump($_GET);
+
         $ville = null;
         $date_start = null;
         $date_end = null;
@@ -100,6 +87,7 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
+
             foreach($_GET['motorcycle_search'] as $key => $value)
             {
                 if($value == null )
@@ -113,7 +101,7 @@ class DefaultController extends AbstractController
                 unset($_GET['motorcycle_search']['A']);
             }
             $motorcycles = $motorcyleRepository->searchMotorcycle($_GET['motorcycle_search']);
-            dump($motorcycles);
+
             
         }
 
@@ -159,19 +147,43 @@ class DefaultController extends AbstractController
         }
         else{
             $search = $motorcycles;
-            dump($search);
-        }
-        
 
+        }
+
+        $motorcyclesMarkers = $this->getMarkers($search);
 
 
         return $this->render('front/search.html.twig', [
             'motorcycles' => $search,
+            'motorcycles_markers' => $motorcyclesMarkers,
             'autresmotos' => $autre,
             'form' => $form->createView(),
             'date_start' => $date_start,
             'date_end' => $date_end,
         ]);
 
+    }
+
+    /**
+     * @param mixed $search
+     * @return array|array[]
+     */
+    public function getMarkers(mixed $search): array
+    {
+        $motorcyclesMarkers = array_map(function ($motorcycle) {
+            return [
+                'lat' => $motorcycle->getLat(),
+                'lon' => $motorcycle->getLon(),
+                'city' => $motorcycle->getCity(),
+                'cp' => $motorcycle->getCp(),
+                'model' => $motorcycle->getModel()->getName(),
+                'brand' => $motorcycle->getModel()->getBrand()->getName(),
+                'image' => $motorcycle->getMotorcycleImages()[0] ? '/upload/images/motorcycles/' . $motorcycle->getMotorcycleImages()[0]->getImageName() : 'https://via.placeholder.com/420',
+                'price' => $motorcycle->getPrice(),
+                'license' => $motorcycle->getLicenceType()->getType(),
+                'id' => $motorcycle->getId(),
+            ];
+        }, $search);
+        return $motorcyclesMarkers;
     }
 }

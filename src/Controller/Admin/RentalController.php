@@ -107,6 +107,16 @@ class RentalController extends AbstractController
     #[Route('dashboard/rental/{id}', name: 'dashboard_rental_show', methods: ['GET'], defaults: ['back' => "dashboard"])]
     public function show(Rental $rental, $back): Response
     {
+        if($back == "dashboard")
+        {
+            /** @var User $user */
+            $user = $this->getUser()->getId();
+            if($rental->getUser()->getId() != $user && $rental->getMotorcycle()->getUser()->getId())
+            {
+                
+                throw $this->createNotFoundException("Vous n'avez pas l'accès !! ");
+            }
+        }
         return $this->render("{$back}/rental/show.html.twig", [
             'rental' => $rental,
         ]);

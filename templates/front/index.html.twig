@@ -9,16 +9,19 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <form method="get" action="/resultat-search">
+                        {{ form_row(form._token) }}
                         <div class="form-group mb-2">
-                            <label for="loc" class="text-white">Où ?</label>
+                            <label for="ville" class="text-white">Où ?</label>
                             {{ form_widget(form.ville) }}
-                            {{ form_row(form._token) }}
                         </div>
                         <div class="form-group mb-2">
-                            <label for="date1" class="text-white">Quand ?</label>
+                            <label for="Start" class="text-white">Quand ?</label>
                             <div class="d-flex align-items-center">
                                 {{ form_widget(form.Start) }}
-                                <span>arrow</span>
+                                <svg class="form-arrow" width="29" height="24" viewBox="0 0 29 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.5 10.5C0.671573 10.5 0 11.1716 0 12C0 12.8284 0.671573 13.5 1.5 13.5V10.5ZM28.5607 13.0607C29.1464 12.4749 29.1464 11.5251 28.5607 10.9393L19.0147 1.3934C18.4289 0.807611 17.4792 0.807611 16.8934 1.3934C16.3076 1.97919 16.3076 2.92893 16.8934 3.51472L25.3787 12L16.8934 20.4853C16.3076 21.0711 16.3076 22.0208 16.8934 22.6066C17.4792 23.1924 18.4289 23.1924 19.0147 22.6066L28.5607 13.0607ZM1.5 13.5H27.5V10.5H1.5V13.5Z" fill="#BEBEBE"/>
+                                </svg>
+
                                 {{ form_widget(form.End) }}
                             </div>
                         </div>

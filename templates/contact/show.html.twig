@@ -1,0 +1,33 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+    <h1>Contact {{ personne.lastname }} {{ personne.firstname }}</h1>
+
+    {% for message in contact.ContactMessages %}
+        {% if message.IdUser.Id == monid %}
+            <div class="d-flex justify-content-end mb-2">
+                <div class="text-end py-2 px-3 rounded-2 bg-info my-chat">
+                    <p class="mb-0">{{ message.message }}</p>
+                    <small class="text-primary">{{ message.date|date('d/m H:i') }}</small>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-start mb-2">
+                <div class="text-end border py-2 px-3 rounded-2 contact-chat">
+                    <p class="mb-0">{{ message.message }}</p>
+                    <small class="text-primary">{{ message.date|date('d/m H:i') }}</small>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+
+    {{ include('contact_message/_form.html.twig') }}
+
+    <div class="my-5">
+        <a href="{{ path('app_contact_index') }}">Retour à la list des discussions</a>
+    </div>
+
+{% endblock %}

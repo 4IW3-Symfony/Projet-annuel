@@ -1,7 +1,7 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse" style="background:#EEF5FB">
 	<div class="position-sticky pt-3">
 		<p>Espace Locataire</p>
-		<ul class="nav flex-column">
+		<ul class="nav flex-column mb-4">
 			<li class="nav-item">
 				<a class="nav-link {{ app.request.get('_route') == 'dashboard_default' ? 'active' }}" href="{{ path('dashboard_default') }}">
 					Dashboard
@@ -12,11 +12,11 @@
 					Mes Réservations
 				</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.get('_route') == 'dashboard_review_index' ? 'active' }}" href="{{ path('dashboard_review_index') }}">
-					Avis
-				</a>
-			</li>
+{#			<li class="nav-item">#}
+{#				<a class="nav-link {{ app.request.get('_route') == 'dashboard_review_index' ? 'active' }}" href="{{ path('dashboard_review_index') }}">#}
+{#					Avis#}
+{#				</a>#}
+{#			</li>#}
 
 			
 			{# <li class="nav-item">
@@ -35,6 +35,11 @@
 			<li class="nav-item">
 				<a class="nav-link {{ app.request.get('_route') == 'dashboard_rental_index' ? 'active' }}" href="{{ path('dashboard_rental_index') }}">
 					Locations
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link {{ app.request.get('_route') == 'dashboard_rental_index' ? 'active' }}" href="{{ path('app_contact_index') }}">
+					ChatBox
 				</a>
 			</li>
 		</ul>
