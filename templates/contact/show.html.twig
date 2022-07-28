@@ -1,0 +1,23 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+    <h1>Contact {{ personne.lastname }} {{ personne.firstname }}</h1>
+
+    {% for message in contact.ContactMessages %}
+        {% if message.IdUser == monid %}
+            <h5 style="color:red">{{message.message }}</h5>
+        {% else %}
+            <h5 style="color:green">{{message.message }}</h5>
+        {% endif %}
+    {% endfor %}
+
+
+    {{ include('contact_message/_form.html.twig') }}
+
+    <a href="{{ path('app_contact_index') }}">back to list</a>
+
+
+    {{ include('contact/_delete_form.html.twig') }}
+{% endblock %}

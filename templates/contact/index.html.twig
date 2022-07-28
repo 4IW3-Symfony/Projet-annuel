@@ -1,0 +1,23 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Contact index{% endblock %}
+
+{% block body %}
+    <h1>Contact</h1>
+
+    {% for contact in contacts %}
+        {% for user in contact.users %}
+            {% if app.user.firstname == user.firstname and app.user.lastname == user.lastname %}
+
+            {% else %}
+
+                <div style="border:solid">
+                    <h4>{{ user.lastname }} {{user.firstname}}</h4>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+    {% endfor %}
+
+    <a href="{{ path('app_contact_new') }}">Create new</a>
+{% endblock %}

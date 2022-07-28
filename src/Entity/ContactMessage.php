@@ -35,6 +35,11 @@ class ContactMessage
      */
     private $contact;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $message;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +77,18 @@ class ContactMessage
     public function setContact(?Contact $contact): self
     {
         $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ContactMessage index{% endblock %}
+
+{% block body %}
+    <h1>ContactMessage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact_message in contact_messages %}
+            <tr>
+                <td>{{ contact_message.id }}</td>
+                <td>{{ contact_message.date ? contact_message.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_contact_message_show', {'id': contact_message.id}) }}">show</a>
+                    <a href="{{ path('app_contact_message_edit', {'id': contact_message.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_contact_message_new') }}">Create new</a>
+{% endblock %}
