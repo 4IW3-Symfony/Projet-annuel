@@ -11218,6 +11218,104 @@ textarea.form-control-lg {
   color: white !important;
 }
 
+.search-hero {
+  padding: 175px 0;
+  background-size: cover;
+}
+.search-hero__form {
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.results {
+  padding: 100px 0;
+}
+.results__title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 5rem;
+  text-align: center;
+}
+.results__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.results__list__item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1rem;
+  border-bottom: 1px solid #f8f9fa;
+}
+.results__list__item__img {
+  aspect-ratio: 6/4;
+  object-fit: cover;
+  width: 400px;
+}
+.results__list__item__content__title {
+  font-size: 2.75rem;
+  font-weight: bold;
+  margin: 0 0 0.6rem;
+}
+.results__list__item__content__title a {
+  text-decoration: none;
+  color: #121212;
+}
+.results__list__item__content__title a:hover {
+  color: #343a40;
+}
+.results__list__item__content__city {
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #6c757d;
+  margin: 0 0 0.4rem;
+}
+.results__list__item__content__license {
+  font-size: 0.875rem;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.4rem;
+}
+.results__list__item__content__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 3rem;
+  gap: 2rem;
+}
+.results__list__item__content__footer__info__title {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+.results__list__item__content__footer__info__value {
+  font-size: 1.85rem;
+  font-weight: 500;
+}
+.results__list__item__content__footer__price {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.results__list__item__content__footer__price__value {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 2.2rem;
+  margin-bottom: 0;
+}
+.results__list__item__content__footer__price__unit {
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
 * {
   box-sizing: border-box;
 }
