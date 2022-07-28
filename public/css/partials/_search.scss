@@ -5,6 +5,18 @@ $map-height: 550px;
   grid-template-columns: 575px 1fr;
   grid-template-rows: $map-height;
   grid-template-areas: 'menu map';
+  &.map--search {
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 400px 700px;
+      grid-template-areas: 'map' 'menu';
+    }
+  }
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 400px 400px;
+    grid-template-areas: 'map' 'menu';
+  }
 
   &__menu {
     grid-area: menu;
