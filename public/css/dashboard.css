@@ -35,3 +35,7 @@ body {
   height: 16px;
   vertical-align: text-bottom;
 }
+
+.my-chat {
+  border-bottom-right-radius: 0!important;
+}
