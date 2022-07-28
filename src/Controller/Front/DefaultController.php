@@ -36,6 +36,7 @@ class DefaultController extends AbstractController
         return $this->render('front/index.html.twig', [
             'isHome' => true,
             'motorcycles' => $motorcycles,
+            'motorcycles_markers' => $motorcyclesMarkers,
             'controller_name' => 'DefaultController',
             'form' => $form->createView(),
         ]);
