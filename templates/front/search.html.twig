@@ -1,86 +1,157 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Résultat
-{% endblock %}
+{% block title %}Résultat{% endblock %}
 
 {% block body %}
-<main class="pt-5">
-	<div class="container">
-		<div class="motorcycle mb-5">
-			<div class="row">
-				<div class="col-12 col-md-4 col-lg-3">
-					{{ form_start(form) }}
-					{{ form_widget(form) }}
-					<button class="btn btn-primary">{{ button_label|default('Rechercher') }}</button>
-					{{ form_end(form) }}
-				</div>
-				<div class="col-12 col-md-8 col-lg-9">
-					{% if motorcycles|length < 1 %}
-						<h2 class="text-center mb-3">Aucun résultat avec vos critères.</h2>
-					{% endif%}
-					{%for motorcycle in motorcycles %}
-						<article class="card text-center" style="width: 18rem;">
-							{# {% if motorcycle.motorcycleImages %}
-								{% dump(motorcycle.motorcycleImages) %}
-								{% for image in motorcycle.motorcycleImages %}
-	
-									<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid"/>
+    <main>
 
-								{% endfor %}
-							{% else %}
-								<img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
-							{% endif %} #}
-							{%  if motorcycle.motorcycleImages|length > 0 %}
-								{% set cp = 0 %}
-								{% for image in motorcycle.motorcycleImages %}
-									{% if cp == 0 %}
-										<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid" width="640px" height="480px"/>
-										{% set cp = 1 %}
-									{% endif %}
-	
-								
-								{% endfor %}
-							{% else %}
-								<img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
-							{% endif %}
-							
-							<div class="card-body">
-								<h5 class="card-title">{{motorcycle.name}}</h5>
-								<p class="text-muted">{{motorcycle.model.brand.name}}
-									-{{motorcycle.model.name}}
-								</p>
-								<a href="{{ path('motorcycle_show',{'id': motorcycle.id, 'date_end' : date_end , 'date_start':date_start}) }}" class="btn btn-primary">
-									Show</a>
-							</div>
-						</article>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
+        <section class="search-hero" style="background-image: url('/images/bg-search.jpg')">
+            <form method="get" class="search-hero__form" action="/resultat-search">
+                <div class="form-group mb-2">
+                    <label for="ville" class="text-white">Où ?</label>
+                    {{ form_widget(form.ville) }}
+                </div>
+                <div class="form-group mb-2">
+                    <label for="Start" class="text-white">Dates :</label>
+                    <div class="d-flex align-items-center gap-3">
+                        {{ form_widget(form.Start) }}
+                        {{ form_widget(form.End) }}
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="prix_min" class="text-white">Prix/jour :</label>
+                    <div class="d-flex align-items-center gap-3">
+                        {{ form_widget(form.prix_min) }}
+                        {{ form_widget(form.prix_max) }}
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="text-white">Permis :</label>
+                    <div class="d-flex align-items-center text-light">
+                        {{ form_row(form.A) }}
+                        {{ form_row(form.A2) }}
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="marque" class="text-white">Marque :</label>
+                    {{ form_widget(form.marque) }}
+                </div>
+                <div class="form-group mb-2">
+                    <label for="power_min" class="text-white">Puissance (ch) :</label>
+                    <div class="d-flex align-items-center gap-3">
+                        {{ form_widget(form.power_min) }}
+                        {{ form_widget(form.power_max) }}
+                    </div>
+                </div>
+                {{ form_row(form._token) }}
+                {{ form_widget(form.recherche) }}
+            </form>
+        </section>
+
+        <section class="map map--search">
+            <div class="map__menu">
+                <div class="map__menu__header">
+                    <h2 class="map__menu__header__title">
+                        {{ motorcycles|length }} resultats
+                    </h2>
+                </div>
+                <div class="map__menu__nav">
+                    <div class="map__menu__nav__list">
+                        {% for motorcycle in motorcycles_markers %}
+                            <article class="map__menu__nav__list__item map-item-link" data-id="{{ motorcycle.id }}">
+                                <figure class="map__menu__nav__list__item__figure">
+                                    <img class="map__menu__nav__list__item__figure__img"
+                                         src="{{ motorcycle.image }}"
+                                         alt="location {{ motorcycle.brand }} {{ motorcycle.model }}"/>
+                                </figure>
+                                <div class="map__menu__nav__list__item__content">
+                                    <h1 class="map__menu__nav__list__item__content__title">{{ motorcycle.brand }} {{ motorcycle.model }}</h1>
+                                    <small class="map__menu__nav__list__item__content__city">{{ motorcycle.city }}
+                                        , {{ motorcycle.cp }}</small>
+                                    <span class="map__menu__nav__list__item__content__license">{{ motorcycle.license }}</span>
+                                    <span class="map__menu__nav__list__item__content__price">
+                                        <strong class="map__menu__nav__list__item__content__price__value">{{ motorcycle.price }}€</strong>
+                                        <small class="map__menu__nav__list__item__content__price__unit">/jour</small>
+                                    </span>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="map__map">
+                <div id="map"></div>
+                <div id="map-data" data-motorcycles="{{ motorcycles_markers|json_encode }}"></div>
+                <template id="map-marker">
+                    <div class="map-marker">
+                        <img class="map-marker__img" id="map-marker_image"/>
+                        <div class="map-marker__content">
+                            <span class="map-marker__content__title" id="map-marker_title"></span>
+                            <div class="map-marker__content__footer">
+                                <div class="map-marker__content__footer__price">
+                                    <span class="map-marker__content__footer__price__value"
+                                          id="map-marker_price"></span>
+                                    <small class="map-marker__content__footer__price__unit">/jour</small>
+                                </div>
+                                <a class="btn btn-dark" id="map-marker_link">Louer</a>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </section>
 
 
-		<h1 class="text-center mb-3">Autre deux roues à proximité</h1>
-		<div class="row">
-			{%for autresmoto in autresmotos %}
-				<div class="col-xl-3 col-lg-4 mb-5">
-					<div class="card text-center" style="width: 18rem;">
-						{% if autresmoto.motorcycleImages %}
-							<img src="https://via.placeholder.com/640x480/000000/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
-						{% else %}
-							<img src="{{motorcycle.motorcycleImages.first.image}}" class="card-img-top">
-						{% endif %}
-						<div class="card-body">
-							<h5 class="card-title">{{autresmoto.name}}</h5>
-							<p class="text-muted">{{autresmoto.model.brand.name}}
-								-{{autresmoto.model.name}}
-							</p>
-							<a href="{{ path('motorcycle_show',{'id': autresmoto.id, 'date_end' : date_end , 'date_start':date_start}) }}" class="btn btn-primary">
-								Show</a>
-						</div>
-					</div>
-				</div>
-			{%endfor %}
-		</div>
-	</div>
-</main>
+        <section class="results d-none d-lg-block">
+            <div class="container">
+                {% if motorcycles|length < 1 %}
+                    <h2 class="results__title">Aucun résultat avec vos critères.</h2>
+                {% else %}
+                    <h2 class="results__title">{{ motorcycles|length }} résultats</h2>
+                {% endif %}
+
+                <div class="results__list">
+                    {% for motorcycle in motorcycles %}
+                        <article class="results__list__item">
+                            {% if motorcycle.motorcycleImages|length > 0 %}
+                                {% set cp = 0 %}
+                                {% for image in motorcycle.motorcycleImages %}
+                                    {% if cp == 0 %}
+                                        <img src="{{ vich_uploader_asset(image, 'imageFile') }}"
+                                             alt="{{ image.imageName }}" class="results__list__item__img"/>
+                                        {% set cp = 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <img  class="results__list__item__img" src="https://via.placeholder.com/420"/>
+                            {% endif %}
+                            <div class="results__list__item__content">
+                                <h1 class="results__list__item__content__title">
+                                    <a href="{{ path('motorcycle_show',{'id': motorcycle.id, 'date_end' : date_end , 'date_start':date_start}) }}">
+                                    {{ motorcycle.model.brand.name }} {{ motorcycle.model.name }}</a>
+                                </h1>
+                                <p class="results__list__item__content__city">{{ motorcycle.city }}, {{ motorcycle.cp }}</p>
+                                <span class="results__list__item__content__license">{{ motorcycle.licenceType.type }}</span>
+                                <div class="results__list__item__content__footer">
+                                    <div class="results__list__item__content__footer__info">
+                                        <h3 class="results__list__item__content__footer__info__title">Puissance</h3>
+                                        <p class="results__list__item__content__footer__info__value">{{ motorcycle.power }}ch</p>
+                                    </div>
+                                    <div class="results__list__item__content__footer__info">
+                                        <h3 class="results__list__item__content__footer__info__title">Année</h3>
+                                        <p class="results__list__item__content__footer__info__value">{{ motorcycle.year }}</p>
+                                    </div>
+                                    <div class="results__list__item__content__footer__price">
+                                        <h3 class="results__list__item__content__footer__price__value">{{ motorcycle.price }}€</h3>
+                                        <span class="results__list__item__content__footer__price__unit">/jour</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+    </main>
 {% endblock %}

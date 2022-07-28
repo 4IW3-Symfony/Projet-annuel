@@ -1,26 +1,30 @@
 {% extends 'base_dashboard.html.twig' %}
 
-{% block title %}New Motorcycle
-{% endblock %}
+{% block title %}easyloc - Ajouter une moto{% endblock %}
 
 {% block body %}
-	<h1>Create new Motorcycle</h1>
+	<h1 class="fw-bold">Ajoutez votre moto</h1>
 
 	{% if motorcycle is not empty %}
-
 		{{ include('dashboard/motorcycle/_form.html.twig') }}
-
 	{% else %}
 
-		<h1> Votre marque de moto</h2>
-		{% for brand in brands %}
-			<a href="{{ path(back ~ '_motorcycle_new', {'marque' : brand.name}) }}">
-				<img src="{{ asset(brand.logo) }}" alt="logo marque" width="200px">
-				{{ brand.name }}
-			</a>			
-		{% endfor %}
+		<h2>Choisissez la marque de votre moto</h2>
+		<div class="list-group">
+			{% for brand in brands %}
+				<a class="d-flex justify-content-start align-items-center list-group-item list-group-item-action"
+				   href="{{ path(back ~ '_motorcycle_new', {'marque' : brand.name}) }}">
+					<div style="width: 110px" class="mr-3 d-flex justify-content-center align-items-center">
+						<img src="{{ asset(brand.logo) }}" alt="logo marque" height="50px">
+					</div>
+					<span>{{ brand.name }}</span>
+				</a>
+			{% endfor %}
+		</div>
 	{% endif %}
 
 
-	<a href="{{ path('dashboard_motorcycle_index') }}">back to list</a>
+	<div class="my-5">
+		<a href="{{ path('dashboard_motorcycle_index') }}">Retour à la liste de vos motos</a>
+	</div>
 {% endblock %}

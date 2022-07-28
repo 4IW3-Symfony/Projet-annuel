@@ -43,12 +43,13 @@ class RegistrationFormType extends AbstractType
                     )
                 ),
                 'required' => true,
-                'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
+                'first_options'  => array('label' => 'Mot de passe :'),
+                'second_options' => array('label' => 'Confirmer le mot de passe :'),
             ))
             ->add('lastname')
             ->add('dateOfBirth', DateType::class, [
-                'label' => 'Date of birth'
+                'label' => 'Date of birth',
+                'years' => range(date('Y') - 100, date('Y')),
             ])
             ->add('address')
             ->add('city')

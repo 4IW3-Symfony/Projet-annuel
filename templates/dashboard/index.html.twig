@@ -6,11 +6,20 @@
 {% block PageHeading %}Dashboard
 {% endblock %}
 
-{% block content %}
+{% block body %}
 
 	<div class="example-wrapper">
-		<h3>Welcome
-			{{app.user.email}}
-		</h3>
+		<h3 class="mb-5">Bienvenue dans votre espace personnel <strong>{{app.user.firstname}}</strong> !</h3>
+		<div class="card">
+			<div class="card-header">
+				Ajout rapide
+			</div>
+			<div class="card-body">
+				<blockquote class="blockquote mb-0">
+					<a href="/{{ path('dashboard_motorcycle_new') }}" class="btn btn-success">Ajouter une moto</a>
+					<a href="/{{ path('dashboard_motorcycle_new') }}" class="btn btn-primary">Voir vos locations</a>
+				</blockquote>
+			</div>
+		</div>
 	</div>
 {% endblock %}
