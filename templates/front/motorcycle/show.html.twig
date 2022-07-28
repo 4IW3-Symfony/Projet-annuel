@@ -9,7 +9,9 @@
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="/">Accueil</a></li>
 					<li class="breadcrumb-item"><a href="/resultat-search">Recherche</a></li>
+					{% if motorcycle.name is not empty %}
 					<li class="breadcrumb-item active" aria-current="page">{{ motorcycle.name }}</li>
+					{% endif%}
 				</ol>
 			</nav>
 		</div>
