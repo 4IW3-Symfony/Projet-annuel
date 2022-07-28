@@ -1,0 +1,72 @@
+.header {
+  padding-top: 2rem;
+  &-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__logo{
+    text-decoration: none;
+    &__img{
+      width: 5.75rem;
+    }
+    &__title{
+      font-size: pxToRem(24);
+      font-weight: 600;
+      color: white;
+    }
+  }
+  &__menu{
+    &__list{
+      display: flex;
+      align-items: center;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      &__item{
+        margin-right: 2rem;
+        &:last-child{
+          margin-right: 0;
+        }
+        &__link{
+          color: $white;
+          font-size: pxToRem(18);
+          text-decoration: none;
+          &:hover{
+            color: darken($white, 10%);
+          }
+        }
+      }
+    }
+  }
+  &__user{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    &__login{
+      flex-shrink: 0;
+      padding: .1rem 1rem;
+      font-size: pxToRem(18);
+      color: $white;
+      font-weight: 600;
+      text-decoration: none;
+      background: $primary;
+      border-radius: 50rem;
+      margin-right: 1.25rem;
+    }
+    &__profile{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      border-radius: 50rem;
+      border: 2px solid $white;
+      width: pxToRem(45);
+      height: pxToRem(45);
+      &__icon{
+        font-size: 1.75rem;
+        color: $white;
+      }
+    }
+  }
+}

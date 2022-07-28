@@ -36,7 +36,10 @@ class MotorcycleFixtures extends Fixture implements DependentFixtureInterface
                 ->setModel($faker->randomElement($models))
                 ->setLocalisation($faker->streetAddress)
                 ->setCp(intval($faker->postcode))
-                ->setCity($faker->city);
+                ->setCity($faker->city)
+                ->setLat($faker->latitude($min = 42, $max = 51))
+                ->setLon($faker->longitude($min = 0, $max = 7))
+                ->setPrice($faker->numberBetween($min = 50, $max = 500));
 
             $manager->persist($object);
         }

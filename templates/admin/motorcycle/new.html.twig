@@ -6,7 +6,20 @@
 {% block body %}
 	<h1>Create new Motorcycle</h1>
 
-	{{ include('admin/motorcycle/_form.html.twig') }}
+	{% if motorcycle is not empty %}
+
+		{{ include('admin/motorcycle/_form.html.twig') }}
+
+	{% else %}
+
+		<h1> Votre marque de moto</h2>
+		{% for brand in brands %}
+			<a href="{{ path(back ~ '_motorcycle_new', {'marque' : brand.name}) }}">
+				<img src="{{ asset(brand.logo) }}" alt="logo marque" width="200px">
+				{{ brand.name }}
+			</a>			
+		{% endfor %}
+	{% endif %}
 
 	<a href="{{ path('admin_motorcycle_index') }}">back to list</a>
 {% endblock %}

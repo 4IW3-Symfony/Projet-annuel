@@ -11,17 +11,18 @@
 					<form method="get" action="/resultat-search">
 						<div class="form-group mb-2">
 							<label for="loc" class="text-white">Où ?</label>
-							<input type="text" class="form-control" id="loc" placeholder="Paris..." name="ville">
+							{{ form_widget(form.ville) }}
+							{{ form_row(form._token) }}
 						</div>
 						<div class="form-group mb-2">
 							<label for="date1" class="text-white">Quand ?</label>
 							<div class="d-flex align-items-center">
-								<input type="date" class="form-control" id="date1" placeholder="14/05/2022" name="date_start">
+								{{ form_widget(form.Start) }}
 								<span>arrow</span>
-								<input type="date" class="form-control" id="date2" placeholder="19/05/2022" name="date_end">
+								{{ form_widget(form.End) }}
 							</div>
 						</div>
-						<button type="submit" class="btn btn-dark">Rechercher</button>
+						{{ form_widget(form.recherche) }}
 					</form>
 				</div>
 			</div>
@@ -36,14 +37,22 @@
 
 		<h1 class="text-center my-3">Suggestions</h1>
 		<div class="row">
-			{%for motorcycle in motorcycles %}
+			{% for motorcycle in motorcycles %}
 				<div class="col-xl-3 col-lg-4 mb-5">
 					<div class="card rounded-1 text-center" style="width: 18rem;">
-						{% if motorcycle.motorcycleImages %}
-							<img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
-						{% else %}
-							<img src="{{motorcycle.motorcycleImages.first.image}}" class="card-img-top">
-						{% endif %}
+						{%  if motorcycle.motorcycleImages|length > 0 %}
+								{% set cp = 0 %}
+								{% for image in motorcycle.motorcycleImages %}
+									{% if cp == 0 %}
+										<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" class="img-fluid" width="286px" height="215px"/>
+										{% set cp = 1 %}
+									{% endif %}
+	
+								
+								{% endfor %}
+							{% else %}
+								<img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---" class="card-img-top">
+							{% endif %}
 						<div class="card-body">
 							<h5 class="card-title">{{motorcycle.name}}</h5>
 							<p class="text-muted">{{motorcycle.model.brand.name}}

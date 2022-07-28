@@ -1,12 +1,32 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse" style="background:#EEF5FB">
 	<div class="position-sticky pt-3">
+		<p>Espace Locataire</p>
 		<ul class="nav flex-column">
 			<li class="nav-item">
 				<a class="nav-link {{ app.request.get('_route') == 'dashboard_default' ? 'active' }}" href="{{ path('dashboard_default') }}">
 					Dashboard
 				</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link {{ app.request.get('_route') == 'dashboard_reservation' ? 'active' }}" href="{{ path('dashboard_reservation') }}">
+					Mes Réservations
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link {{ app.request.get('_route') == 'dashboard_review_index' ? 'active' }}" href="{{ path('dashboard_review_index') }}">
+					Avis
+				</a>
+			</li>
 
+			
+			{# <li class="nav-item">
+							<a class="nav-link {{ app.request.get('_route') == 'dashboard_contact_index' ? 'active' }}" href="{{ path('dashboard_contact_index') }}">
+								Message/Ticket
+							</a>
+						</li> #}
+		</ul>
+		<p>Espace Propriétaire</p>
+		<ul class="nav flex-column">
 			<li class="nav-item">
 				<a class="nav-link {{ app.request.get('_route') == 'dashboard_motorcycle_index' ? 'active' }}" href="{{ path('dashboard_motorcycle_index') }}">
 					Motos
@@ -17,16 +37,6 @@
 					Locations
 				</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.get('_route') == 'dashboard_review_index' ? 'active' }}" href="{{ path('dashboard_review_index') }}">
-					Avis
-				</a>
-			</li>
-			{# <li class="nav-item">
-							<a class="nav-link {{ app.request.get('_route') == 'dashboard_contact_index' ? 'active' }}" href="{{ path('dashboard_contact_index') }}">
-								Message/Ticket
-							</a>
-						</li> #}
 		</ul>
 
 	</div>
