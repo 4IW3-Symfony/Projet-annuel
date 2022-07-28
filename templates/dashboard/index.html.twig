@@ -6,11 +6,9 @@
 {% block PageHeading %}Dashboard
 {% endblock %}
 
-{% block content %}
+{% block body %}
 
 	<div class="example-wrapper">
-		<h3>Welcome
-			{{app.user.email}}
-		</h3>
+		<h3>Bienvenue dans votre espace personnel <strong>{{app.user.firstname}}</strong> !</h3>
 	</div>
 {% endblock %}
