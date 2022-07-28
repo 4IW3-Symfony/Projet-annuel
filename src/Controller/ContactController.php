@@ -23,8 +23,10 @@ class ContactController extends AbstractController
     #[Route('/', name: 'app_contact_index', methods: ['GET'])]
     public function index(ContactRepository $contactRepository): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         return $this->render('contact/index.html.twig', [
-            'contacts' => $contactRepository->findAll(),
+            'contacts' => $user->getContact(),
         ]);
     }
 
@@ -76,6 +78,7 @@ class ContactController extends AbstractController
     #[Route('/{id}', name: 'app_contact_show', methods: ['GET','POST'])]
     public function show(Contact $contact,Request $request, EntityManagerInterface $entityManager): Response
     {
+        $comp =0 ;
 
         foreach($contact->getUsers() as $utilisateur){
             if($utilisateur->getId() == $this->getUser()->getId())
@@ -83,8 +86,12 @@ class ContactController extends AbstractController
 
             }
             else{
+                $comp = $comp+1;
                 $personne = $utilisateur;
             }
+        }
+        if($comp == 2){
+            throw $this->createNotFoundException("Page Not Found Error 404");
         }
         $contactMessage = new ContactMessage();
         $form = $this->createForm(ContactMessageType::class, $contactMessage);
@@ -108,36 +115,36 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_contact_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(Contact1Type::class, $contact);
-        $form->handleRequest($request);
+    // #[Route('/{id}/edit', name: 'app_contact_edit', methods: ['GET', 'POST'])]
+    // public function edit(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
+    // {
+    //     $form = $this->createForm(Contact1Type::class, $contact);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+    //     }
 
-        return $this->renderForm('contact/edit.html.twig', [
-            'contact' => $contact,
-            'form' => $form,
-        ]);
-    }
-
-    
+    //     return $this->renderForm('contact/edit.html.twig', [
+    //         'contact' => $contact,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     
 
-    #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
-    public function delete(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($contact);
-            $entityManager->flush();
-        }
+    
 
-        return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
-    }
+    // #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
+    // public function delete(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
+    // {
+    //     if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->request->get('_token'))) {
+    //         $entityManager->remove($contact);
+    //         $entityManager->flush();
+    //     }
+
+    //     return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+    // }
 }

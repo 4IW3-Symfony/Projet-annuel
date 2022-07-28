@@ -12,12 +12,11 @@
             {% else %}
 
                 <div style="border:solid">
-                    <h4>{{ user.lastname }} {{user.firstname}}</h4>
+                    <a href="{{ path('app_contact_show',{'id':contact.id}) }}"><h4>{{ user.lastname }} {{user.firstname}} {{ contact.ContactMessages.last.date|date('m-d H:i') }}</h4></a>
                 </div>
             {% endif %}
         {% endfor %}
 
     {% endfor %}
 
-    <a href="{{ path('app_contact_new') }}">Create new</a>
 {% endblock %}

@@ -6,10 +6,10 @@
     <h1>Contact {{ personne.lastname }} {{ personne.firstname }}</h1>
 
     {% for message in contact.ContactMessages %}
-        {% if message.IdUser == monid %}
-            <h5 style="color:red">{{message.message }}</h5>
+        {% if message.IdUser.Id == monid %}
+            <h5 style="color:red;border:solid;">{{message.message }} {{ message.date|date('m-d H:i') }}</h5>
         {% else %}
-            <h5 style="color:green">{{message.message }}</h5>
+            <h5 style="color:green;border:solid;">{{message.message }} {{ message.date|date('m-d H:i') }}</h5>
         {% endif %}
     {% endfor %}
 
@@ -19,5 +19,4 @@
     <a href="{{ path('app_contact_index') }}">back to list</a>
 
 
-    {{ include('contact/_delete_form.html.twig') }}
 {% endblock %}

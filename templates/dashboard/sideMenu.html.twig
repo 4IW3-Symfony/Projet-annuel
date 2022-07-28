@@ -37,6 +37,11 @@
 					Locations
 				</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link {{ app.request.get('_route') == 'dashboard_rental_index' ? 'active' }}" href="{{ path('dashboard_contact_create') }}">
+					ChatBox
+				</a>
+			</li>
 		</ul>
 
 	</div>
