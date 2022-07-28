@@ -70,6 +70,7 @@ $map-height: 550px;
           align-items: flex-start;
           width: 100%;
           border: 1px solid transparent;
+
           &:hover {
             cursor: pointer;
             border: 1px solid #eee;
@@ -169,16 +170,19 @@ $map-height: 550px;
     flex-direction: column;
     align-items: flex-start;
     min-width: 230px;
+
     &__title {
       font-size: 1.5rem;
       font-weight: bold;
       margin: 0 0 0.6rem;
     }
+
     &__footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
+
       &__price {
         &__value {
           font-size: 2.2rem;
@@ -191,8 +195,126 @@ $map-height: 550px;
           font-weight: bold;
         }
       }
-      a{
-        color: white!important;
+
+      a {
+        color: white !important;
+      }
+    }
+  }
+}
+
+
+.search-hero {
+  padding: 175px 0;
+  background-size: cover;
+
+  &__form {
+    margin: 0 auto;
+    max-width: 500px;
+  }
+}
+
+.results {
+  padding: 100px 0;
+
+  &__title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 5rem;
+    text-align: center;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 2rem;
+
+    &__item {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 1rem;
+      border-bottom: 1px solid $gray-100;
+
+      &__img {
+        aspect-ratio: 6/4;
+        object-fit: cover;
+        width: 400px;
+      }
+
+      &__content {
+        &__title {
+          font-size: 2.75rem;
+          font-weight: bold;
+          margin: 0 0 0.6rem;
+          a {
+            text-decoration: none;
+            color: $dark;
+            &:hover{
+              color: $gray-800;
+            }
+          }
+        }
+
+        &__city {
+          font-size: 0.875rem;
+          font-weight: bold;
+          color: $gray-600;
+          margin: 0 0 0.4rem;
+        }
+
+        &__license {
+          font-size: 0.875rem;
+          font-weight: bold;
+          border: 1px solid black;
+          border-radius: 0.5rem;
+          padding: 0.2rem 0.4rem;
+        }
+
+        &__footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          margin-top: 3rem;
+          gap: 2rem;
+
+          &__info {
+            &__title {
+              font-size: 0.85rem;
+              font-weight: bold;
+              color: $gray-600;
+              margin-bottom: 0;
+            }
+
+            &__value {
+              font-size: 1.85rem;
+              font-weight: 500;
+            }
+          }
+
+          &__price {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+
+            &__value {
+              font-size: 3rem;
+              font-weight: bold;
+              line-height: 2.2rem;
+              margin-bottom: 0;
+            }
+
+            &__unit {
+              font-size: 0.875rem;
+              font-weight: bold;
+              margin-bottom: 0;
+            }
+          }
+        }
       }
     }
   }
