@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Contact</h1>
-    <button><a href="{{ path('dashboard_contact_admin') }}"> Contacter Admin</a></button>
+    <a href="{{ path('dashboard_contact_admin') }}" class="btn btn-dark">Contacter un administateur</a>
 
     {% for contact in contacts %}
         {% for user in contact.users %}
