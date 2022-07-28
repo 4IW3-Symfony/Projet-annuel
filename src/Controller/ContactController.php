@@ -9,6 +9,7 @@ use App\Entity\Contact;
 use App\Form\Contact1Type;
 use App\Entity\ContactMessage;
 use App\Form\ContactMessageType;
+use App\Repository\UserRepository;
 use App\Repository\RentalRepository;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -68,6 +69,22 @@ class ContactController extends AbstractController
         $contact->setType(1);
         $contact->addUser($user);
         $contact->addUser($rental->getMotorcycle()->getUser());
+        $entityManager->persist($contact);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+      
+    }
+
+    #[Route('/newmessage-admin', name: 'dashboard_contact_admin', methods: ['POST','GET'])]
+    public function newmessageadmin( RentalRepository $rentalrepository,EntityManagerInterface $entityManager,UserRepository $userrepo) :Response
+    {
+        $contact = new Contact();
+        /** @var User $user */
+        $user = $this->getUser();
+        $contact->setType(2);
+        $contact->addUser($user);
+        $contact->addUser($userrepo->find(1));
         $entityManager->persist($contact);
         $entityManager->flush();
 
