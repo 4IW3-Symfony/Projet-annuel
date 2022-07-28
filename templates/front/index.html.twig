@@ -36,30 +36,28 @@
                     Nos suggestions
                 </h2>
                 <div class="map__menu__header__cta">
-                    <a href="/search" class="btn btn-dark btn-sm">Recherche avancée</a>
+                    <a href="/resultat-search" class="btn btn-dark btn-sm">Recherche avancée</a>
                 </div>
             </div>
             <div class="map__menu__nav">
                 <div class="map__menu__nav__list">
-                    {% for i in 0..4 %}
-                        <article>
-                            <a href="/motorcycle/{{ i }}" class="map__menu__nav__list__item">
+                    {% for motorcycle in motorcycles_markers %}
+                            <article class="map__menu__nav__list__item map-item-link" data-id="{{ motorcycle.id }}">
                                 <figure class="map__menu__nav__list__item__figure">
                                     <img class="map__menu__nav__list__item__figure__img"
-                                         src="https://acidmoto.ch/cms/sites/default/files/concept_yamaha_r9.jpg"
-                                         alt="Moto - Model"/>
+                                         src="{{ motorcycle.image }}"
+                                         alt="location {{ motorcycle.brand }} {{ motorcycle.model }}"/>
                                 </figure>
                                 <div class="map__menu__nav__list__item__content">
-                                    <h1 class="map__menu__nav__list__item__content__title">YAMAHA R9</h1>
-                                    <small class="map__menu__nav__list__item__content__city">Paris, 75012</small>
-                                    <span class="map__menu__nav__list__item__content__license">A1, B</span>
+                                    <h1 class="map__menu__nav__list__item__content__title">{{ motorcycle.brand }} {{ motorcycle.model }}</h1>
+                                    <small class="map__menu__nav__list__item__content__city">{{ motorcycle.city }}, {{ motorcycle.cp }}</small>
+                                    <span class="map__menu__nav__list__item__content__license">{{ motorcycle.license }}</span>
                                     <span class="map__menu__nav__list__item__content__price">
-                                        <strong class="map__menu__nav__list__item__content__price__value">110€</strong>
+                                        <strong class="map__menu__nav__list__item__content__price__value">{{ motorcycle.price }}€</strong>
                                         <small class="map__menu__nav__list__item__content__price__unit">/jour</small>
                                     </span>
                                 </div>
-                            </a>
-                        </article>
+                            </article>
                     {% endfor %}
                 </div>
             </div>
@@ -67,41 +65,140 @@
         <div class="map__map">
             <div id="map"></div>
             <div id="map-data" data-motorcycles="{{ motorcycles_markers|json_encode }}"></div>
+            <template id="map-marker">
+                <div class="map-marker">
+                    <img class="map-marker__img" id="map-marker_image"/>
+                    <div class="map-marker__content">
+                        <span class="map-marker__content__title" id="map-marker_title"></span>
+                        <div class="map-marker__content__footer">
+                            <div class="map-marker__content__footer__price">
+                                <span class="map-marker__content__footer__price__value" id="map-marker_price"></span>
+                                <small class="map-marker__content__footer__price__unit">/jour</small>
+                            </div>
+                            <a class="btn btn-dark" id="map-marker_link">Louer</a>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
     </section>
 
     <div class="container">
-        <h1 class="text-center my-3">Suggestions</h1>
-        <div class="row">
-            {% for motorcycle in motorcycles %}
-                <div class="col-xl-3 col-lg-4 mb-5">
-                    <div class="card rounded-1 text-center" style="width: 18rem;">
-                        {% if motorcycle.motorcycleImages|length > 0 %}
-                            {% set cp = 0 %}
-                            {% for image in motorcycle.motorcycleImages %}
-                                {% if cp == 0 %}
-                                    <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}"
-                                         class="img-fluid" width="286px" height="215px"/>
-                                    {% set cp = 1 %}
-                                {% endif %}
-
-
-                            {% endfor %}
-                        {% else %}
-                            <img src="https://via.placeholder.com/640x480/999999/FFFFFF/?text=--NO-IMAGE---"
-                                 class="card-img-top">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ motorcycle.name }}</h5>
-                            <p class="text-muted">{{ motorcycle.model.brand.name }}
-                                -{{ motorcycle.model.name }}
-                            </p>
-                            <a href="{{ path('motorcycle_show',{'id': motorcycle.id}) }}" class="btn btn-dark">
-                                Show</a>
-                        </div>
+        <section class="home-links">
+            <h2 class="home-links__title">Que cherchez-vous?</h2>
+            <div class="home-links__links">
+                <a href="/resultat-search" class="home-links__links__item" style="background-image: url('/images/a2.png');">
+                    <h3 class="home-links__links__item__title">A2</h3>
+                </a>
+                <a href="/resultat-search" class="home-links__links__item" style="background-image: url('/images/sportives.png');">
+                    <h3 class="home-links__links__item__title">Sportives</h3>
+                </a>
+                <a href="/resultat-search" class="home-links__links__item" style="background-image: url('/images/autour.png');">
+                    <h3 class="home-links__links__item__title">Autour de chez vous</h3>
+                </a>
+            </div>
+        </section>
+    </div>
+    <section class="renter">
+        <div class="container">
+            <h2 class="renter__title">Vous souhaitez louer votre moto ?</h2>
+            <p class="renter__subtitle">Il suffit de vous inscrire, d'ajouter votre moto et c'est fini !</p>
+            <img class="renter__img" src="/images/path.png" alt="easyloc moto"/>
+            <p class="text-center mt-4">
+                <a href="/register" class="btn btn-light btn-lg">S'inscrire</a>
+            </p>
+        </div>
+    </section>
+    <section class="reviews">
+        <div class="container">
+            <h2 class="reviews__title">Bientôt, vos avis !</h2>
+            <div class="reviews__list">
+                <div class="reviews__list__item">
+                    <div class="reviews__list__item__header">
+                        <div class="reviews__list__item__header__avatar"></div>
+                        <div class="reviews__list__item__header__name"></div>
+                    </div>
+                    <div class="reviews__list__item__content"></div>
+                    <div class="reviews__list__item__stars">
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
                     </div>
                 </div>
-            {% endfor %}
+                <div class="reviews__list__item">
+                    <div class="reviews__list__item__header">
+                        <div class="reviews__list__item__header__avatar"></div>
+                        <div class="reviews__list__item__header__name"></div>
+                    </div>
+                    <div class="reviews__list__item__content"></div>
+                    <div class="reviews__list__item__stars">
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                    </div>
+                </div>
+                <div class="reviews__list__item">
+                    <div class="reviews__list__item__header">
+                        <div class="reviews__list__item__header__avatar"></div>
+                        <div class="reviews__list__item__header__name"></div>
+                    </div>
+                    <div class="reviews__list__item__content"></div>
+                    <div class="reviews__list__item__stars">
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                    </div>
+                </div>
+                <div class="reviews__list__item">
+                    <div class="reviews__list__item__header">
+                        <div class="reviews__list__item__header__avatar"></div>
+                        <div class="reviews__list__item__header__name"></div>
+                    </div>
+                    <div class="reviews__list__item__content"></div>
+                    <div class="reviews__list__item__stars">
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                    </div>
+                </div>
+                <div class="reviews__list__item">
+                    <div class="reviews__list__item__header">
+                        <div class="reviews__list__item__header__avatar"></div>
+                        <div class="reviews__list__item__header__name"></div>
+                    </div>
+                    <div class="reviews__list__item__content"></div>
+                    <div class="reviews__list__item__stars">
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                    </div>
+                </div>
+                <div class="reviews__list__item">
+                    <div class="reviews__list__item__header">
+                        <div class="reviews__list__item__header__avatar"></div>
+                        <div class="reviews__list__item__header__name"></div>
+                    </div>
+                    <div class="reviews__list__item__content"></div>
+                    <div class="reviews__list__item__stars">
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                        <div class="reviews__list__item__stars__star">★</div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
 {% endblock %}

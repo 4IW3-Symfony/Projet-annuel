@@ -10912,6 +10912,139 @@ textarea.form-control-lg {
   font-size: 1.125rem;
 }
 
+.home-links {
+  padding: 175px 0;
+}
+.home-links__title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 80px;
+}
+.home-links__links {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  width: 100%;
+}
+.home-links__links__item {
+  width: 220px;
+  height: 300px;
+  border-radius: 8px;
+  background-size: cover;
+  padding: 1.5rem;
+  text-decoration: none;
+  background-repeat: no-repeat;
+}
+.home-links__links__item:hover {
+  box-shadow: 0 4px 7px -3px rgba(0, 0, 0, 0.5803921569);
+}
+.home-links__links__item__title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f8f9fa;
+  text-align: left;
+}
+
+.renter {
+  color: #f8f9fa;
+  background: #121212;
+  padding: 175px 0;
+}
+.renter__title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.renter__subtitle {
+  font-size: 1.6rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.renter__img {
+  display: block;
+  margin: 0 auto;
+  width: 560px;
+  max-width: 100%;
+}
+
+.reviews {
+  padding: 175px 0;
+  /* Firefox */
+  /* Chrome, Edge, and Safari */
+}
+.reviews * {
+  scrollbar-width: auto;
+  scrollbar-color: #c2c2c2 #ffffff;
+}
+.reviews *::-webkit-scrollbar {
+  width: 16px;
+}
+.reviews *::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+.reviews *::-webkit-scrollbar-thumb {
+  background-color: #c2c2c2;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
+.reviews__title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.reviews__list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 4rem;
+  max-width: 100%;
+  overflow-x: scroll;
+  padding-bottom: 1rem;
+}
+.reviews__list__item {
+  padding: 1rem;
+  width: 300px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+.reviews__list__item__header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+.reviews__list__item__header__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e9ecef;
+}
+.reviews__list__item__header__name {
+  width: 60px;
+  height: 1rem;
+  background: #e9ecef;
+  border-radius: 4px;
+}
+.reviews__list__item__content {
+  border-radius: 4px;
+  width: 200px;
+  height: 90px;
+  background: #e9ecef;
+  margin-bottom: 0.8rem;
+}
+.reviews__list__item__stars {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  color: #e9ecef;
+}
+
 .motorcycle__carrousel img {
   object-fit: contain;
   width: 100%;
@@ -10920,7 +11053,7 @@ textarea.form-control-lg {
 
 .map {
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 575px 1fr;
   grid-template-rows: 550px;
   grid-template-areas: "menu map";
 }
@@ -10975,8 +11108,12 @@ textarea.form-control-lg {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  text-decoration: none;
-  color: #121212;
+  width: 100%;
+  border: 1px solid transparent;
+}
+.map__menu__nav__list__item:hover {
+  cursor: pointer;
+  border: 1px solid #eee;
 }
 .map__menu__nav__list__item__figure {
   aspect-ratio: 6/4;
@@ -11019,7 +11156,7 @@ textarea.form-control-lg {
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .map__menu__nav__list__item__content__price__value {
   font-size: 2.2rem;
@@ -11036,6 +11173,49 @@ textarea.form-control-lg {
 }
 .map__map #map {
   height: 100%;
+}
+
+.map-marker {
+  display: flex;
+  align-items: flex-start;
+  min-width: 350px;
+}
+.map-marker__img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 10px solid white;
+  transform: translate(-30%, -30%) scale(1.3);
+}
+.map-marker__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 230px;
+}
+.map-marker__content__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 0.6rem;
+}
+.map-marker__content__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.map-marker__content__footer__price__value {
+  font-size: 2.2rem;
+  font-weight: bold;
+  line-height: 2.2rem;
+}
+.map-marker__content__footer__price__unit {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+.map-marker__content__footer a {
+  color: white !important;
 }
 
 * {

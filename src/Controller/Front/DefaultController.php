@@ -30,10 +30,13 @@ class DefaultController extends AbstractController
             return [
                 'lat' => $motorcycle->getLat(),
                 'lon' => $motorcycle->getLon(),
+                'city' => $motorcycle->getCity(),
+                'cp' => $motorcycle->getCp(),
                 'model' => $motorcycle->getModel()->getName(),
-                'description' => $motorcycle->getModel()->getBrand()->getName(),
-                'image' => $motorcycle->getMotorcycleImages()[0] ? $motorcycle->getMotorcycleImages()[0]->getImageName() : 'https://via.placeholder.com/420',
+                'brand' => $motorcycle->getModel()->getBrand()->getName(),
+                'image' => $motorcycle->getMotorcycleImages()[0] ? '/upload/images/motorcycles/'.$motorcycle->getMotorcycleImages()[0]->getImageName() : 'https://via.placeholder.com/420',
                 'price' => $motorcycle->getPrice(),
+                'license' => $motorcycle->getLicenceType()->getType(),
                 'id' => $motorcycle->getId(),
             ];
         }, $motorcycles);
