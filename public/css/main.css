@@ -11324,4 +11324,8 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
+.extend-page {
+  min-height: 55vh;
+}
+
 /*# sourceMappingURL=main.css.map */
