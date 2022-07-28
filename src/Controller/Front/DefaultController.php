@@ -41,7 +41,7 @@ class DefaultController extends AbstractController
     #[Route('/resultat-search', name: 'resultat_search', methods: ['GET'])]
     public function resultat_search(MotorcycleRepository $motorcyleRepository,Request $request): Response 
     {
-        dump($_GET);
+        
         $ville = null;
         $date_start = null;
         $date_end = null;
@@ -83,7 +83,7 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
-            dump(1);
+           
             foreach($_GET['motorcycle_search'] as $key => $value)
             {
                 if($value == null )
@@ -97,7 +97,7 @@ class DefaultController extends AbstractController
                 unset($_GET['motorcycle_search']['A']);
             }
             $motorcycles = $motorcyleRepository->searchMotorcycle($_GET['motorcycle_search']);
-            dump($motorcycles);
+            
             
         }
 
@@ -143,7 +143,7 @@ class DefaultController extends AbstractController
         }
         else{
             $search = $motorcycles;
-            dump($search);
+            
         }
         
 
