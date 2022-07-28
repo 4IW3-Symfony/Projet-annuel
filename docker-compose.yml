@@ -10,7 +10,7 @@ services:
     image: postgres:13-alpine
     restart: always
     environment:
-        POSTGRES_PASSWORD: password
+        POSTGRES_PASSWORD: passwordnull
         POSTGRES_DB: db
         POSTGRES_USER: postgres
     volumes:
