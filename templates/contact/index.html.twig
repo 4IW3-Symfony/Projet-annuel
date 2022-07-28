@@ -4,17 +4,22 @@
 
 {% block body %}
     <h1>Contact</h1>
-    <button><a href="{{ path('dashboard_contact_admin') }}"> </button>
+    <button><a href="{{ path('dashboard_contact_admin') }}"> Contacter Admin</a></button>
 
     {% for contact in contacts %}
         {% for user in contact.users %}
             {% if app.user.firstname == user.firstname and app.user.lastname == user.lastname %}
 
             {% else %}
-
-                <div style="border:solid">
-                    <a href="{{ path('app_contact_show',{'id':contact.id}) }}"><h4>{{ user.lastname }} {{user.firstname}} {{ contact.ContactMessages.last.date|date('m-d H:i') }}</h4></a>
-                </div>
+                {% if user.id == 1 %}
+                    <div style="border:solid">
+                     <a href="{{ path('app_contact_show',{'id':contact.id}) }}"><h4>Administrateur {{ contact.ContactMessages.last.date|date('m-d H:i') }}</h4></a>
+                    </div>
+                {% else %}
+                    <div style="border:solid">
+                        <a href="{{ path('app_contact_show',{'id':contact.id}) }}"><h4>{{ user.lastname }} {{user.firstname}} {{ contact.ContactMessages.last.date|date('m-d H:i') }}</h4></a>
+                    </div>
+                {% endif %}
             {% endif %}
         {% endfor %}
 
