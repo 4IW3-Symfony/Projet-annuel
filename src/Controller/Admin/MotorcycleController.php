@@ -14,6 +14,7 @@ use App\Form\ReservationMotorcycleType;
 use App\Security\Voter\MotorcycleVoter;
 use Doctrine\Persistence\ObjectManager;
 use App\Repository\MotorcycleRepository;
+use App\Verification\VerificationAccess;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,8 +58,12 @@ class MotorcycleController extends AbstractController
         
 
         if (isset($_GET['marque'])){
+
             $motorcycle = new Motorcycle();
             $modele_moto = $brandrepository->findOneBy(['name' => $_GET['marque']]);
+            if($modele_moto == null){
+                throw $this->createNotFoundException('Marque Non trouvé !!!!');
+            }
             $form = $this->createForm(MotorcycleType::class, $motorcycle,['group' => $modele_moto]);
             $form->handleRequest($request);
 
@@ -77,8 +82,12 @@ class MotorcycleController extends AbstractController
                 }
                 /** @var \App\Entity\User $user */
                 $apidata = $apicall->getApiData($form->get('Cp')->getData());
-                $motorcycle->setLat($apidata->lat);
-                $motorcycle->setLon($apidata->lon);
+                if(!empty($apicall)){
+                
+                }else{
+                    $motorcycle->setLat($apidata->lat);
+                    $motorcycle->setLon($apidata->lon);
+                }
                 $user = $this->getUser();
                 $motorcycle->setStatus(0);
                 $motorcycle->setUser($user);
@@ -108,6 +117,24 @@ class MotorcycleController extends AbstractController
     #[Route('dashboard/motorcycle/{id}', name: 'dashboard_motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "dashboard"])]
     public function show(Motorcycle $motorcycle, $back, Request $request): Response
     {
+        if($back == "dashboard"){
+            /** @var \App\Entity\User $user */
+            $user = $this->getUser()->getRoles();
+            if($user[0] == "ROLE_USER"){
+                if($motorcycle->getUser()->getId() != $this->getUser()->getId()){
+                    if($motorcycle->getStatus() == 3 || $motorcycle->getStatus() == 0 ){
+                        throw $this->createNotFoundException("Vous n'avez pas l'acces!!!");
+                    }
+                }
+                
+            }
+        }
+        if($back == "front"){
+            if($motorcycle->getStatus() == 3 || $motorcycle->getStatus() == 0 ){
+                throw $this->createNotFoundException("Vous n'avez pas l'acces!!!");
+            }
+        }
+        
         if( isset($_GET['date_end']) && isset($_GET['date_start']) )
         {
             $date_end = $_GET["date_end"];
@@ -136,8 +163,9 @@ class MotorcycleController extends AbstractController
     #[Route('admin/motorcycle/{id}/edit', name: 'admin_motorcycle_edit', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/{id}/edit', name: 'dashboard_motorcycle_edit', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
     #[IsGranted(MotorcycleVoter::EDIT, subject: 'motorcycle')]
-    public function edit(Request $request, Motorcycle $motorcycle, EntityManagerInterface $entityManager, $back,ApiCall $apicall): Response
+    public function edit(Request $request, Motorcycle $motorcycle, EntityManagerInterface $entityManager, $back,ApiCall $apicall, VerificationAccess $verification): Response
     {
+        $verification->Verification_edit_moto($motorcycle->getUser()->getId(),$this->getUser());
 
         $form = $this->createForm(MotorcycleType::class, $motorcycle,['group'=> $motorcycle->getModel()->getBrand()]);
         $form->handleRequest($request);
@@ -157,9 +185,14 @@ class MotorcycleController extends AbstractController
             }
             $apidata = $apicall->getApiData($form->get('Cp')->getData());
             dump($apidata);
-            $motorcycle->setLat($apidata->lat);
-            $motorcycle->setLon($apidata->lon);
-            dump($apidata->lat);
+            if(!empty($apicall)){
+                
+            }else{
+                $motorcycle->setLat($apidata->lat);
+                $motorcycle->setLon($apidata->lon);
+            }
+            
+        
             $entityManager->flush();
 
             // return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
@@ -185,12 +218,19 @@ class MotorcycleController extends AbstractController
     }
     #[Route('/dashboard/demande/motorcycle/{id}', name: 'dashboard_demande_location', methods: ['POST','GET'], defaults: ['back' => "dashboard"])]   
     #[Route('demande/motorcycle/{id}', name: 'demande_location', methods: ['POST','GET'], defaults: ['back' => "front"])]
-    public function demande_location(Motorcycle $motorcycle,Request $request,EntityManagerInterface $entityManager,$back): Response
+    public function demande_location(Motorcycle $motorcycle,Request $request,EntityManagerInterface $entityManager,$back,VerificationAccess $verification): Response
     {
-        
+
             $rental = new Rental();
+            if(empty($_GET['date_start']) || empty($_GET['date_end']))
+            {
+                throw $this->createNotFoundException("Page Non trouvable");
+            }
+            
             $date_start = $_GET['date_start'];
             $date_end = $_GET['date_end'];
+            $verification->isValid($_GET['date_end']);
+            $verification->isValid($_GET['date_start']);
             /** @var \App\Entity\User $user */
             if( $this->getUser() == null){
                 return $this->redirectToRoute("app_login");

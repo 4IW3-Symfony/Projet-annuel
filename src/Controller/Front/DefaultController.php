@@ -25,7 +25,7 @@ class DefaultController extends AbstractController
             $date = $form->get('Start')->getData();
             return $this->redirectToRoute('resultat_search', ['ville'=> $form->get('ville')->getData(),'date_start'=> $form->get('Start')->getData()->format('Y-m-d'),'date_end'=> $form->get('End')->getData()->format('Y-m-d')]);
         }
-        $motorcycles = $motorcyleRepository->findBy(["status" => 0 ]);
+        $motorcycles = $motorcyleRepository->findBy(["status" => 1 ]);
         // dump($apicall->getApiData(75017));
         // $response = file_get_contents('https://api.openweathermap.org/geo/1.0/zip?zip=75017,FR&limit=5&appid=ef67e96d44d75c418e4d22debbd10d22');
         // $response = json_decode($response);
@@ -45,9 +45,13 @@ class DefaultController extends AbstractController
         $ville = null;
         $date_start = null;
         $date_end = null;
-        if($_GET !=null){
+        if(!empty($_GET['motorcycle_search']['ville'])){
             $ville = $_GET['motorcycle_search']['ville'];
+        }
+        elseif(!empty($_GET['motorcycle_search']['Start']) && !empty($_GET['motorcycle_search']['End'])){
             $date_start = $_GET['motorcycle_search']['Start'];
+    
+    
             $date_end = $_GET['motorcycle_search']['End'];
         }
         
@@ -79,6 +83,7 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
+            dump(1);
             foreach($_GET['motorcycle_search'] as $key => $value)
             {
                 if($value == null )

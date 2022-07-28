@@ -48,7 +48,7 @@ class MotorcycleType extends AbstractType
             ])
             ->add('Localisation')
             ->add('City')
-            ->add('Cp');
+            ->add('Cp',null,['attr' => ['min' => 9000,'max'=>99999]]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

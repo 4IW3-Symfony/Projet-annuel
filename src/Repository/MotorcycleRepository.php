@@ -150,6 +150,10 @@ class MotorcycleRepository extends ServiceEntityRepository
                     $qb->andWhere('lt.type = :A');
                     $qb->setParameter('A','A');
                     break;
+                case "ville":
+                    $qb->andWhere('m.City = :ville ');
+                    $qb->setParameter('ville', $value);
+                    break;
                 
             }
         }
