@@ -1,0 +1,199 @@
+$map-height: 550px;
+
+.map {
+  display: grid;
+  grid-template-columns: 575px 1fr;
+  grid-template-rows: $map-height;
+  grid-template-areas: 'menu map';
+
+  &__menu {
+    grid-area: menu;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    padding: 1.5rem 2rem 0;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      &__title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      &__cta {
+
+      }
+    }
+
+    &__nav {
+      overflow-y: hidden;
+
+      /* Firefox */
+      * {
+        scrollbar-width: auto;
+        scrollbar-color: #c2c2c2 #ffffff;
+      }
+
+      /* Chrome, Edge, and Safari */
+      *::-webkit-scrollbar {
+        width: 16px;
+      }
+
+      *::-webkit-scrollbar-track {
+        background: #ffffff;
+      }
+
+      *::-webkit-scrollbar-thumb {
+        background-color: #c2c2c2;
+        border-radius: 10px;
+        border: 3px solid #ffffff;
+      }
+
+
+      &__list {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 2rem;
+        max-height: 100%;
+        overflow: scroll;
+
+        &__item {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          width: 100%;
+          border: 1px solid transparent;
+          &:hover {
+            cursor: pointer;
+            border: 1px solid #eee;
+          }
+
+          &__figure {
+            aspect-ratio: 6/4;
+            width: 220px;
+            margin-bottom: 0;
+            overflow: hidden;
+
+            &__img {
+              object-fit: cover;
+              width: 100%;
+              height: 100%;
+            }
+          }
+
+          &__content {
+            padding-left: 1rem;
+
+            &__title {
+              grid-area: title;
+              font-size: 1.25rem;
+              font-weight: bold;
+              margin: 0 0 0.4rem;
+            }
+
+            &__city {
+              grid-area: city;
+              display: block;
+              color: $gray-600;
+              font-size: 0.875rem;
+              font-weight: bold;
+              margin: 0 0 0.4rem;
+            }
+
+            &__license {
+              grid-area: license;
+              font-size: 0.875rem;
+              font-weight: bold;
+              border: 1px solid black;
+              border-radius: 0.5rem;
+              padding: 0.2rem 0.4rem;
+            }
+
+            &__price {
+              grid-area: price;
+              display: flex;
+              justify-content: flex-start;
+              align-items: flex-end;
+              margin-top: 1rem;
+
+              &__value {
+                font-size: 2.2rem;
+                font-weight: bold;
+                line-height: 2.2rem;
+              }
+
+              &__unit {
+                font-size: 0.875rem;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__map {
+    grid-area: map;
+    height: 100%;
+
+    #map {
+      height: 100%;
+    }
+  }
+}
+
+.map-marker {
+  display: flex;
+  align-items: flex-start;
+  min-width: 350px;
+
+  &__img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 10px solid white;
+    transform: translate(-30%, -30%) scale(1.3);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 230px;
+    &__title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0 0 0.6rem;
+    }
+    &__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      &__price {
+        &__value {
+          font-size: 2.2rem;
+          font-weight: bold;
+          line-height: 2.2rem;
+        }
+
+        &__unit {
+          font-size: 0.875rem;
+          font-weight: bold;
+        }
+      }
+      a{
+        color: white!important;
+      }
+    }
+  }
+}

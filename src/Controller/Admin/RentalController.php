@@ -7,6 +7,7 @@ use App\Form\RentalType;
 use App\Form\TriStatusType;
 use App\Form\Rental\RestitutionType;
 use App\Repository\RentalRepository;
+use App\Repository\MotorcycleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,14 +59,26 @@ class RentalController extends AbstractController
     }
 
     #[Route('dashboard/rental/', name: 'dashboard_rental_index', methods: ['GET'])]
-    public function dashboard_index(RentalRepository $rentalRepository): Response
+    public function dashboard_index(RentalRepository $rentalRepository, MotorcycleRepository $motorcycleRepository): Response
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
+        $mesmotos = $motorcycleRepository->findBy(["user" => $user->getId()]);
         return $this->render('dashboard/rental/index.html.twig', [
+            'mesmotos' => $mesmotos,
+        ]);
+    }
+
+    #[Route('dashboard/reservation/', name: 'dashboard_reservation', methods: ['GET'])]
+    public function dashboard_reservation(RentalRepository $rentalRepository): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        return $this->render('dashboard/rental/reservation.html.twig', [
             'rentals' => $rentalRepository->findBy(["user" => $user->getId()]),
         ]);
     }
+
 
     #[Route('admin/rental/new', name: 'admin_rental_new', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/rental/new', name: 'dashboard_rental_new', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
@@ -94,6 +107,16 @@ class RentalController extends AbstractController
     #[Route('dashboard/rental/{id}', name: 'dashboard_rental_show', methods: ['GET'], defaults: ['back' => "dashboard"])]
     public function show(Rental $rental, $back): Response
     {
+        if($back == "dashboard")
+        {
+            /** @var User $user */
+            $user = $this->getUser()->getId();
+            if($rental->getUser()->getId() != $user && $rental->getMotorcycle()->getUser()->getId())
+            {
+                
+                throw $this->createNotFoundException("Vous n'avez pas l'accès !! ");
+            }
+        }
         return $this->render("{$back}/rental/show.html.twig", [
             'rental' => $rental,
         ]);
@@ -130,18 +153,21 @@ class RentalController extends AbstractController
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('dashboard/rental/validation-reservation/{id}', name: 'valider_reservation', methods: ['GET'], defaults: ['back' => "back"])]
+    #[Route('dashboard/rental/validation-reservation/{id}', name: 'dashboard_valider_reservation', methods: ['GET'], defaults: ['back' => "dashboard"])]
+    #[Route('admin/rental/validation-reservation/{id}', name: 'valider_reservation', methods: ['GET'], defaults: ['back' => "admin"])]
     public function validation_reservation(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back){
         $rental->setStatus(2);
         $entityManager->flush();
-        return $this->redirectToRoute("admin_rental_index", [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('dashboard/rental/remis-client/{id}', name: 'remis_client', methods: ['GET'], defaults: ['back' => "back"])]
+    #[Route('dashboard/rental/remis-client/{id}', name: 'dashboard_remis_client', methods: ['GET'], defaults: ['back' => "dashboard"])]
+    #[Route('admin/rental/remis-client/{id}', name: 'remis_client', methods: ['GET'], defaults: ['back' => "admin"])]
     public function remis_client(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back){
         $rental->setStatus(3);
+        $rental->getMotorcycle()->setStatus(2);
         $entityManager->flush();
-        return $this->redirectToRoute("admin_rental_index", [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('admin/rental/restitution/{id}', name: 'admin_restitution', methods: ['GET','POST'], defaults: ['back' => "admin"])]
@@ -153,29 +179,43 @@ class RentalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rental->setStatus(4);
+            dump($form->getData());
+            $rental->getMotorcycle()->setKm($form->get('km_end')->getData());
             $entityManager->flush();
+
 
             return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm("{$back}/rental/edit.html.twig", [
+        return $this->renderForm("{$back}/rental/restitution.html.twig", [
             'rental' => $rental,
             'form' => $form,
+            'back' => $back,
         ]);
     }
 
-    #[Route('dashboard/rental/cloturation/{id}', name: 'cloturation', methods: ['GET'], defaults: ['back' => "back"])]
+    #[Route('dashboard/rental/cloturation/{id}', name: 'dashboard_cloturation', methods: ['GET'], defaults: ['back' => "dashboard"])]
+    #[Route('admin/rental/cloturation/{id}', name: 'cloturation', methods: ['GET'], defaults: ['back' => "admin"])]
     public function cloturation(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back){
         $rental->setStatus(5);
+        $rental->getMotorcycle()->setStatus(1);
         $entityManager->flush();
-        return $this->redirectToRoute("admin_rental_index", [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('dashboard/rental/sav/{id}', name: 'sav', methods: ['GET'], defaults: ['back' => "back"])]
+    #[Route('dashboard/rental/sav/{id}', name: 'dashboard_sav', methods: ['GET'], defaults: ['back' => "dashoboard"])]
+    #[Route('admin/rental/sav/{id}', name: 'sav', methods: ['GET'], defaults: ['back' => "admin"])]
     public function location_sav(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back){
         $rental->setStatus(6);
         $entityManager->flush();
-        return $this->redirectToRoute("admin_rental_index", [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('demande-location-success', name: 'rental_success', methods: ['GET'])]
+    public function rental_success()
+    {
+        return $this->renderForm("front/rental/demande-success.html.twig");
+    }
+
     
 }

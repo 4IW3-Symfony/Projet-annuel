@@ -1,0 +1,72 @@
+.home-hero {
+  padding-top: pxToRem(86);
+  background-position: center;
+  // @todo change postition respnsivly
+  background-size: cover;
+  height: 800px;
+
+  &__title {
+    color: $white;
+    font-size: pxToRem(48);
+    font-weight: 600;
+    margin-top: pxToRem(128);
+    margin-bottom: pxToRem(128);
+  }
+
+  &__form {
+    width: 480px;
+
+    &__field {
+      margin-bottom: 1rem;
+
+      &--daterange {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        .icon-wrapper{
+          margin-bottom: 1rem;
+          font-size: 2rem;
+          color: $gray-400;
+        }
+      }
+
+      &--submit {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .hero__form__field__submit {
+          padding: .5rem 1.5rem;
+          font-size: pxToRem(20);
+          color: $white;
+          font-weight: 600;
+          text-transform: uppercase;
+          background: $primary;
+          border-radius: 50rem;
+          border: none;
+        }
+      }
+
+      &__label {
+        display: block;
+        padding-left: 1.25rem;
+        color: $white;
+        font-size: pxToRem(18);
+        font-weight: 600;
+      }
+
+      &__input {
+        width: 100%;
+        height: pxToRem(60);
+        border-radius: 50rem;
+        padding-left: 1.25rem;
+        border: none;
+
+        &::placeholder {
+          color: $gray-400;
+          font-size: pxToRem(18);
+        }
+      }
+    }
+  }
+}

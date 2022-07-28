@@ -72,6 +72,11 @@ class Rental
      */
     private $motorcycle;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $price;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
@@ -199,5 +204,17 @@ class Rental
     public function __toString()
     {
         return $this->id;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
     }
 }

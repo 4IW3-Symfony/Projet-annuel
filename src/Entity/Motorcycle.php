@@ -133,6 +133,21 @@ class Motorcycle
      */
     private $Localisation;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="decimal", precision=12, scale=10, nullable=true)
+     */
+    private $lat;
+
+    /**
+     * @ORM\Column(type="decimal", precision=12, scale=10, nullable=true)
+     */
+    private $lon;
+
 
     public function __construct()
     {
@@ -344,10 +359,13 @@ class Motorcycle
         return $this->status == self::STATUS_NOT_AVAILABLE;
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
+    // public function __toString()
+    // {
+        
+    //     return $this->name;
+    
+        
+    // }
 
     public function getCp(): ?int
     {
@@ -381,6 +399,42 @@ class Motorcycle
     public function setLocalisation(string $Localisation): self
     {
         $this->Localisation = $Localisation;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getLat(): ?string
+    {
+        return $this->lat;
+    }
+
+    public function setLat(?string $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLon(): ?string
+    {
+        return $this->lon;
+    }
+
+    public function setLon(?string $lon): self
+    {
+        $this->lon = $lon;
 
         return $this;
     }

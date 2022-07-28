@@ -1,0 +1,12 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Restitution{% endblock %}
+
+{% block body %}
+    <h1>Restitution Moto</h1>
+
+    {{ include('admin/rental/_form.html.twig', {'button_label': 'Restitution'}) }}
+
+	<a href="{{ path('admin_rental_index') }}">back to list</a>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base_dashboard.html.twig' %}
+
+{% block title %}Rental index
+{% endblock %}
+
+{% block body %}
+	<h1>Mes Réservations</h1>
+	<div class="table-responsive">
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Photo</th>
+					<th>Marque et Model Moto</th>
+					<th>Date de réservation</th>
+					<th>Date_start</th>
+					<th>Date_end</th>
+					<th>Montant</th>
+					<th>Status</th>
+					<th>Km_start</th>
+					<th>Km_end</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+					{% for rental in rentals %}
+								<tr>
+									<td>
+								{%  if rental.motorcycle.motorcycleImages|length > 0 %}
+									{# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
+									<img src="{{ vich_uploader_asset(rental.motorcycle.motorcycleImages.first, 'imageFile') }}" alt="{{ rental.motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/>
+								{% else %}
+									<img src="{{asset(constant('DEFAULT_IMAGE', rental.motorcycle))}}" class="card-img-top" style="max-width:100px">
+								{% endif %}
+							</td>
+							<td>{{ rental.motorcycle.model.brand.name }} {{ rental.motorcycle.model.name }}</td>
+							<td>{{ rental.createdAt ? rental.createdAt|date('Y-m-d ') : '' }}</td>
+							<td>{{ rental.dateStart ? rental.dateStart|date('Y-m-d ') : '' }}</td>
+							<td>{{ rental.dateEnd ? rental.dateEnd|date('Y-m-d ') : '' }}</td>
+							
+							{% set difference = date(rental.dateEnd).diff(date(rental.dateStart)) %}
+							{% set leftDays = difference.days %}
+							<td> {{ leftDays }}J | {{ rental.price }}€ </td>
+
+			
+							<td>
+								{% if rental.status == 1%}
+									En attente Validation
+								{% endif %}
+								{% if rental.status == 2%}
+									Validé
+
+								{% endif %}
+								{% if rental.status == 3%}
+									Véhicule remis au client
+								{% endif %}
+								{% if rental.status == 4%}
+									Vehicule Réstitué
+
+								{% endif %}
+								{% if rental.status == 5%}
+									Location Clos
+									<button><a href=" {{ path('dashboard_sav', {'id': rental.id})}} "> SAV</a></button>
+									
+								{% endif %}
+								{% if rental.status == 6%}
+									SAV
+									<button><a href=" {{ path('dashboard_cloturation', {'id': rental.id})}} "> Cloturation SAV</a></button>
+
+								{% endif %}
+							</td>
+							<td>{{ rental.kmStart }}</td>
+							<td>{{ rental.kmEnd }}</td>
+							<td class="action">
+								<a href="{{ path('dashboard_rental_show', {'id': rental.id}) }}">
+									<i class="bi bi-eye-fill icon-show"></i>
+								</a>
+                                {% if rental.status<3 %}
+								{{ include('dashboard/rental/_delete_form.html.twig') }}
+                                {% endif %}
+							</td>
+						</tr>
+
+					{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
