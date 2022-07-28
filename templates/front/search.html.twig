@@ -8,36 +8,36 @@
         <section class="search-hero" style="background-image: url('/images/bg-search.jpg')">
             <form method="get" class="search-hero__form" action="/resultat-search">
                 <div class="form-group mb-2">
-                    <label for="loc" class="text-white">Où ?</label>
+                    <label for="ville" class="text-white">Où ?</label>
                     {{ form_widget(form.ville) }}
                 </div>
                 <div class="form-group mb-2">
-                    <label for="date1" class="text-white">Dates :</label>
+                    <label for="Start" class="text-white">Dates :</label>
                     <div class="d-flex align-items-center gap-3">
                         {{ form_widget(form.Start) }}
                         {{ form_widget(form.End) }}
                     </div>
                 </div>
                 <div class="form-group mb-2">
-                    <label for="date1" class="text-white">Prix/jour :</label>
+                    <label for="prix_min" class="text-white">Prix/jour :</label>
                     <div class="d-flex align-items-center gap-3">
                         {{ form_widget(form.prix_min) }}
                         {{ form_widget(form.prix_max) }}
                     </div>
                 </div>
                 <div class="form-group mb-2">
-                    <label for="date1" class="text-white">Permis :</label>
+                    <label class="text-white">Permis :</label>
                     <div class="d-flex align-items-center text-light">
                         {{ form_row(form.A) }}
                         {{ form_row(form.A2) }}
                     </div>
                 </div>
                 <div class="form-group mb-2">
-                    <label for="loc" class="text-white">Marque :</label>
+                    <label for="marque" class="text-white">Marque :</label>
                     {{ form_widget(form.marque) }}
                 </div>
                 <div class="form-group mb-2">
-                    <label for="date1" class="text-white">Puissance (ch) :</label>
+                    <label for="power_min" class="text-white">Puissance (ch) :</label>
                     <div class="d-flex align-items-center gap-3">
                         {{ form_widget(form.power_min) }}
                         {{ form_widget(form.power_max) }}
