@@ -12,9 +12,6 @@ RUN apt-get update && \
     docker-php-ext-enable apcu pdo_pgsql sodium && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN wget https://github.com/elastic/apm-agent-php/releases/download/v1.5/apm-agent-php_1.5_all.deb && \
-    dpkg -i apm-agent-php_1.5_all.deb
-
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 
