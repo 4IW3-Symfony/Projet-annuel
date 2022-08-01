@@ -29,7 +29,7 @@ function loaded() {
         }).setView([48.851401, 2.364282], 5);
 
         // Adding layer
-        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: 'easyloc',
         }).addTo(map);
