@@ -41,6 +41,9 @@ class RegistrationController extends AbstractController
         SendMailService $mail,
         JWTService $jwt,
     ): Response {
+        if($this->getUser()){
+            return $this->redirectToRoute('dashboard_default');
+        }
         
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -86,13 +89,13 @@ class RegistrationController extends AbstractController
             $token = $jwt->generate($header, $payload, $this->getParameter('SECRET'));
 
             // On envoie un mail
-            $mail->send(
-                'no-reply@monsite.net',
-                $user->getEmail(),
-                'Activation de votre compte sur le site easyloc',
-                'register',
-                compact('user', 'token')
-            );
+            // $mail->send(
+            //     'no-reply@monsite.net',
+            //     $user->getEmail(),
+            //     'Activation de votre compte sur le site easyloc',
+            //     'register',
+            //     compact('user', 'token')
+            // );
             // return $this->redirectToRoute('app_login');
             // Handle user as if he just logged-in
             // after validating the user and saving it to the database
@@ -135,7 +138,7 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('dashboard_profile');
     }
     #[Route('/verif/{token}', name: 'verify_user')]
     public function verifyUser($token, JWTService $jwt, UserRepository $usersRepository, EntityManagerInterface $em): Response

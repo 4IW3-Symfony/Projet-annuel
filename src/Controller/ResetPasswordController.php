@@ -19,7 +19,7 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
-#[Route('/reset-password-null', name: 'app_reset_password_null')]
+#[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
 {
     use ResetPasswordControllerTrait;
@@ -36,7 +36,7 @@ class ResetPasswordController extends AbstractController
     /**
      * Display & process form to request a password reset.
      */
-    #[Route('/reset-password', name: 'app_forgot_password_request')]
+    #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
@@ -156,8 +156,8 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('contact@easyloc.com', 'Easyloc'))
-            ->to($user->getEmail())
+            ->from(new Address('contact@rocoprono.com', 'Mail Reset Password'))
+            ->to("chao19994@icloud.com")
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
