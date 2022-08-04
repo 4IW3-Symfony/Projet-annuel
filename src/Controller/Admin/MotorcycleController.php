@@ -46,6 +46,7 @@ class MotorcycleController extends AbstractController
         $user = $this->getUser();
         return $this->render('dashboard/motorcycle/index.html.twig', [
             'motorcycles' => $motorcycleRepository->findBy(["user" => $user->getId()], ["updatedAt" => "DESC"]),
+            'unverifiedMotorcycles' => $motorcycleRepository->findBy(["user" => $user->getId(), "status" => 0], ["updatedAt" => "DESC"]),
         ]);
     }
 

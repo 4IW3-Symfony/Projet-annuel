@@ -56,6 +56,18 @@ td.action {
   border-radius: 8px;
   padding: 1rem;
 }
+.motorcycle--status0 {
+  border-left: 5px solid orange;
+}
+.motorcycle--status1 {
+  border-left: 5px solid green;
+}
+.motorcycle--status2 {
+  border-left: 5px solid dodgerblue;
+}
+.motorcycle--status3 {
+  border-left: 5px solid red;
+}
 .motorcycle__figure {
   aspect-ratio: 6/4;
   width: 220px;

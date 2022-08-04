@@ -6,6 +6,33 @@
 {% block body %}
     <section>
         <h2>Motos en cours de vérification</h2>
+        {% for motorcycle in unverifiedMotorcycles %}
+            <article class="motorcycle map-item-link" data-id="{{ motorcycle.id }}">
+                <figure class="motorcycle__figure">
+                    {% if motorcycle.motorcycleImages|length > 0 %}
+                        {# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
+                        <img class="motorcycle__figure__img"
+                             src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}"
+                             alt="{{ motorcycle.model }}"/>
+                    {% else %}
+                        <img class="motorcycle__figure__img"
+                             src="{{ asset(constant('DEFAULT_IMAGE', motorcycle)) }}"
+                             style="max-width:100px">
+                    {% endif %}
+                </figure>
+                <div class="motorcycle__content">
+                    <h1 class="motorcycle__content__title">
+                        {{ motorcycle.model.brand.name }} {{ motorcycle.model }}
+                    </h1>
+                    <small class="motorcycle__content__city">
+                        {{ motorcycle.city }}, {{ motorcycle.cp }}
+                    </small>
+                    <span class="motorcycle__content__license">
+                        {{ motorcycle.licenceType.type }}
+                    </span>
+                </div>
+            </article>
+        {% endfor %}
     </section>
     <div class="d-flex justify-content-between align-items-start">
         <h2 class="fw-bold">Mes Motos</h2>
@@ -13,7 +40,7 @@
     </div>
     <section class="motorcycles">
         {% for motorcycle in motorcycles %}
-            <article class="motorcycle map-item-link" data-id="{{ motorcycle.id }}">
+            <article class="motorcycle motorcycle--status{{motorcycle.status}}" data-id="{{ motorcycle.id }}">
                 <figure class="motorcycle__figure">
                     {% if motorcycle.motorcycleImages|length > 0 %}
                         {# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
@@ -45,11 +72,12 @@
                 </div>
                 <div class="motorcycle__actions">
                     <a href="{{ path('dashboard_motorcycle_show', {'id': motorcycle.id}) }}"
-                        class="btn btn-outline-dark btn-sm">Voir</a>
-                    {% if motorcycle.status != 2 %}
-                        <a href="{{ path('dashboard_motorcycle_edit', {'id': motorcycle.id}) }}"
-                           class="btn btn-dark btn-sm">Editer</a>
-                        {{ include('dashboard/motorcycle/_delete_form.html.twig') }}
+                       class="btn btn-dark btn-sm">Fiche de la moto</a>
+                    {% if motorcycle.status == 2 or motorcycle.status == 1%}
+                        <a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}"
+                           class="btn btn-outline-dark btn-sm">Voir l'annonce</a>
+                    {% else %}
+                        <a href="#" class="btn btn-outline-dark btn-sm disabled" disabled>Voir l'annonce</a>
                     {% endif %}
                 </div>
             </article>
