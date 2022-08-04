@@ -1,0 +1,164 @@
+.icon-show,
+.icon-edit,
+.icon-delete {
+  font-size: 1.5rem;
+  margin: 0 3px;
+}
+
+.icon-show {
+  color: #20c997;
+}
+
+.icon-edit {
+  color: #0d6efd;
+}
+
+.icon-delete {
+  color: #dc3545;
+}
+
+td.action a {
+  text-decoration: none;
+}
+
+td.action {
+  white-space: nowrap;
+}
+
+body {
+
+}
+
+.sidebar {
+  min-height: 95vh;
+}
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+.my-chat {
+  border-bottom-right-radius: 0 !important;
+}
+
+.motorcycles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+.motorcycle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  border: 2px solid #DEDEDE;
+  border-radius: 8px;
+  padding: 1rem;
+
+  &__figure {
+    aspect-ratio: 6/4;
+    width: 220px;
+    margin-bottom: 0;
+    overflow: hidden;
+    border-radius: 8px;
+
+    &__img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__content {
+    flex-grow: 1;
+    padding-left: 1rem;
+
+    &__title {
+      grid-area: title;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin: 0 0 0.4rem;
+    }
+
+    &__city {
+      grid-area: city;
+      display: block;
+      color: #6C757DFF;
+      font-size: 0.875rem;
+      font-weight: bold;
+      margin: 0 0 0.4rem;
+    }
+
+    &__license {
+      grid-area: license;
+      font-size: 0.875rem;
+      font-weight: bold;
+      border: 1px solid black;
+      border-radius: 0.5rem;
+      padding: 0.2rem 0.4rem;
+    }
+
+    &__price {
+      grid-area: price;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-end;
+      margin-top: 1rem;
+
+      &__value {
+        font-size: 2.2rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+      }
+
+      &__unit {
+        font-size: 0.875rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+}
+
+
+.licenseplate {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: white;
+  font-family: Arial, sans-serif;
+  border: 1px solid black;
+  border-radius: 4px;
+  overflow: hidden;
+
+  &__country, &__region {
+    background: dodgerblue;
+    color: white;
+    font-weight: 600;
+    padding: .8rem .2rem .15rem .2rem;
+    font-size: .6rem;
+  }
+  &__region {
+    padding: .8rem .1rem .15rem .1rem;
+  }
+
+  &__number {
+    padding: 0.3rem .2rem;
+    font-weight: 600;
+    max-width: 3.8rem;
+    font-size: .8rem;
+    word-break: break-all;
+    text-align: center;
+  }
+}

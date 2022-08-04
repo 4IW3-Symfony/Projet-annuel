@@ -4,89 +4,97 @@
 {% endblock %}
 
 {% block body %}
-	<div class="d-flex align-items-start justify-content-between">
-		<h1>{{ motorcycle.model.brand.name}} {{ motorcycle.model}}</h1>
-		{{ include('dashboard/motorcycle/_delete_form.html.twig') }}
-	</div>
-	<div class="d-flex justify-content-start align-items-center gap-3">
-		<a href="{{ path('dashboard_motorcycle_edit', {'id': motorcycle.id}) }}">Editer</a>
-		{% if motorcycle.status == 2 %}
-			<a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}">Page de l'annonce</a>
-		{% else %}
-			<a href="#" class="text-secondary" title="Votre annonce n'est pas en ligne car elle est soit elle est en attente soit en location">
-				Page de l'annonce
-			</a>
-		{% endif %}
-	</div>
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Images</th>
-				<td>
-					{%  if motorcycle.motorcycleImages|length > 0 %}
-						{% for image in motorcycle.motorcycleImages %}
-							<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}" style="max-width:100px"/>
-						{% endfor %}
-					{% else %}
-						<img src="{{asset(constant('DEFAULT_IMAGE', motorcycle))}}" class="card-img-top" style="max-width:100px">
-					{% endif %}
-				</td>
-			</tr>
-			<tr></tr>
-			<tr>
-				<th>Id</th>
-				<td>{{ motorcycle.id }}</td>
-			</tr>
-			<tr>
-				<th>Name</th>
-				<td>{{ motorcycle.name }}</td>
-			</tr>
-			<tr>
-				<th>Power</th>
-				<td>{{ motorcycle.power }}</td>
-			</tr>
-			<tr>
-				<th>Numberplate</th>
-				<td>{{ motorcycle.numberplate }}</td>
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td>{{ motorcycle.description }}</td>
-			</tr>
-			<tr>
-				<th>Km</th>
-				<td>{{ motorcycle.km }}</td>
-			</tr>
-			<tr>
-				<th>Year</th>
-				<td>{{ motorcycle.year }}</td>
-			</tr>
-			<tr>
-				<th>Status</th>
-				{% if motorcycle.status == 1 %}
-					<td>
-						<span class="badge text-white bg-success">Disponible</span>
-					</td>
-				{% elseif motorcycle.status == 2 %}
-					<td>
-						<span class="badge text-white bg-danger">En location</span>
-					</td>
-				{% elseif motorcycle.status == 0 %}
-					<td>
-						<span class="badge text-white bg-warning">En attente</span>
-					</td>
-				{% elseif motorcycle.status == 3 %}
-					<td>
-						<span class="badge text-white bg-primary">Annonce supprimée</span>
-					</td>
-				{% else %}
-					<td class="fst-italic text-danger">Erreur</td>
-				{% endif %}
-			</tr>
-		</tbody>
-	</table>
+    <div class="d-flex align-items-start justify-content-between">
+        <h1>{{ motorcycle.model.brand.name }} {{ motorcycle.model }}</h1>
+        {{ include('dashboard/motorcycle/_delete_form.html.twig') }}
+    </div>
+    <div class="d-flex justify-content-start align-items-center gap-3">
+        <a href="{{ path('dashboard_motorcycle_edit', {'id': motorcycle.id}) }}">Editer</a>
+        {% if motorcycle.status == 2 %}
+            <a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}">Page de l'annonce</a>
+        {% else %}
+            <a href="#" class="text-secondary"
+               title="Votre annonce n'est pas en ligne car elle est soit elle est en attente soit en location">
+                Page de l'annonce
+            </a>
+        {% endif %}
+    </div>
+    <table class="table">
+		  <span class="licenseplate">
+            <span class="licenseplate__country">F</span>
+            <span class="licenseplate__number">AA-123-BB</span>
+            <span class="licenseplate__region">00</span>
+          </span>
+        <tbody>
+        <tr>
+            <th>Images</th>
+            <td>
+                {% if motorcycle.motorcycleImages|length > 0 %}
+                    {% for image in motorcycle.motorcycleImages %}
+                        <img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ image.imageName }}"
+                             style="max-width:100px"/>
+                    {% endfor %}
+                {% else %}
+                    <img src="{{ asset(constant('DEFAULT_IMAGE', motorcycle)) }}" class="card-img-top"
+                         style="max-width:100px">
+                {% endif %}
+            </td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ motorcycle.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ motorcycle.name }}</td>
+        </tr>
+        <tr>
+            <th>Power</th>
+            <td>{{ motorcycle.power }}</td>
+        </tr>
+        <tr>
+            <th>Numberplate</th>
+            <td>{{ motorcycle.numberplate }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ motorcycle.description }}</td>
+        </tr>
+        <tr>
+            <th>Km</th>
+            <td>{{ motorcycle.km }}</td>
+        </tr>
+        <tr>
+            <th>Year</th>
+            <td>{{ motorcycle.year }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            {% if motorcycle.status == 1 %}
+                <td>
+                    <span class="badge text-white bg-success">Disponible</span>
+                </td>
+            {% elseif motorcycle.status == 2 %}
+                <td>
+                    <span class="badge text-white bg-danger">En location</span>
+                </td>
+            {% elseif motorcycle.status == 0 %}
+                <td>
+                    <span class="badge text-white bg-warning">En attente</span>
+                </td>
+            {% elseif motorcycle.status == 3 %}
+                <td>
+                    <span class="badge text-white bg-primary">Annonce supprimée</span>
+                </td>
+            {% else %}
+                <td class="fst-italic text-danger">Erreur</td>
+            {% endif %}
+        </tr>
+        </tbody>
+    </table>
 
-	<div class="my-5">
-		<a href="{{ path('dashboard_motorcycle_index') }}">Retour à la liste de vos motos</a>
-	</div>
+    <div class="my-5">
+        <a href="{{ path('dashboard_motorcycle_index') }}">Retour à la liste de vos motos</a>
+    </div>
 {% endblock %}
