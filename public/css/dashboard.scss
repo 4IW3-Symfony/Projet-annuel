@@ -175,3 +175,8 @@ body {
     text-align: center;
   }
 }
+
+.nav-link.active {
+  background: #F9F9F9;
+  border-left: 3px solid #838383;
+}

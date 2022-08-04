@@ -1,48 +1,44 @@
 <nav id="sidebarMenu">
 	<div class="pt-3">
-		<p>Espace Locataire</p>
-		<ul class="nav flex-column mb-4">
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.get('_route') == 'dashboard_default' ? 'active' }}" href="{{ path('dashboard_default') }}">
-					Dashboard
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.get('_route') == 'dashboard_reservation' ? 'active' }}" href="{{ path('dashboard_reservation') }}">
-					Mes Réservations
-				</a>
-			</li>
-{#			<li class="nav-item">#}
-{#				<a class="nav-link {{ app.request.get('_route') == 'dashboard_review_index' ? 'active' }}" href="{{ path('dashboard_review_index') }}">#}
-{#					Avis#}
-{#				</a>#}
-{#			</li>#}
-
-			
-			{# <li class="nav-item">
-							<a class="nav-link {{ app.request.get('_route') == 'dashboard_contact_index' ? 'active' }}" href="{{ path('dashboard_contact_index') }}">
-								Message/Ticket
-							</a>
-						</li> #}
-		</ul>
-		<p>Espace Propriétaire</p>
-		<ul class="nav flex-column">
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.get('_route') == 'dashboard_motorcycle_index' ? 'active' }}" href="{{ path('dashboard_motorcycle_index') }}">
-					Motos
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.get('_route') == 'dashboard_rental_index' ? 'active' }}" href="{{ path('dashboard_rental_index') }}">
-					Locations
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link {{ app.request.get('_route') == 'dashboard_rental_index' ? 'active' }}" href="{{ path('app_contact_index') }}">
-					ChatBox
-				</a>
-			</li>
-		</ul>
-
+		<div class="mb-4">
+			<p class="mb-0">Mon espace</p>
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.get('_route') == 'dashboard_default' ? 'active' }}" href="{{ path('dashboard_default') }}">
+						Tableau de bord
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.get('_route') == 'app_contact_index' ? 'active' }}" href="{{ path('app_contact_index') }}">
+						ChatBox
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="mb-4">
+			<p class="mb-0">Espace Locataire</p>
+			<ul class="nav flex-column mb-4">
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.get('_route') == 'dashboard_reservation' ? 'active' }}" href="{{ path('dashboard_reservation') }}">
+						Mes Réservations
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="mb-4">
+			<p class="mb-0">Espace Propriétaire</p>
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.get('_route') == 'dashboard_motorcycle_index' ? 'active' }}" href="{{ path('dashboard_motorcycle_index') }}">
+						Mes motos
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {{ app.request.get('_route') == 'dashboard_rental_index' ? 'active' }}" href="{{ path('dashboard_rental_index') }}">
+						Locations
+					</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 </nav>
