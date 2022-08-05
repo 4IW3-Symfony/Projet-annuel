@@ -25,7 +25,7 @@ class DefaultController extends AbstractController
             $date = $form->get('Start')->getData();
             return $this->redirectToRoute('resultat_search', ['ville'=> $form->get('ville')->getData(),'date_start'=> $form->get('Start')->getData()->format('Y-m-d'),'date_end'=> $form->get('End')->getData()->format('Y-m-d')]);
         }
-        $motorcycles = $motorcyleRepository->findBy(["status" => 1 ]);
+        $motorcycles = $motorcyleRepository->findBy(["status" => 1 ], ["createdAt" => "DESC"]);
         $motorcyclesMarkers = $this->getMarkers($motorcycles);
 
 
@@ -109,7 +109,7 @@ class DefaultController extends AbstractController
         $autre = array();
         $supp = 0 ;
         if(!isset($motorcycles)){
-            $motorcycles = $motorcyleRepository->findAll();
+            $motorcycles = $motorcyleRepository->findBy(["status" => "1"], ["createdAt" => "DESC"]);
         }
 
         if (!empty($ville) && !empty($date_end) && !empty($date_start))

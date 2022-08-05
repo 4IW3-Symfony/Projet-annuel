@@ -40,14 +40,12 @@ class RentalController extends AbstractController
         // ])
         // ->getForm();
 
-        $rental= $rentalRepository->findAll();
+        $rental= $rentalRepository->findBy([], ["date_start" => "DESC"]);
         // $form->handleRequest($request);
 
        
             if ($status != 0){
-                $rental = $rentalRepository->findBy([
-                'status' => $status,]);
-            
+                $rental = $rentalRepository->findBy(['status' => $status], ["date_start" => "DESC"]);
             }
             
         
