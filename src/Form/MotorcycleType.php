@@ -6,6 +6,7 @@ use App\Entity\Model;
 use App\Entity\Motorcycle;
 use Doctrine\ORM\EntityRepository;
 use App\Repository\BrandRepository;
+use Symfony\Component\Validator\Constraints;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class MotorcycleType extends AbstractType
 {
@@ -31,13 +33,35 @@ class MotorcycleType extends AbstractType
             ->add('name',null,[
                 'label' => "Titre de l'annonce"
             ])
-            ->add('power')
-            ->add('price')
-            ->add('numberplate')
+            ->add('power',null,[
+                'attr' =>["min" => 10],
+            ])
+            ->add('price',null,[
+                'attr' =>["min" => 10],
+            ])
+            ->add('numberplate',null,[
+                'constraints'=>[
+                    new Constraints\Callback(function($object, ExecutionContextInterface $context){
+                        if(preg_match('#[A-Z]{2}-[0-9]{3}-[A-Z]{2}#i',$object)){
+
+                        }
+                        else{
+                            $context->buildViolation('Respecter Format AA-111-BB')->addViolation();
+
+                        }
+                    }),
+                ]
+            ])
             ->add('description')
-            ->add('km')
-            ->add('year')
-            ->add('licenceType')
+            ->add('km',null,[
+                'attr'=>['min'=>0],
+            ])
+            ->add('year',null,[
+                'attr'=>['min'=>1970,'max'=>date("Y")],
+            ])
+            ->add('licenceType',null,[
+                'required'=>true,
+            ])
             ->add('model', EntityType::class,[
                 'class' => Model::class,
                 // 'query_builder' => function(EntityRepository $er)
@@ -48,7 +72,7 @@ class MotorcycleType extends AbstractType
             ])
             ->add('Localisation')
             ->add('City')
-            ->add('Cp',null,['attr' => ['min' => 9000,'max'=>99999]]);
+            ->add('Cp');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
