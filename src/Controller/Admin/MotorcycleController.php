@@ -85,11 +85,10 @@ class MotorcycleController extends AbstractController
                 /** @var \App\Entity\User $user */
                 $apidata = $apicall->getApiData($form->get('Cp')->getData());
                 if(!empty($apicall)){
-                
-                }else{
                     $motorcycle->setLat($apidata->lat);
                     $motorcycle->setLon($apidata->lon);
                 }
+
                 $user = $this->getUser();
                 $motorcycle->setStatus(0);
                 $motorcycle->setUser($user);
