@@ -157,6 +157,7 @@ class MotorcycleRepository extends ServiceEntityRepository
                 
             }
         }
+        $qb->andWhere('m.status = 1');
         $query = $qb->getQuery();
         return $query->execute();
     }

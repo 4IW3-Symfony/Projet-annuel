@@ -113,7 +113,7 @@ class RentalController extends AbstractController
             if($rental->getUser()->getId() != $user && $rental->getMotorcycle()->getUser()->getId())
             {
                 
-                throw $this->createNotFoundException("Vous n'avez pas l'accès !! ");
+                throw new AccessDeniedException("Vous n'avez pas l'accès !! ");
             }
         }
         return $this->render("{$back}/rental/show.html.twig", [
@@ -160,7 +160,7 @@ class RentalController extends AbstractController
         {
             $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
             if($rental->getStatus() != 1){
-                throw $this->createAccessDeniedException("Vous n avez pas l accès !!!");
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
             }
         }
         $rental->setStatus(2);
@@ -175,7 +175,7 @@ class RentalController extends AbstractController
         {
             $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
             if($rental->getStatus() != 2){
-                throw $this->createAccessDeniedException("Vous n avez pas l accès !!!");
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
             }
         }
         $rental->setStatus(3);
@@ -192,7 +192,7 @@ class RentalController extends AbstractController
         {
             $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
             if($rental->getStatus() != 3){
-                throw $this->createAccessDeniedException("Vous n avez pas l accès !!!");
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
             }
         }
         $form = $this->createForm(RestitutionType::class, $rental);
@@ -222,7 +222,7 @@ class RentalController extends AbstractController
         {
             $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
             if($rental->getStatus() != 4){
-                throw $this->createAccessDeniedException("Vous n avez pas l accès !!!");
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
             }
         }
         $rental->setStatus(5);
@@ -238,7 +238,7 @@ class RentalController extends AbstractController
         {
             $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
             if($rental->getStatus() != 5){
-                throw $this->createAccessDeniedException("Vous n avez pas l accès !!!");
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
             }
         }
         $rental->setStatus(6);
@@ -253,7 +253,7 @@ class RentalController extends AbstractController
         {
             $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
             if($rental->getStatus() != 1){
-                throw $this->createAccessDeniedException("Vous n avez pas l accès !!!");
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
             }
         }
         $rental->setStatus(7);

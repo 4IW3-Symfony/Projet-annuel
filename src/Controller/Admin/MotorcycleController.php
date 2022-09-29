@@ -22,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/', requirements: ['back' => "admin|dashboard"])]
 class MotorcycleController extends AbstractController
@@ -124,7 +125,7 @@ class MotorcycleController extends AbstractController
             if($user[0] == "ROLE_USER"){
                 if($motorcycle->getUser()->getId() != $this->getUser()->getId()){
                     if($motorcycle->getStatus() == 3 || $motorcycle->getStatus() == 0 ){
-                        throw $this->createNotFoundException("Vous n'avez pas l'acces!!!");
+                        throw new AccessDeniedException("Vous n'avez pas l'acces!!!");
                     }
                 }
                 
@@ -132,7 +133,7 @@ class MotorcycleController extends AbstractController
         }
         if($back == "front"){
             if($motorcycle->getStatus() == 3 || $motorcycle->getStatus() == 0 ){
-                throw $this->createNotFoundException("Vous n'avez pas l'acces!!!");
+                throw new AccessDeniedException("Vous n'avez pas l'acces!!!");
             }
         }
         
