@@ -5,6 +5,16 @@
 
 {% block body %}
 	<h1>Mes Locations</h1>
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('message') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
 	<div class="table-responsive">
 
 		<table class="table">
@@ -73,6 +83,10 @@
 								{% if rental.status == 6%}
 									SAV
 									<button><a href=" {{ path('dashboard_cloturation', {'id': rental.id})}} "> Cloturation SAV</a></button>
+
+								{% endif %}
+								{% if rental.status == 7%}
+									Location Annulé
 
 								{% endif %}
 							</td>

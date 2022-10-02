@@ -177,10 +177,16 @@ class RentalController extends AbstractController
             if($rental->getStatus() != 2){
                 throw new AccessDeniedException("Vous n avez pas l accès !!!");
             }
+            if($rental->getDateStart()->format('Y-m-d') != date('Y-m-d'))
+            {
+                $this->addFlash('error',"La date de location n'a pas comencé ! Veuillé contacter l'Administrateur en cas de probleme. ");
+                return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
+            }
         }
         $rental->setStatus(3);
         $rental->getMotorcycle()->setStatus(2);
         $entityManager->flush();
+        $this->addFlash('message',"Le véhicule a été remis au client.");
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
@@ -200,11 +206,10 @@ class RentalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rental->setStatus(4);
-            dump($form->getData());
             $rental->getMotorcycle()->setKm($form->get('km_end')->getData());
             $entityManager->flush();
 
-
+            $this->addFlash('message',"Le véhicule a été restituer, Veuillé vérifier la moto s'il n'y a pas de problème. Vous pouvez cloturer la location.");
             return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
         }
 
@@ -228,6 +233,7 @@ class RentalController extends AbstractController
         $rental->setStatus(5);
         $rental->getMotorcycle()->setStatus(1);
         $entityManager->flush();
+        $this->addFlash('message',"Le dossier a été cloturé.");
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
@@ -256,6 +262,8 @@ class RentalController extends AbstractController
                 throw new AccessDeniedException("Vous n avez pas l accès !!!");
             }
         }
+        $this->addFlash('message',"La location a bien été annulé.");
+
         $rental->setStatus(7);
         $entityManager->flush();
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
