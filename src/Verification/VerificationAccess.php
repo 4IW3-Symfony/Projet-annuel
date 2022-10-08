@@ -5,6 +5,7 @@ namespace App\Verification;
 use DateTime;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class VerificationAccess
 {
@@ -16,9 +17,8 @@ class VerificationAccess
         if($user[0] == "ROLE_USER"){
             if($moto_id != $utilisateur->getId())
             {
-                dump($utilisateur->getId());
-                dump($moto_id);
-                throw new AccessDeniedException("Vous n'avez pas l'acces!!!");
+                /*throw new AccessDeniedException("Vous n'avez pas l'acces!!!");*/
+                throw new AccessDeniedHttpException("Vous n'avez pas l'acces!!!");
             }
             else{
                 return "" ;

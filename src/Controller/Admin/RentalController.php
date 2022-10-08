@@ -175,7 +175,7 @@ class RentalController extends AbstractController
         {
             $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
             if($rental->getStatus() != 2){
-                throw new AccessDeniedException("Vous n avez pas l accès !!!");
+                throw new AccessDeniedException("Vous n avez pas l accès !!");
             }
             if($rental->getDateStart()->format('Y-m-d') != date('Y-m-d'))
             {
