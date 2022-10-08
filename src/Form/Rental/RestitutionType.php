@@ -12,7 +12,6 @@ class RestitutionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date_end')
             ->add('km_end')
         ;
     }

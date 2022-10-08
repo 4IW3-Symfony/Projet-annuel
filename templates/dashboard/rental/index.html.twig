@@ -6,7 +6,7 @@
 {% block body %}
 	<h1>Mes Locations</h1>
 	{% for message in app.flashes('error') %}
-		<div class="alert alert-success">
+		<div class="alert alert-danger">
 			{{ message }}
 		</div>
 	{% endfor %}

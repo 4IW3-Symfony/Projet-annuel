@@ -207,6 +207,7 @@ class RentalController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $rental->setStatus(4);
             $rental->getMotorcycle()->setKm($form->get('km_end')->getData());
+            $rental->setDateEnd(new \DateTime('now'));
             $entityManager->flush();
 
             $this->addFlash('message',"Le véhicule a été restituer, Veuillé vérifier la moto s'il n'y a pas de problème. Vous pouvez cloturer la location.");

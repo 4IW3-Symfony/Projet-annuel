@@ -127,7 +127,7 @@
                             {% endif %}
                             <div class="results__list__item__content">
                                 <h1 class="results__list__item__content__title">
-                                    <a href="{{ path('motorcycle_show',{'id': motorcycle.id, 'date_end' : date_end , 'date_start':date_start}) }}">
+                                    <a href="{{ path('motorcycle_show',{'id': motorcycle.id, 'date_end' : date_end|date('Y-m-d') , 'date_start':date_start|date('Y-m-d') }) }}">
                                     {{ motorcycle.model.brand.name }} {{ motorcycle.model.name }}</a>
                                 </h1>
                                 <p class="results__list__item__content__city">{{ motorcycle.city }}, {{ motorcycle.cp }}</p>

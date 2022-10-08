@@ -52,12 +52,12 @@ class DefaultController extends AbstractController
         if(!empty($_GET['motorcycle_search']['ville'])){
             $ville = $_GET['motorcycle_search']['ville'];
         }
-        elseif(!empty($_GET['motorcycle_search']['Start']) && !empty($_GET['motorcycle_search']['End'])){
+        if(!empty($_GET['motorcycle_search']['Start']) && !empty($_GET['motorcycle_search']['End'])){
             $date_start = $_GET['motorcycle_search']['Start'];
-
-
             $date_end = $_GET['motorcycle_search']['End'];
+
         }
+
         
         $min_price = $motorcyleRepository->findPriceMin();
         $max_price = $motorcyleRepository->findPriceMax();
@@ -151,7 +151,7 @@ class DefaultController extends AbstractController
         }
 
         $motorcyclesMarkers = $this->getMarkers($search);
-
+        dump($date_end);
         return $this->render('front/search.html.twig', [
             'motorcycles' => $search,
             'motorcycles_markers' => $motorcyclesMarkers,
