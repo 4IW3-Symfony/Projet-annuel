@@ -92,6 +92,7 @@ class MotorcycleController extends AbstractController
                 $user = $this->getUser();
                 $motorcycle->setStatus(0);
                 $motorcycle->setUser($user);
+                $motorcycle->setCity(ucfirst(strtolower($motorcycle->getCity())));
                 $entityManager->persist($motorcycle);
                 $entityManager->flush();
                 return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);

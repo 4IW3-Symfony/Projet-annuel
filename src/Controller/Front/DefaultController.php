@@ -17,7 +17,16 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'default')]
     public function index(MotorcycleRepository $motorcyleRepository,Request $request,ApiCall $apicall): Response
     {
-        $form = $this->createForm(MotorcycleSearchType::class);
+        $villes = $motorcyleRepository->getDistinctCity();
+        $liste = array();
+        foreach ($villes as $ville){
+            $liste[$ville['City']] = $ville['City'];
+        }
+        $vide = [''=>''];
+        $liste = $vide + $liste;
+
+
+        $form = $this->createForm(MotorcycleSearchType::class,null,['group'=> $liste]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             
@@ -45,6 +54,13 @@ class DefaultController extends AbstractController
     #[Route('/resultat-search', name: 'resultat_search', methods: ['GET'])]
     public function resultat_search(MotorcycleRepository $motorcyleRepository,Request $request): Response 
     {
+        $villes = $motorcyleRepository->getDistinctCity();
+        $liste = array();
+        foreach ($villes as $ville){
+            $liste[$ville['City']] = $ville['City'];
+        }
+        $vide = [''=>''];
+        $liste = $vide + $liste;
 
         $ville = null;
         $date_start = null;
@@ -82,6 +98,7 @@ class DefaultController extends AbstractController
             'year_maximun' => $max_year[0][1],
             'power_minimun' => $min_power[0][1],
             'power_maximun' => $max_power[0][1],
+            'group' => $liste
 
         ]);
         $form->handleRequest($request);
