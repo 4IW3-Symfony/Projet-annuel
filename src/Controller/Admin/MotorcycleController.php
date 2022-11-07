@@ -237,6 +237,12 @@ class MotorcycleController extends AbstractController
             if( $this->getUser() == null){
                 return $this->redirectToRoute("app_login");
             }
+            elseif( $this->getUser()->getId() == $motorcycle->getUser()->getId() )
+            {
+                $this->addFlash('error', 'Vous ne pouvez pas louer votre propre moto!');
+
+                return $this->redirectToRoute("motorcycle_show", ['id' => $motorcycle->getId()], Response::HTTP_SEE_OTHER);
+            }
 
             if(new DateTime($date_end) <= new DateTime($date_start)){
                 $this->addFlash('error', 'Votre demande de location a été refusé, veuillez contacter le support Easyloc pour plus d information');
