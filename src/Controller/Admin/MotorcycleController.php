@@ -64,7 +64,7 @@ class MotorcycleController extends AbstractController
             $motorcycle = new Motorcycle();
             $modele_moto = $brandrepository->findOneBy(['name' => $_GET['marque']]);
             if($modele_moto == null){
-                throw $this->createNotFoundException('Marque Non trouvé !!!!');
+                return $this->redirectToRoute("{$back}_motorcycle_new", [], Response::HTTP_SEE_OTHER);
             }
             $form = $this->createForm(MotorcycleType::class, $motorcycle,['group' => $modele_moto]);
             $form->handleRequest($request);
