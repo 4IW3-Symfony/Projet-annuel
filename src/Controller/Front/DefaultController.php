@@ -17,7 +17,16 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'default')]
     public function index(MotorcycleRepository $motorcyleRepository,Request $request,ApiCall $apicall): Response
     {
-        $form = $this->createForm(MotorcycleSearchType::class);
+        $villes = $motorcyleRepository->getDistinctCity();
+        $liste = array();
+        foreach ($villes as $ville){
+            $liste[$ville['City']] = $ville['City'];
+        }
+        $vide = [''=>''];
+        $liste = $vide + $liste;
+
+
+        $form = $this->createForm(MotorcycleSearchType::class,null,['group'=> $liste]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             
@@ -25,7 +34,7 @@ class DefaultController extends AbstractController
             $date = $form->get('Start')->getData();
             return $this->redirectToRoute('resultat_search', ['ville'=> $form->get('ville')->getData(),'date_start'=> $form->get('Start')->getData()->format('Y-m-d'),'date_end'=> $form->get('End')->getData()->format('Y-m-d')]);
         }
-        $motorcycles = $motorcyleRepository->findBy(["status" => 1 ]);
+        $motorcycles = $motorcyleRepository->findBy(["status" => 1 ], ["createdAt" => "DESC"]);
         $motorcyclesMarkers = $this->getMarkers($motorcycles);
 
 
@@ -45,6 +54,13 @@ class DefaultController extends AbstractController
     #[Route('/resultat-search', name: 'resultat_search', methods: ['GET'])]
     public function resultat_search(MotorcycleRepository $motorcyleRepository,Request $request): Response 
     {
+        $villes = $motorcyleRepository->getDistinctCity();
+        $liste = array();
+        foreach ($villes as $ville){
+            $liste[$ville['City']] = $ville['City'];
+        }
+        $vide = [''=>''];
+        $liste = $vide + $liste;
 
         $ville = null;
         $date_start = null;
@@ -52,12 +68,12 @@ class DefaultController extends AbstractController
         if(!empty($_GET['motorcycle_search']['ville'])){
             $ville = $_GET['motorcycle_search']['ville'];
         }
-        elseif(!empty($_GET['motorcycle_search']['Start']) && !empty($_GET['motorcycle_search']['End'])){
+        if(!empty($_GET['motorcycle_search']['Start']) && !empty($_GET['motorcycle_search']['End'])){
             $date_start = $_GET['motorcycle_search']['Start'];
-
-
             $date_end = $_GET['motorcycle_search']['End'];
+
         }
+
         
         $min_price = $motorcyleRepository->findPriceMin();
         $max_price = $motorcyleRepository->findPriceMax();
@@ -82,6 +98,7 @@ class DefaultController extends AbstractController
             'year_maximun' => $max_year[0][1],
             'power_minimun' => $min_power[0][1],
             'power_maximun' => $max_power[0][1],
+            'group' => $liste
 
         ]);
         $form->handleRequest($request);
@@ -109,7 +126,7 @@ class DefaultController extends AbstractController
         $autre = array();
         $supp = 0 ;
         if(!isset($motorcycles)){
-            $motorcycles = $motorcyleRepository->findAll();
+            $motorcycles = $motorcyleRepository->findBy(["status" => "1"], ["createdAt" => "DESC"]);
         }
 
         if (!empty($ville) && !empty($date_end) && !empty($date_start))
@@ -151,8 +168,7 @@ class DefaultController extends AbstractController
         }
 
         $motorcyclesMarkers = $this->getMarkers($search);
-
-
+        dump($date_end);
         return $this->render('front/search.html.twig', [
             'motorcycles' => $search,
             'motorcycles_markers' => $motorcyclesMarkers,

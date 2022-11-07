@@ -22,9 +22,15 @@ class MotorcycleSearchType extends AbstractType
     {
         $builder
             ->setMethod('GET')
-            ->add('ville',null,[
+            /*->add('ville',null,[
                 'attr' => ['value' => $options['ville'],'placeholder' => "Ville",],
                 'required' => false,
+            ])*/
+            ->add('ville',ChoiceType::class,[
+                'choices' => $options['group'],
+                'data'=> $options['ville'],
+                'attr' => ['class' => 'js-example-basic-single'],
+
             ])
 
             ->add('Start', DateType::class, [
@@ -214,6 +220,7 @@ class MotorcycleSearchType extends AbstractType
             'year_max' => null ,
             'power_min' => null, 
             'power_max'=> null,
+            'group' => null,
         ]);
     }
 }

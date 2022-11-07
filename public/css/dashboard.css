@@ -8,9 +8,11 @@
 .icon-show {
   color: #20c997;
 }
+
 .icon-edit {
   color: #0d6efd;
 }
+
 .icon-delete {
   color: #dc3545;
 }
@@ -18,12 +20,9 @@
 td.action a {
   text-decoration: none;
 }
+
 td.action {
   white-space: nowrap;
-}
-
-body {
-
 }
 
 .sidebar {
@@ -37,5 +36,132 @@ body {
 }
 
 .my-chat {
-  border-bottom-right-radius: 0!important;
+  border-bottom-right-radius: 0 !important;
 }
+
+.motorcycles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+.motorcycle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  border: 2px solid #DEDEDE;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.motorcycle--status0 {
+  border-left: 5px solid orange;
+}
+.motorcycle--status1 {
+  border-left: 5px solid green;
+}
+.motorcycle--status2 {
+  border-left: 5px solid dodgerblue;
+}
+.motorcycle--status3 {
+  border-left: 5px solid red;
+}
+.motorcycle__figure {
+  aspect-ratio: 6/4;
+  width: 220px;
+  margin-bottom: 0;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.motorcycle__figure__img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.motorcycle__content {
+  flex-grow: 1;
+  padding-left: 1rem;
+}
+.motorcycle__content__title {
+  grid-area: title;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0 0 0.4rem;
+}
+.motorcycle__content__city {
+  grid-area: city;
+  display: block;
+  color: #6c757d;
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin: 0 0 0.4rem;
+}
+.motorcycle__content__license {
+  grid-area: license;
+  font-size: 0.875rem;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.4rem;
+}
+.motorcycle__content__price {
+  grid-area: price;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-top: 1rem;
+}
+.motorcycle__content__price__value {
+  font-size: 2.2rem;
+  font-weight: bold;
+  line-height: 2.2rem;
+}
+.motorcycle__content__price__unit {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+.motorcycle__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.licenseplate {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: white;
+  font-family: Arial, sans-serif;
+  border: 1px solid black;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.licenseplate__country, .licenseplate__region {
+  background: dodgerblue;
+  color: white;
+  font-weight: 600;
+  padding: 0.8rem 0.2rem 0.15rem 0.2rem;
+  font-size: 0.6rem;
+}
+.licenseplate__region {
+  padding: 0.8rem 0.1rem 0.15rem 0.1rem;
+}
+.licenseplate__number {
+  padding: 0.3rem 0.2rem;
+  font-weight: 600;
+  max-width: 3.8rem;
+  font-size: 0.8rem;
+  word-break: break-all;
+  text-align: center;
+}
+
+.nav-link.active {
+  background: #F9F9F9;
+  border-left: 3px solid #838383;
+}
+
+/*# sourceMappingURL=dashboard.css.map */

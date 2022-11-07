@@ -23,7 +23,7 @@ class SendMailService
     {
         //On crée le mail
         $email = (new TemplatedEmail())
-            ->from($from)
+            ->replyTo($from)
             ->to($to)
             ->subject($subject)
             ->htmlTemplate("emails/$template.html.twig")

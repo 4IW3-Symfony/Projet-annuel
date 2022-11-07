@@ -157,7 +157,18 @@ class MotorcycleRepository extends ServiceEntityRepository
                 
             }
         }
+        $qb->andWhere('m.status = 1');
         $query = $qb->getQuery();
         return $query->execute();
+    }
+
+    public function getDistinctCity(){
+        return $this->createQueryBuilder('m')
+            ->select("m.City")
+            ->distinct()
+            ->orderBy('m.City', 'ASC')
+            ->getQuery()
+            ->getResult();
+
     }
 }

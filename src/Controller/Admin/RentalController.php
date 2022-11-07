@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Rental;
 use App\Form\RentalType;
 use App\Form\TriStatusType;
+use App\Verification\VerificationAccess;
 use App\Form\Rental\RestitutionType;
 use App\Repository\RentalRepository;
 use App\Repository\MotorcycleRepository;
@@ -40,14 +41,12 @@ class RentalController extends AbstractController
         // ])
         // ->getForm();
 
-        $rental= $rentalRepository->findAll();
+        $rental= $rentalRepository->findBy([], ["date_start" => "DESC"]);
         // $form->handleRequest($request);
 
        
             if ($status != 0){
-                $rental = $rentalRepository->findBy([
-                'status' => $status,]);
-            
+                $rental = $rentalRepository->findBy(['status' => $status], ["date_start" => "DESC"]);
             }
             
         
@@ -114,7 +113,7 @@ class RentalController extends AbstractController
             if($rental->getUser()->getId() != $user && $rental->getMotorcycle()->getUser()->getId())
             {
                 
-                throw $this->createNotFoundException("Vous n'avez pas l'accès !! ");
+                throw new AccessDeniedException("Vous n'avez pas l'accès !! ");
             }
         }
         return $this->render("{$back}/rental/show.html.twig", [
@@ -155,7 +154,15 @@ class RentalController extends AbstractController
 
     #[Route('dashboard/rental/validation-reservation/{id}', name: 'dashboard_valider_reservation', methods: ['GET'], defaults: ['back' => "dashboard"])]
     #[Route('admin/rental/validation-reservation/{id}', name: 'valider_reservation', methods: ['GET'], defaults: ['back' => "admin"])]
-    public function validation_reservation(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back){
+    public function validation_reservation(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back,VerificationAccess $verification){
+
+        if($back == "dashboard")
+        {
+            $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
+            if($rental->getStatus() != 1){
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
+            }
+        }
         $rental->setStatus(2);
         $entityManager->flush();
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
@@ -163,27 +170,47 @@ class RentalController extends AbstractController
 
     #[Route('dashboard/rental/remis-client/{id}', name: 'dashboard_remis_client', methods: ['GET'], defaults: ['back' => "dashboard"])]
     #[Route('admin/rental/remis-client/{id}', name: 'remis_client', methods: ['GET'], defaults: ['back' => "admin"])]
-    public function remis_client(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back){
+    public function remis_client(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back,VerificationAccess $verification){
+        if($back == "dashboard")
+        {
+            $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
+            if($rental->getStatus() != 2){
+                throw new AccessDeniedException("Vous n avez pas l accès !!");
+            }
+            if($rental->getDateStart()->format('Y-m-d') != date('Y-m-d'))
+            {
+                $this->addFlash('error',"La date de location n'a pas comencé ! Veuillé contacter l'Administrateur en cas de probleme. ");
+                return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
+            }
+        }
         $rental->setStatus(3);
         $rental->getMotorcycle()->setStatus(2);
         $entityManager->flush();
+        $this->addFlash('message',"Le véhicule a été remis au client.");
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('admin/rental/restitution/{id}', name: 'admin_restitution', methods: ['GET','POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/rental/restitution/{id}', name: 'dashboard_restitution', methods: ['GET','POST'], defaults: ['back' => "dashboard"])]
-    public function restitution(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back): Response
+    public function restitution(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back,VerificationAccess $verification): Response
     {
+        if($back == "dashboard")
+        {
+            $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
+            if($rental->getStatus() != 3){
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
+            }
+        }
         $form = $this->createForm(RestitutionType::class, $rental);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rental->setStatus(4);
-            dump($form->getData());
             $rental->getMotorcycle()->setKm($form->get('km_end')->getData());
+            $rental->setDateEnd(new \DateTime('now'));
             $entityManager->flush();
 
-
+            $this->addFlash('message',"Le véhicule a été restituer, Veuillé vérifier la moto s'il n'y a pas de problème. Vous pouvez cloturer la location.");
             return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
         }
 
@@ -196,17 +223,49 @@ class RentalController extends AbstractController
 
     #[Route('dashboard/rental/cloturation/{id}', name: 'dashboard_cloturation', methods: ['GET'], defaults: ['back' => "dashboard"])]
     #[Route('admin/rental/cloturation/{id}', name: 'cloturation', methods: ['GET'], defaults: ['back' => "admin"])]
-    public function cloturation(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back){
+    public function cloturation(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back,VerificationAccess $verification){
+        if($back == "dashboard")
+        {
+            $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
+            if($rental->getStatus() != 4){
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
+            }
+        }
         $rental->setStatus(5);
         $rental->getMotorcycle()->setStatus(1);
         $entityManager->flush();
+        $this->addFlash('message',"Le dossier a été cloturé.");
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('dashboard/rental/sav/{id}', name: 'dashboard_sav', methods: ['GET'], defaults: ['back' => "dashoboard"])]
     #[Route('admin/rental/sav/{id}', name: 'sav', methods: ['GET'], defaults: ['back' => "admin"])]
-    public function location_sav(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back){
+    public function location_sav(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back,VerificationAccess $verification){
+        if($back == "dashboard")
+        {
+            $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
+            if($rental->getStatus() != 5){
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
+            }
+        }
         $rental->setStatus(6);
+        $entityManager->flush();
+        return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('dashboard/rental/annule/{id}', name: 'dashboard_annule', methods: ['GET'], defaults: ['back' => "dashoboard"])]
+    #[Route('admin/rental/annule/{id}', name: 'admin_rental_annule', methods: ['GET'], defaults: ['back' => "admin"])]
+    public function location_annule(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back,VerificationAccess $verification){
+        if($back == "dashboard")
+        {
+            $verification->Verification_edit_moto($rental->getMotorcycle()->getUser()->getId(),$this->getUser());
+            if($rental->getStatus() != 1){
+                throw new AccessDeniedException("Vous n avez pas l accès !!!");
+            }
+        }
+        $this->addFlash('message',"La location a bien été annulé.");
+
+        $rental->setStatus(7);
         $entityManager->flush();
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }

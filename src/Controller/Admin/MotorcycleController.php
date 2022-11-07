@@ -22,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/', requirements: ['back' => "admin|dashboard"])]
 class MotorcycleController extends AbstractController
@@ -45,7 +46,8 @@ class MotorcycleController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         return $this->render('dashboard/motorcycle/index.html.twig', [
-            'motorcycles' => $motorcycleRepository->findBy(["user" => $user->getId()]),
+            'motorcycles' => $motorcycleRepository->findBy(["user" => $user->getId()], ["updatedAt" => "DESC"]),
+            'unverifiedMotorcycles' => $motorcycleRepository->findBy(["user" => $user->getId(), "status" => 0], ["updatedAt" => "DESC"]),
         ]);
     }
 
@@ -62,7 +64,7 @@ class MotorcycleController extends AbstractController
             $motorcycle = new Motorcycle();
             $modele_moto = $brandrepository->findOneBy(['name' => $_GET['marque']]);
             if($modele_moto == null){
-                throw $this->createNotFoundException('Marque Non trouvé !!!!');
+                return $this->redirectToRoute("{$back}_motorcycle_new", [], Response::HTTP_SEE_OTHER);
             }
             $form = $this->createForm(MotorcycleType::class, $motorcycle,['group' => $modele_moto]);
             $form->handleRequest($request);
@@ -83,14 +85,14 @@ class MotorcycleController extends AbstractController
                 /** @var \App\Entity\User $user */
                 $apidata = $apicall->getApiData($form->get('Cp')->getData());
                 if(!empty($apicall)){
-                
-                }else{
                     $motorcycle->setLat($apidata->lat);
                     $motorcycle->setLon($apidata->lon);
                 }
+
                 $user = $this->getUser();
                 $motorcycle->setStatus(0);
                 $motorcycle->setUser($user);
+                $motorcycle->setCity(ucfirst(strtolower($motorcycle->getCity())));
                 $entityManager->persist($motorcycle);
                 $entityManager->flush();
                 return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
@@ -123,7 +125,7 @@ class MotorcycleController extends AbstractController
             if($user[0] == "ROLE_USER"){
                 if($motorcycle->getUser()->getId() != $this->getUser()->getId()){
                     if($motorcycle->getStatus() == 3 || $motorcycle->getStatus() == 0 ){
-                        throw $this->createNotFoundException("Vous n'avez pas l'acces!!!");
+                        throw new AccessDeniedException("Vous n'avez pas l'acces!!!");
                     }
                 }
                 
@@ -131,7 +133,7 @@ class MotorcycleController extends AbstractController
         }
         if($back == "front"){
             if($motorcycle->getStatus() == 3 || $motorcycle->getStatus() == 0 ){
-                throw $this->createNotFoundException("Vous n'avez pas l'acces!!!");
+                throw new AccessDeniedException("Vous n'avez pas l'acces!!!");
             }
         }
         
