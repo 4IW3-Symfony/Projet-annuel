@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220727233452 extends AbstractMigration
+final class Version20221113201423 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,15 +20,13 @@ final class Version20220727233452 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE motorcycle ALTER lat TYPE NUMERIC(12, 10)');
-        $this->addSql('ALTER TABLE motorcycle ALTER lon TYPE NUMERIC(12, 10)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_21E380E16E7F6CF5 ON motorcycle (numberplate)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE motorcycle ALTER lat TYPE NUMERIC(10, 0)');
-        $this->addSql('ALTER TABLE motorcycle ALTER lon TYPE NUMERIC(10, 0)');
+        $this->addSql('DROP INDEX UNIQ_21E380E16E7F6CF5');
     }
 }
