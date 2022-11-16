@@ -166,6 +166,7 @@ class MotorcycleController extends AbstractController
             'date_end' => $date_end,
             'date_start' => $date_start,
             'form' => $form->createView(),
+            'user' => $motorcycle->getUser(),
         ]);
     }
 
