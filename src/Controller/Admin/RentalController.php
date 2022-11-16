@@ -93,6 +93,7 @@ class RentalController extends AbstractController
             $rental->setUser($user);
             $entityManager->persist($rental);
             $entityManager->flush();
+
             return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
         }
 

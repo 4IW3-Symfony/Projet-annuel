@@ -9,7 +9,7 @@
 			<div class="d-flex justify-content-center align-items-center extend-page">
 				<div class="border p-4" style="width: 300px">
 					{% if error %}
-						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+						<div class="alert alert-danger">Identifiants invalides.</div>
 					{% endif %}
 
 					{% if app.user %}

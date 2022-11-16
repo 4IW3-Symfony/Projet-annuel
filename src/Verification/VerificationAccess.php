@@ -6,6 +6,8 @@ use DateTime;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class VerificationAccess
 {
@@ -37,10 +39,11 @@ class VerificationAccess
         $dt = DateTime::createFromFormat($format, $date);
         if ($dt && $dt->format($format) === $date)
         {
-            return "";
+            return true;
         }
         else{
-            throw $this->createNotFoundException("Date non valide!!!");
+            return false;
+            /*throw $this->createNotFoundException("Date non valide!!!");*/
         }
       }
 }

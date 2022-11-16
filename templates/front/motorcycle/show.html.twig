@@ -89,7 +89,14 @@
                             {% set leftDays = difference.days %}
                             <div class="mb-3">
                                 <small class="mb-0 text-primary">Prix final:</small>
-                                <p class="my-0"><strong class="h2">{{ leftDays * motorcycle.price }}€</strong><small class="fw-bold h4">/{{ leftDays }} days</small></p>
+                                <p class="my-0"><strong class="h2">
+                                        {% if leftDays == 0 %}
+                                            {{ motorcycle.price }}
+                                            {% set leftDays = 1 %}
+                                        {% else %}
+                                        {{ leftDays * motorcycle.price }}€
+                                        {% endif %}
+                                    </strong><small class="fw-bold h4">/{{ leftDays }} days</small></p>
                             </div>
                             <a href="{{ path('demande_location',{'id': motorcycle.id ,'date_end': date_end , 'date_start': date_start}) }}"
                                class="btn btn-dark">Réserver</a>
