@@ -41,7 +41,6 @@ class DefaultController extends AbstractController
         // dump($apicall->getApiData(75017));
         // $response = file_get_contents('https://api.openweathermap.org/geo/1.0/zip?zip=75017,FR&limit=5&appid=ef67e96d44d75c418e4d22debbd10d22');
         // $response = json_decode($response);
-        
         return $this->render('front/index.html.twig', [
             'isHome' => true,
             'motorcycles' => $motorcycles,
@@ -168,7 +167,6 @@ class DefaultController extends AbstractController
         }
 
         $motorcyclesMarkers = $this->getMarkers($search);
-        dump($date_end);
         return $this->render('front/search.html.twig', [
             'motorcycles' => $search,
             'motorcycles_markers' => $motorcyclesMarkers,
