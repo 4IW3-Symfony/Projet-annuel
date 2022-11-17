@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block body %}
-    <section>
-        <h2>Motos en cours de vérification</h2>
+    <section class="mb-5">
+        <h2 class="h3">Motos en cours de vérification</h2>
         {% for motorcycle in unverifiedMotorcycles %}
             <article class="motorcycle map-item-link" data-id="{{ motorcycle.id }}">
                 <figure class="motorcycle__figure">
