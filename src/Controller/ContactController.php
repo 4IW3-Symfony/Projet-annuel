@@ -79,9 +79,20 @@ class ContactController extends AbstractController
     #[Route('/newmessage-admin', name: 'dashboard_contact_admin', methods: ['POST','GET'])]
     public function newmessageadmin( RentalRepository $rentalrepository,EntityManagerInterface $entityManager,UserRepository $userrepo) :Response
     {
-        $contact = new Contact();
+
         /** @var User $user */
         $user = $this->getUser();
+        foreach ($user->getContact() as $moncontact)
+        {
+            if ($moncontact->getType() == 2){
+                return $this->redirectToRoute('app_contact_show',['id' => $moncontact->getId()],Response::HTTP_SEE_OTHER);
+            }
+        }
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
+            $this->addFlash('error','Vous étes Administrateur');
+            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+        }
+        $contact = new Contact();
         $contact->setType(2);
         $contact->addUser($user);
         $contact->addUser($userrepo->find(1));
@@ -109,6 +120,9 @@ class ContactController extends AbstractController
         }
         if($comp == 2){
             throw $this->createNotFoundException("Page Not Found Error 404");
+        }
+        elseif ($comp == 0){
+            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
         }
         $contactMessage = new ContactMessage();
         $form = $this->createForm(ContactMessageType::class, $contactMessage);
