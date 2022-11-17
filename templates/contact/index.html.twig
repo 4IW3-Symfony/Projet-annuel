@@ -7,7 +7,11 @@
         <h1>Contact</h1>
         <a href="{{ path('dashboard_contact_admin') }}" class="btn btn-dark">Contacter un administateur</a>
     </div>
-
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     {% for contact in contacts %}
         {% for user in contact.users %}
             {% if app.user.firstname == user.firstname and app.user.lastname == user.lastname %}
