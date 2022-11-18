@@ -60,10 +60,10 @@
                             <span class="badge bg-success">Validé</span>
                         {% endif %}
                         {% if rental.status == 3 %}
-                            <span class="badge bg-primary">Véhicule remis au client</span>
+                            <span class="badge bg-info">Véhicule remis au client</span>
                         {% endif %}
                         {% if rental.status == 4 %}
-                            <span class="badge bg-primary">Vehicule Réstitué</span>
+                            <span class="badge bg-info">Vehicule Réstitué</span>
                         {% endif %}
                         {% if rental.status == 5 %}
                             <span class="badge bg-dark">Location Clos</span>
@@ -77,7 +77,7 @@
                                    href=" {{ path('dashboard_sav', {'id': rental.id}) }} ">SAV</a>
                             {% endif %}
                             {% if rental.status == 6 %}
-                                <a class="btn btn-secondary btn-sm"
+                                <a class="btn btn-danger btn-sm"
                                    href=" {{ path('dashboard_cloturation', {'id': rental.id}) }} ">
                                     Cloturation SAV
                                 </a>
