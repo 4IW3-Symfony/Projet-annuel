@@ -125,7 +125,6 @@ class RentalController extends AbstractController
     }
 
     #[Route('admin/rental/{id}/edit', name: 'admin_rental_edit', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
-    #[Route('dashboard/rental/{id}/edit', name: 'dashboard_rental_edit', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
     public function edit(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back): Response
     {
         $form = $this->createForm(RentalType::class, $rental);

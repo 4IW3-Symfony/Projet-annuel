@@ -27,8 +27,11 @@
                 <div class="d-flex align-items-start gap-4">
                     {% set difference = date(rental.dateEnd).diff(date(rental.dateStart)) %}
                     {% set leftDays = difference.days %}
+                    {% if leftDays == 0 %}
+                        {% set leftDays = 1 %}
+                    {% endif %}
                     <div>
-                        <span class="h5">{{ rental.price }}€</span>
+                        <span class="h5">{{ leftDays*rental.price }}€</span>
                         <small>({{ leftDays }}J)</small>
                     </div>
                     <div>

@@ -59,8 +59,14 @@ class MotorcycleController extends AbstractController
     #[Route('dashboard/motorcycle/new', name: 'dashboard_motorcycle_new', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
     public function new(ModelRepository $model,BrandRepository $brandrepository ,Request $request, EntityManagerInterface $entityManager, $back, ApiCall $apicall): Response
     {
-    
-        
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser()->getRoles();
+        if( !$this->getUser()->isVerified())
+        {
+            $this->addFlash('error', 'Merci de valider votre Email avant de louer votre Moto!');
+            return $this->redirectToRoute("dashboard_motorcycle_index",[], Response::HTTP_SEE_OTHER);
+        }
+
 
         if (isset($_GET['marque'])){
 
@@ -132,6 +138,9 @@ class MotorcycleController extends AbstractController
                     }
                 }
                 
+            }
+            if($motorcycle->getStatus() == 3){
+                throw new AccessDeniedException("Vous n'avez pas l'acces!!!");
             }
         }
         if($back == "front"){
@@ -214,12 +223,17 @@ class MotorcycleController extends AbstractController
         ]);
     }
 
-    #[Route('admin/motorcycle/{id}', name: 'admin_motorcycle_delete', methods: ['POST'], defaults: ['back' => "admin"])]
-    #[Route('dashboard/motorcycle/{id}', name: 'dashboard_motorcycle_delete', methods: ['POST'], defaults: ['back' => "dashboard"])]
-    #[IsGranted(MotorcycleVoter::DELETE, subject: 'motorcycle')]
+    #[Route('admin/motorcycle/delete/{id}', name: 'admin_motorcycle_delete', methods: ['POST'], defaults: ['back' => "admin"])]
+    #[Route('dashboard/motorcycle/delete/{id}', name: 'dashboard_motorcycle_delete', methods: ['POST'], defaults: ['back' => "dashboard"])]
     public function delete(Request $request, Motorcycle $motorcycle, EntityManagerInterface $entityManager, $back): Response
     {
         if ($this->isCsrfTokenValid('delete' . $motorcycle->getId(), $request->request->get('_token'))) {
+            if ($back == "dashboard")
+            {
+                $motorcycle->setStatus(3);
+                $entityManager->flush();
+                return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
+            }
             $entityManager->remove($motorcycle);
             $entityManager->flush();
         }
@@ -251,6 +265,12 @@ class MotorcycleController extends AbstractController
             {
                 $this->addFlash('error', 'Vous ne pouvez pas louer votre propre moto!');
 
+                return $this->redirectToRoute("motorcycle_show", ['id' => $motorcycle->getId()], Response::HTTP_SEE_OTHER);
+            }
+
+            if( !$this->getUser()->isVerified())
+            {
+                $this->addFlash('error', 'Merci de valider votre Email avant de louer votre Moto!');
                 return $this->redirectToRoute("motorcycle_show", ['id' => $motorcycle->getId()], Response::HTTP_SEE_OTHER);
             }
 
@@ -309,6 +329,18 @@ class MotorcycleController extends AbstractController
                         'user' => $this->getUser()
                     ]);
                 $mailer->send($email);
+
+                $notif_proprietaire=(new TemplatedEmail())
+                    ->from('no-reply@easylocmoto.fr')
+                    ->to($motorcycle->getUser()->getEmail())
+                    ->subject('Félicitation Votre Moto a été louée')
+                    ->htmlTemplate('emails/notifproprietaire.html.twig')
+                    ->context([
+                        'user' => $this->getUser(),
+                        'rental' => $rental,
+                    ]);
+                $mailer->send($notif_proprietaire);
+
                 return $this->redirectToRoute("rental_success");
                
         
