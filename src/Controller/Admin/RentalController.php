@@ -248,7 +248,7 @@ class RentalController extends AbstractController
         return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('dashboard/rental/sav/{id}', name: 'dashboard_sav', methods: ['GET'], defaults: ['back' => "dashoboard"])]
+    #[Route('dashboard/rental/sav/{id}', name: 'dashboard_sav', methods: ['GET'], defaults: ['back' => "dashboard"])]
     #[Route('admin/rental/sav/{id}', name: 'sav', methods: ['GET'], defaults: ['back' => "admin"])]
     public function location_sav(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back,VerificationAccess $verification){
         if($back == "dashboard")
