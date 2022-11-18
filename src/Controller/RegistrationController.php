@@ -21,6 +21,8 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use App\Security\AppCustomAuthenticator;
+use App\Repository\LicenceTypeRepository;
+
 
 
 class RegistrationController extends AbstractController
@@ -40,6 +42,7 @@ class RegistrationController extends AbstractController
         UserAuthenticatorInterface $authenticator,
         SendMailService $mail,
         JWTService $jwt,
+        LicenceTypeRepository $licenceTypeRepository,
     ): Response {
         if($this->getUser()){
             return $this->redirectToRoute('dashboard_default');
@@ -57,7 +60,8 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            $licence = $licenceTypeRepository->find(1);
+            $user->setLicenceType($licence);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
