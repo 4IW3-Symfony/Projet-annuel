@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block title %}Location Success{% endblock %}
 {% block body %}
-<h1> Votre demande de location a été prise en compte, vous aller recevoir un mail de confirmation</h1>
+<div class="container">
+    <h1> Votre demande de location a été prise en compte, vous aller recevoir un mail de confirmation</h1>
+    <a class="btn btn-dark" href="{{ path('dashboard_reservation') }}">Acceder à mes reservation</a>
+</div>
 {% endblock %}
