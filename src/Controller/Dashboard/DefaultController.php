@@ -28,6 +28,12 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'default')]
     public function index(): Response
     {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser()->getRoles();
+        if( !$this->getUser()->isVerified())
+        {
+            $this->addFlash('warning', "Vous n'avez pas encore valider votre Email. Vous ne pourez pas mettre en location votre moto ni louer de moto! ");
+        }
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DefaultController',
         ]);

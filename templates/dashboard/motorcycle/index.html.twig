@@ -5,6 +5,16 @@
 
 {% block body %}
     <section class="mb-5">
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('message') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <h2 class="h3">Motos en cours de vérification</h2>
         {% for motorcycle in unverifiedMotorcycles %}
             <article class="motorcycle map-item-link" data-id="{{ motorcycle.id }}">
@@ -40,50 +50,52 @@
     </div>
     <section class="motorcycles">
         {% for motorcycle in motorcycles %}
-            <article class="motorcycle motorcycle--status{{motorcycle.status}}" data-id="{{ motorcycle.id }}">
-                <figure class="motorcycle__figure">
-                    {% if motorcycle.motorcycleImages|length > 0 %}
-                        {# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
-                        <img class="motorcycle__figure__img"
-                             src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}"
-                             alt="{{ motorcycle.model }}"/>
-                    {% else %}
-                        <img class="motorcycle__figure__img"
-                             src="{{ asset(constant('DEFAULT_IMAGE', motorcycle)) }}"
-                             style="max-width:100px">
-                    {% endif %}
-                </figure>
-                <div class="motorcycle__content">
-                    <h1 class="motorcycle__content__title">
-                        {{ motorcycle.model.brand.name }} {{ motorcycle.model }}
-                    </h1>
-                    <small class="motorcycle__content__city">
-                        {{ motorcycle.city }}, {{ motorcycle.cp }}
-                    </small>
-                    <span class="motorcycle__content__license">
-                        {{ motorcycle.licenceType.type }}
-                    </span>
-                    <span class="motorcycle__content__price">
-                        <strong class="motorcycle__content__price__value">
-                            {{ motorcycle.price }}€
-                        </strong>
-                        <small class="motorcycle__content__price__unit">/jour</small>
-                    </span>
-                </div>
-                <div class="motorcycle__actions">
-                    <a href="{{ path('dashboard_motorcycle_show', {'id': motorcycle.id}) }}"
-                       class="btn btn-dark btn-sm">Fiche de la moto</a>
-                    {% if motorcycle.status == 2 or motorcycle.status == 1%}
-                        <a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}"
-                           class="btn btn-outline-dark btn-sm">Voir l'annonce</a>
-                    {% else %}
-                        <a href="#" class="btn btn-outline-dark btn-sm disabled" disabled>Voir l'annonce</a>
-                    {% endif %}
-                </div>
-            </article>
+            {% if motorcycle.status != 3 %}
+                <article class="motorcycle motorcycle--status{{motorcycle.status}}" data-id="{{ motorcycle.id }}">
+                    <figure class="motorcycle__figure">
+                        {% if motorcycle.motorcycleImages|length > 0 %}
+                            {# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
+                            <img class="motorcycle__figure__img"
+                                 src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}"
+                                 alt="{{ motorcycle.model }}"/>
+                        {% else %}
+                            <img class="motorcycle__figure__img"
+                                 src="{{ asset(constant('DEFAULT_IMAGE', motorcycle)) }}"
+                                 style="max-width:100px">
+                        {% endif %}
+                    </figure>
+                    <div class="motorcycle__content">
+                        <h1 class="motorcycle__content__title">
+                            {{ motorcycle.model.brand.name }} {{ motorcycle.model }}
+                        </h1>
+                        <small class="motorcycle__content__city">
+                            {{ motorcycle.city }}, {{ motorcycle.cp }}
+                        </small>
+                        <span class="motorcycle__content__license">
+                            {{ motorcycle.licenceType.type }}
+                        </span>
+                        <span class="motorcycle__content__price">
+                            <strong class="motorcycle__content__price__value">
+                                {{ motorcycle.price }}€
+                            </strong>
+                            <small class="motorcycle__content__price__unit">/jour</small>
+                        </span>
+                    </div>
+                    <div class="motorcycle__actions">
+                        <a href="{{ path('dashboard_motorcycle_show', {'id': motorcycle.id}) }}"
+                           class="btn btn-dark btn-sm">Fiche de la moto</a>
+                        {% if motorcycle.status == 2 or motorcycle.status == 1%}
+                            <a href="{{ path('motorcycle_show', {'id': motorcycle.id}) }}"
+                               class="btn btn-outline-dark btn-sm">Voir l'annonce</a>
+                        {% else %}
+                            <a href="#" class="btn btn-outline-dark btn-sm disabled" disabled>Voir l'annonce</a>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endif %}
         {% endfor %}
     </section>
-    <table class="table">
+    {#<table class="table">
         <thead>
         <tr>
             <th>Photo</th>
@@ -103,7 +115,7 @@
             <tr>
                 <td>
                     {% if motorcycle.motorcycleImages|length > 0 %}
-                        {# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}
+                        #}{# <img src="/images/motorcycles/{{motorcycle.motorcycleImages.first.imageName}}" alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/> #}{#
                         <img src="{{ vich_uploader_asset(motorcycle.motorcycleImages.first, 'imageFile') }}"
                              alt="{{ motorcycle.motorcycleImages.first.imageName }}" style="max-width:100px"/>
                     {% else %}
@@ -118,11 +130,11 @@
                 <td>{{ motorcycle.price }}€ /Jour</td>
                 <td>{{ motorcycle.km }} km</td>
                 <td>{{ motorcycle.year }}</td>
-                {# {% for rental in motorcycle.rentals %}
+                #}{# {% for rental in motorcycle.rentals %}
 						{% if  date() >= rental.date_start && date() <= rental.date_end %}
 							<td style="color:red;"> Moto en location </td>
 						{% endif %}
-					{% endfor %} #}
+					{% endfor %} #}{#
                 {% if motorcycle.status == 1 %}
                     <td>
                         <span class="badge text-white bg-success">Disponible</span>
@@ -160,7 +172,7 @@
 
         {% endfor %}
         </tbody>
-    </table>
+    </table>#}
 
 
 

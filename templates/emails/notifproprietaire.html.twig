@@ -1,0 +1,12 @@
+<div style="display: flex;justify-content: center;align-items: center;">
+    <img src="http://easylocmoto.fr/images/logo-black.png" width="93px" height="53px">
+    <span>EasyLoc</span>
+</div>
+<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;align-content: center">
+    <h1>Félicitation Votre moto a été louer</h1>
+    <p>Votre Moto : {{ rental.motorcycle.model.brand.name }} {{ rental.motorcycle.model.name }} </p>
+    <p>Date de Location : {{ rental.dateStart ? rental.dateStart|date('d-m-Y') : '' }}</p>
+    <p>Date de Fin : {{ rental.dateEnd ? rental.dateEnd|date('d-m-Y') : '' }}</p>
+    <p>Locataire : {{ user.firstname }} {{ user.lastname }}</p>
+    <p>Valider la réservation en cliquant <a href="http://easylocmoto.fr/dashboard/rental">Ici</a></p>
+</div>

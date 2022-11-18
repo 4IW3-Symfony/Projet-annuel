@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 #[Route('/', requirements: ['back' => "admin|dashboard"])]
 class RentalController extends AbstractController
@@ -113,7 +115,7 @@ class RentalController extends AbstractController
         {
             /** @var User $user */
             $user = $this->getUser()->getId();
-            if($rental->getUser()->getId() != $user && $rental->getMotorcycle()->getUser()->getId())
+            if($rental->getUser()->getId() != $user && $rental->getMotorcycle()->getUser()->getId() != $user)
             {
                 
                 throw new AccessDeniedException("Vous n'avez pas l'accès !! ");
@@ -125,7 +127,6 @@ class RentalController extends AbstractController
     }
 
     #[Route('admin/rental/{id}/edit', name: 'admin_rental_edit', methods: ['GET', 'POST'], defaults: ['back' => "admin"])]
-    #[Route('dashboard/rental/{id}/edit', name: 'dashboard_rental_edit', methods: ['GET', 'POST'], defaults: ['back' => "dashboard"])]
     public function edit(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back): Response
     {
         $form = $this->createForm(RentalType::class, $rental);
@@ -148,6 +149,12 @@ class RentalController extends AbstractController
     public function delete(Request $request, Rental $rental, EntityManagerInterface $entityManager, $back): Response
     {
         if ($this->isCsrfTokenValid('delete' . $rental->getId(), $request->request->get('_token'))) {
+            if ($back =="dashboard")
+            {
+                $rental->setStatus(7);
+                $entityManager->flush();
+                return $this->redirectToRoute("{$back}_rental_index", [], Response::HTTP_SEE_OTHER);
+            }
             $entityManager->remove($rental);
             $entityManager->flush();
         }

@@ -27,18 +27,23 @@
                 <div class="d-flex align-items-start gap-4">
                     {% set difference = date(rental.dateEnd).diff(date(rental.dateStart)) %}
                     {% set leftDays = difference.days %}
+                    {% if leftDays == 0 %}
+                        {% set leftDays = 1 %}
+                    {% endif %}
                     <div>
-                        <span class="h5">{{ rental.price }}€</span>
+                        <span class="h5">{{ leftDays*rental.price }}€</span>
                         <small>({{ leftDays }}J)</small>
                     </div>
-                    <div>
-                        {% set totalKm = rental.kmEnd - rental.kmStart %}
-                        <span class="h5 mb-0">{{ totalKm }}km</span>
-                        <div class="text-secondary">
-                            <span>{{ rental.kmStart }}km</span>
-                            <span>{{ rental.kmEnd }}km</span>
+                    {% if rental.kmEnd %}
+                        <div>
+                            {% set totalKm = rental.kmEnd - rental.kmStart %}
+                            <span class="h5 mb-0">{{ totalKm }}km</span>
+                            <div class="text-secondary">
+                                <span>{{ rental.kmStart }}km</span>
+                                <span>{{ rental.kmEnd }}km</span>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <div>
                         <div class="d-flex align-items-center h5 mb-0">
                             <span>{{ rental.dateStart ? rental.dateStart|date('Y-m-d ') : '' }}</span>
@@ -57,10 +62,10 @@
                             <span class="badge bg-success">Validé</span>
                         {% endif %}
                         {% if rental.status == 3 %}
-                            <span class="badge bg-primary">Véhicule remis au client</span>
+                            <span class="badge bg-info">Véhicule remis au client</span>
                         {% endif %}
                         {% if rental.status == 4 %}
-                            <span class="badge bg-primary">Vehicule Réstitué</span>
+                            <span class="badge bg-info">Vehicule Réstitué</span>
                         {% endif %}
                         {% if rental.status == 5 %}
                             <span class="badge bg-dark">Location Clos</span>
@@ -68,17 +73,26 @@
                         {% if rental.status == 6 %}
                             <span class="badge bg-danger">SAV</span>
                         {% endif %}
+                        {% if rental.status == 7 %}
+                            <span class="badge bg-danger">Réservation Annulée</span>
+                        {% endif %}
                         <div>
                             {% if rental.status == 5 %}
                                 <a class="btn btn-secondary btn-sm"
                                    href=" {{ path('dashboard_sav', {'id': rental.id}) }} ">SAV</a>
                             {% endif %}
                             {% if rental.status == 6 %}
-                                <a class="btn btn-secondary btn-sm"
+                                <a class="btn btn-danger btn-sm"
                                    href=" {{ path('dashboard_cloturation', {'id': rental.id}) }} ">
                                     Cloturation SAV
                                 </a>
                             {% endif %}
+                        </div>
+                        <div>
+                            <a class="btn btn-info btn-sm"
+                               href=" {{ path('dashboard_contact_create', {'rental': rental.id}) }} ">
+                                Contacter Propriétaire
+                            </a>
                         </div>
                         <div class="d-flex align-items-center">
                             <a href="{{ path('dashboard_rental_show', {'id': rental.id}) }}">
