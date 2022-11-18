@@ -31,7 +31,7 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_contact_new', methods: ['GET', 'POST'])]
+    /*#[Route('/new', name: 'app_contact_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $contact = new Contact();
@@ -49,7 +49,7 @@ class ContactController extends AbstractController
             'contact' => $contact,
             'form' => $form,
         ]);
-    }
+    }*/
     
     #[Route('/newmessage', name: 'dashboard_contact_create', methods: ['POST','GET'])]
     public function newmessage( RentalRepository $rentalrepository,EntityManagerInterface $entityManager) :Response
@@ -62,10 +62,30 @@ class ContactController extends AbstractController
         $rental = $rentalrepository->find($_GET['rental']);
         if(empty($rental))
         {
-            throw $this->createNotFoundException("Page Not Found Error 404");
+            return $this->redirectToRoute('default', [], Response::HTTP_SEE_OTHER);
         }
         /** @var User $user */
         $user = $this->getUser();
+        $validateur_erreur = true;
+        foreach ($user->getRentals() as $userrental){
+            if ($userrental->getId() == $_GET['rental']){
+                $validateur_erreur = false;
+            }
+        }
+        if($validateur_erreur)
+        {
+            return $this->redirectToRoute('default', [], Response::HTTP_SEE_OTHER);
+        }
+        foreach ($user->getContact() as $contact)
+        {
+            foreach ($contact->getUsers() as $contactuser)
+            {
+                if($contactuser->getId() == $rental->getMotorcycle()->getUser()->getId())
+                {
+                    return $this->redirectToRoute('app_contact_show',['id' => $contact->getId()]);
+                }
+            }
+        }
         $contact->setType(1);
         $contact->addUser($user);
         $contact->addUser($rental->getMotorcycle()->getUser());

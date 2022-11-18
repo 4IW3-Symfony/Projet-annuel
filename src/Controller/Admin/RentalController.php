@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Rental;
+use App\Form\NewmessageType;
 use App\Form\RentalType;
 use App\Form\TriStatusType;
 use App\Verification\VerificationAccess;
@@ -71,6 +72,7 @@ class RentalController extends AbstractController
     #[Route('dashboard/reservation/', name: 'dashboard_reservation', methods: ['GET'])]
     public function dashboard_reservation(RentalRepository $rentalRepository): Response
     {
+
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         return $this->render('dashboard/rental/reservation.html.twig', [
