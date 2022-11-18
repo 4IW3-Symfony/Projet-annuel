@@ -34,14 +34,16 @@
                         <span class="h5">{{ leftDays*rental.price }}€</span>
                         <small>({{ leftDays }}J)</small>
                     </div>
-                    <div>
-                        {% set totalKm = rental.kmEnd - rental.kmStart %}
-                        <span class="h5 mb-0">{{ totalKm }}km</span>
-                        <div class="text-secondary">
-                            <span>{{ rental.kmStart }}km</span>
-                            <span>{{ rental.kmEnd }}km</span>
+                    {% if rental.kmEnd %}
+                        <div>
+                            {% set totalKm = rental.kmEnd - rental.kmStart %}
+                            <span class="h5 mb-0">{{ totalKm }}km</span>
+                            <div class="text-secondary">
+                                <span>{{ rental.kmStart }}km</span>
+                                <span>{{ rental.kmEnd }}km</span>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <div>
                         <div class="d-flex align-items-center h5 mb-0">
                             <span>{{ rental.dateStart ? rental.dateStart|date('Y-m-d ') : '' }}</span>
@@ -70,6 +72,9 @@
                         {% endif %}
                         {% if rental.status == 6 %}
                             <span class="badge bg-danger">SAV</span>
+                        {% endif %}
+                        {% if rental.status == 7 %}
+                            <span class="badge bg-danger">Réservation Annulée</span>
                         {% endif %}
                         <div>
                             {% if rental.status == 5 %}

@@ -47,12 +47,21 @@
                             <small>({{ leftDays }}J)</small>
                         </div>
                         <div>
-                            {% set totalKm = rental.kmEnd - rental.kmStart %}
-                            <span class="h5 mb-0">{{ totalKm }}km</span>
+                            <span class="h5 mb-0">Locataire</span>
                             <div class="text-secondary">
-                                <span>{{ rental.kmStart }}km</span>
-                                <span>{{ rental.kmEnd }}km</span>
+                                <span>{{ rental.user.lastname }}</span>
+                                <span>{{ rental.user.firstname }}</span>
                             </div>
+                        </div>
+                        <div>
+                            {% if rental.End %}
+                                {% set totalKm = rental.kmEnd - rental.kmStart %}
+                                <span class="h5 mb-0">{{ totalKm }}km</span>
+                                <div class="text-secondary">
+                                    <span>{{ rental.kmStart }}km</span>
+                                    <span>{{ rental.kmEnd }}km</span>
+                                </div>
+                            {% endif %}
                         </div>
                         <div>
                             <div class="d-flex align-items-center h5 mb-0">
