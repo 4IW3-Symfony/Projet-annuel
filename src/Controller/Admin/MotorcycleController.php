@@ -321,7 +321,7 @@ class MotorcycleController extends AbstractController
                 $entityManager->flush();
                 $this->addFlash('Success','La demande de location a été crée , vous recevra un mail de confirmation .');
                 $email = (new TemplatedEmail())
-                    ->from('no-reply@easylocmoto.fr',"EasyLocMoto")
+                    ->from('no-reply@easylocmoto.fr')
                     ->to($this->getUser()->getEmail())
                     ->subject('Confirmation Location Moto')
                     ->htmlTemplate('emails/confirmationmoto.html.twig')
@@ -331,7 +331,7 @@ class MotorcycleController extends AbstractController
                 $mailer->send($email);
 
                 $notif_proprietaire=(new TemplatedEmail())
-                    ->from('no-reply@easylocmoto.fr',"EasyLocMoto")
+                    ->from('no-reply@easylocmoto.fr')
                     ->to($motorcycle->getUser()->getEmail())
                     ->subject('Félicitation Votre Moto a été louée')
                     ->htmlTemplate('emails/notifproprietaire.html.twig')
