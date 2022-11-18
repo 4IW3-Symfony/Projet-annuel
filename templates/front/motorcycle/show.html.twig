@@ -35,26 +35,42 @@
                     <h2>{{ motorcycle.name }}</h2>
                     <p>{{ motorcycle.description }}</p>
 
-                    <h2>Détails de la moto</h2>
-                    <div class="d-flex align-items-start justify-content-start gap-5 flex-wrap">
-                        <div class="d-flex flex-column">
-                            <small class="text-primary">Puissance</small>
-                            <strong class="h3">{{ motorcycle.power }}ch</strong>
-                        </div>
-                        <div class="d-flex flex-column">
-                            <small class="text-primary">Kilométrage</small>
-                            <strong class="h3">{{ motorcycle.km }}km</strong>
-                        </div>
-                        <div class="d-flex flex-column">
-                            <small class="text-primary">Année</small>
-                            <strong class="h3">{{ motorcycle.year }}</strong>
-                        </div>
-                        <div class="d-flex flex-column">
-                            <small class="text-primary">Localisation</small>
-                            <strong class="h3">{{ motorcycle.city }}, {{ motorcycle.cp }}</strong>
+                    <div class="card mb-5">
+                        <div class="card-header">Détails de la moto</div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-start gap-5 flex-wrap">
+                                <div class="d-flex flex-column">
+                                    <small class="text-primary">Puissance</small>
+                                    <strong class="h4">{{ motorcycle.power }}ch</strong>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <small class="text-primary">Kilométrage</small>
+                                    <strong class="h4">{{ motorcycle.km }}km</strong>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <small class="text-primary">Année</small>
+                                    <strong class="h4">{{ motorcycle.year }}</strong>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <small class="text-primary">Localisation</small>
+                                    <strong class="h4">{{ motorcycle.city }}, {{ motorcycle.cp }}</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
+                    <div class="d-flex align-items-start gap-3">
+                        {% if (user.avatar) %}
+                            <img src="{{ user.avatar }}" class="rounded-circle" width="50px"
+                                 alt="user profile picture">
+                        {% else %}
+                            <img src="https://picsum.photos/seed/picsum/100/100" class="rounded-circle" width="50px"
+                                 alt="user profile picture">
+                        {% endif %}
+                        <div class="d-flex flex-column">
+                            <span class="h4 mb-0">{{ user.firstname }} {{ user.lastname|slice(0,1) }}.</span>
+                            <span>Membre depuis 2022</span>
+                        </div>
+                    </div>
                 </div>
                 {% if (date_end == null) and (date_start == null) %}
                     <div class="col-12 col-md-4">
@@ -89,7 +105,14 @@
                             {% set leftDays = difference.days %}
                             <div class="mb-3">
                                 <small class="mb-0 text-primary">Prix final:</small>
-                                <p class="my-0"><strong class="h2">{{ leftDays * motorcycle.price }}€</strong><small class="fw-bold h4">/{{ leftDays }} days</small></p>
+                                <p class="my-0"><strong class="h2">
+                                        {% if leftDays == 0 %}
+                                            {{ motorcycle.price }}
+                                            {% set leftDays = 1 %}
+                                        {% else %}
+                                            {{ leftDays * motorcycle.price }}€
+                                        {% endif %}
+                                    </strong><small class="fw-bold h4">/{{ leftDays }} days</small></p>
                             </div>
                             <a href="{{ path('demande_location',{'id': motorcycle.id ,'date_end': date_end , 'date_start': date_start}) }}"
                                class="btn btn-dark">Réserver</a>
@@ -97,9 +120,9 @@
                     </div>
                 {% endif %}
 
-			</div>
-		</div>
-	</main>
+            </div>
+        </div>
+    </main>
 
 
 {% endblock %}

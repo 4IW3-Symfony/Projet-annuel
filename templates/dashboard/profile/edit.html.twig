@@ -23,9 +23,9 @@
 					class="card-body text-center">
 					<!-- Profile picture image-->
 					{%  if user.avatar is not null %}
-						<img class="img-account-profile rounded-circle mb-2" src="{{ vich_uploader_asset(user, 'avatarFile') }}" alt="" style="max-width:200px">
+						<img class="img-account-profile rounded-circle mb-2 img-fluid" src="{{ vich_uploader_asset(user, 'avatarFile') }}" alt="" style="max-width:200px">
 					{% else %}
-						<img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar2.png" alt="">
+						<img class="img-account-profile rounded-circle mb-2 img-fluid" src="http://bootdey.com/img/Content/avatar/avatar2.png" alt="">
 					{% endif %}
 					<!-- Profile picture help block-->
 					<div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>

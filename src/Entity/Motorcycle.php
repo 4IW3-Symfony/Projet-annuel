@@ -9,9 +9,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass=MotorcycleRepository::class)
+ * @UniqueEntity(
+ *     fields={"numberplate"},
+ *     message="NumberPlate is already use!"
+ * )
  */
 class Motorcycle
 {
@@ -54,7 +60,7 @@ class Motorcycle
     private $power;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank
      */
     private $numberplate;

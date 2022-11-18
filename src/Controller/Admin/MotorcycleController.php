@@ -16,8 +16,11 @@ use Doctrine\Persistence\ObjectManager;
 use App\Repository\MotorcycleRepository;
 use App\Verification\VerificationAccess;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -117,7 +120,7 @@ class MotorcycleController extends AbstractController
     #[Route('motorcycle/{id}', name: 'motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "front"])]
     #[Route('admin/motorcycle/{id}', name: 'admin_motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "admin"])]
     #[Route('dashboard/motorcycle/{id}', name: 'dashboard_motorcycle_show', methods: ['GET','POST'], defaults: ['back' => "dashboard"])]
-    public function show(Motorcycle $motorcycle, $back, Request $request): Response
+    public function show(Motorcycle $motorcycle, $back, Request $request,VerificationAccess $verification): Response
     {
         if($back == "dashboard"){
             /** @var \App\Entity\User $user */
@@ -141,6 +144,10 @@ class MotorcycleController extends AbstractController
         {
             $date_end = $_GET["date_end"];
             $date_start = $_GET["date_start"];
+            if (!$verification->isValid($_GET['date_end']) || !$verification->isValid($_GET['date_start']))
+            {
+                return $this->redirectToRoute("default");
+            }
         }
         else{
             $date_end = null ;
@@ -159,6 +166,7 @@ class MotorcycleController extends AbstractController
             'date_end' => $date_end,
             'date_start' => $date_start,
             'form' => $form->createView(),
+            'user' => $motorcycle->getUser(),
         ]);
     }
 
@@ -218,9 +226,9 @@ class MotorcycleController extends AbstractController
 
         return $this->redirectToRoute("{$back}_motorcycle_index", [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/dashboard/demande/motorcycle/{id}', name: 'dashboard_demande_location', methods: ['POST','GET'], defaults: ['back' => "dashboard"])]   
+/*    #[Route('/dashboard/demande/motorcycle/{id}', name: 'dashboard_demande_location', methods: ['POST','GET'], defaults: ['back' => "dashboard"])]   */
     #[Route('demande/motorcycle/{id}', name: 'demande_location', methods: ['POST','GET'], defaults: ['back' => "front"])]
-    public function demande_location(Motorcycle $motorcycle,Request $request,EntityManagerInterface $entityManager,$back,VerificationAccess $verification): Response
+    public function demande_location(Motorcycle $motorcycle,Request $request,EntityManagerInterface $entityManager,$back,VerificationAccess $verification,MailerInterface $mailer): Response
     {
 
             $rental = new Rental();
@@ -231,15 +239,23 @@ class MotorcycleController extends AbstractController
             
             $date_start = $_GET['date_start'];
             $date_end = $_GET['date_end'];
-            $verification->isValid($_GET['date_end']);
-            $verification->isValid($_GET['date_start']);
+            if (!$verification->isValid($_GET['date_end']) || !$verification->isValid($_GET['date_start']))
+            {
+                return $this->redirectToRoute("default");
+            }
             /** @var \App\Entity\User $user */
             if( $this->getUser() == null){
                 return $this->redirectToRoute("app_login");
             }
+            elseif( $this->getUser()->getId() == $motorcycle->getUser()->getId() )
+            {
+                $this->addFlash('error', 'Vous ne pouvez pas louer votre propre moto!');
 
-            if(new DateTime($date_end) <= new DateTime($date_start)){
-                $this->addFlash('error', 'Votre demande de location a été refusé, veuillez contacter le support Easyloc pour plus d information');
+                return $this->redirectToRoute("motorcycle_show", ['id' => $motorcycle->getId()], Response::HTTP_SEE_OTHER);
+            }
+
+            if(new DateTime($date_end) < new DateTime($date_start)){
+                $this->addFlash('error', 'Votre demande de location a été refusé, La date fin ne peut pas être inférieur à la date Début');
 
                 return $this->redirectToRoute("motorcycle_show", ['id' => $motorcycle->getId()], Response::HTTP_SEE_OTHER);
 
@@ -277,13 +293,22 @@ class MotorcycleController extends AbstractController
                 $rental->setUser($this->getUser());
                 $diff = (array) date_diff(new DateTime($date_start),new DateTime($date_end));
                 $date = $diff['days'];
-                $rental->setPrice(($date * $motorcycle->getPrice()));
+                $rental->setPrice($date == 0 ? $motorcycle->getPrice(): ($date * $motorcycle->getPrice()));
                 $rental->setStatus(1);
                 $rental->setMotorcycle($motorcycle);
                 $rental->setKmStart($motorcycle->getKm());
                 $entityManager->persist($rental);
                 $entityManager->flush();
                 $this->addFlash('Success','La demande de location a été crée , vous recevra un mail de confirmation .');
+                $email = (new TemplatedEmail())
+                    ->from('no-reply@easylocmoto.fr')
+                    ->to($this->getUser()->getEmail())
+                    ->subject('Confirmation Location Moto')
+                    ->htmlTemplate('emails/confirmationmoto.html.twig')
+                    ->context([
+                        'user' => $this->getUser()
+                    ]);
+                $mailer->send($email);
                 return $this->redirectToRoute("rental_success");
                
         

@@ -72,7 +72,6 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            dump($user->getEmail());
             // do anything else you need here, like send an email
                         // On génère le JWT de l'utilisateur
             // On crée le Header
