@@ -5,7 +5,7 @@
 <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;align-content: center">
     <h1>Merci pour votre Inscription , veuillez Confirmer votre mail</h1>
     <p>Bonjour {{ user.firstname }},</p>
-    <p>Votre inscription sur le site e-commerce est à valider en cliquant sur le lien ci-dessous :</p>
-    <p><a href="{{ absolute_url(path('verify_user', {token: token})) }}">{{ absolute_url(path('verify_user', {token: token})) }}</a></p>
-    <p>Ce lien expirera dans 3 heures</p>
+    <p>Vous pouvez louer vos moto préférer ou mettre en location vos moto sur notre site en validant votre mail</p>
+    <p><a href="{{ signedUrl }}">Confirm my Email</a>.
+        Ce lien expira dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.</p>
 </div>
